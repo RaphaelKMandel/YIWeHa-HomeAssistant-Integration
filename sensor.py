@@ -5,6 +5,7 @@ from datetime import datetime
 import logging
 
 from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -28,6 +29,7 @@ async def async_setup_entry(
     sensors = [
         NextCandleLightingSensor(coordinator),
         NextHavdalahSensor(coordinator),
+        IssurMelachaSensor(coordinator),
     ]
     
     async_add_entities(sensors)
@@ -85,4 +87,60 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
             return None
             
         return min(future_times).datetime
+
+class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
+    """Binary sensor for Issur Melacha status."""
+
+    def __init__(self, coordinator: DataUpdateCoordinator) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._attr_name = "Issur Melacha"
+        self._attr_unique_id = f"{DOMAIN}_issur_melacha"
+        self._attr_device_class = "running"
+        self._state = False
+        self._next_candle_lighting = None
+        self._next_havdalah = None
+
+    def _update_next_times(self) -> None:
+        """Update the next candle lighting and havdalah times."""
+        now = datetime.now()
+        
+        # Get next candle lighting
+        candle_lighting_times = self.coordinator.data[0]
+        future_candle_lighting = [t for t in candle_lighting_times if t.datetime > now]
+        self._next_candle_lighting = min(future_candle_lighting).datetime if future_candle_lighting else None
+
+        # Get next havdalah
+        havdalah_times = self.coordinator.data[1]
+        future_havdalah = [t for t in havdalah_times if t.datetime > now]
+        self._next_havdalah = min(future_havdalah).datetime if future_havdalah else None
+
+    @property
+    def is_on(self) -> bool:
+        """Return True if currently in Issur Melacha period."""
+        if not self.coordinator.data:
+            return False
+
+        now = datetime.now()
+
+        # If we don't have next times stored, or we're not in Issur Melacha,
+        # update the next times
+        if not self._state or (not self._next_candle_lighting and not self._next_havdalah):
+            self._update_next_times()
+
+        # If we're waiting for candle lighting
+        if not self._state and self._next_candle_lighting:
+            if now >= self._next_candle_lighting:
+                self._state = True
+                # Clear the next candle lighting since we've passed it
+                self._next_candle_lighting = None
+
+        # If we're in Issur Melacha and waiting for havdalah
+        elif self._state and self._next_havdalah:
+            if now >= self._next_havdalah:
+                self._state = False
+                # Update times for the next cycle
+                self._update_next_times()
+
+        return self._state
 
