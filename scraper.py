@@ -1,7 +1,8 @@
+"""Scraper for YIWH calendar."""
+import logging
+from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
-import logging
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,10 +26,6 @@ class Event:
     @staticmethod
     def is_havdalah(title):
         return "Shabbat Ends" in title or "Yom Tov Ends" in title
-
-
-
-        
 
 class YIWHScraper:
     def __init__(self):
@@ -125,7 +122,7 @@ class YIWHScraper:
         return candle_lighting, havdalah
 
     def scrape_calendar(self):
-        """Scrape calendar events directly from the website"""
+        """Scrape calendar events directly from the website."""
         try:
             _LOGGER.debug("Attempting to fetch calendar from %s", self.base_url)
             response = requests.get(self.base_url, headers=self.headers, timeout=10)

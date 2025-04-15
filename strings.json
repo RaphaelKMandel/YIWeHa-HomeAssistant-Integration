@@ -1,0 +1,17 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Young Israel West Hartford Calendar",
+                "description": "Set up Young Israel West Hartford Calendar integration"
+            }
+        },
+        "error": {
+            "cannot_connect": "Failed to connect to calendar",
+            "unknown": "Unexpected error occurred"
+        },
+        "abort": {
+            "already_configured": "Device is already configured"
+        }
+    }
+} 

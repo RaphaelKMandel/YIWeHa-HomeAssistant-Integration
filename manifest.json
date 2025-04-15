@@ -1,0 +1,11 @@
+{
+  "domain": "yiweha",
+  "name": "Young Israel West Hartford Calendar",
+  "documentation": "https://github.com/yourusername/ha-yiweha",
+  "dependencies": [],
+  "codeowners": ["@yourusername"],
+  "requirements": ["beautifulsoup4>=4.9.3"],
+  "version": "1.0.0",
+  "iot_class": "cloud_polling",
+  "config_flow": true
+}
