@@ -1,6 +1,6 @@
 """Scraper for YIWH calendar."""
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 
@@ -124,24 +124,35 @@ class YIWHScraper:
         return candle_lighting, havdalah
 
     def scrape_calendar(self):
-        """Scrape calendar events directly from the website."""
+        """Scrape the calendar for candle lighting and havdalah times."""
         try:
-            _LOGGER.debug("Attempting to fetch calendar from %s", self.base_url)
-            response = requests.get(self.base_url, headers=self.headers, timeout=10)
+            # Calculate date range (15 days before and after today)
+            today = datetime.now()
+            start_date = today - timedelta(days=15)
+            end_date = today + timedelta(days=15)
             
-            if response.status_code != 200:
-                _LOGGER.error("Failed to fetch calendar. Status code: %d", response.status_code)
-                raise ConnectionError(f"HTTP {response.status_code}: Failed to fetch calendar")
+            # Format dates
+            start_date_str = start_date.strftime("%Y-%m-%d")
+            end_date_str = end_date.strftime("%Y-%m-%d")
             
-            _LOGGER.debug("Successfully fetched calendar page")
-            return self.parse_calendar_html(response.text)
+            # Construct URL with specific start and end dates
+            url = (
+                f"{self.base_url}?advanced=Y&calendar=&"
+                f"date_start=specific+date&date_start_x=0&date_start_date={start_date_str}&"
+                f"has_second_date=Y&date_end=specific+date&date_end_x=0&date_end_date={end_date_str}&"
+                f"view=month&month_view_type="
+            )
+            _LOGGER.debug(f"Fetching calendar from URL: {url}")
+            
+            response = requests.get(url, headers=self.headers)
+            response.raise_for_status()
+            
+            html_content = response.text
+            return self.parse_calendar_html(html_content)
             
         except requests.RequestException as e:
-            _LOGGER.error("Network error while fetching calendar: %s", str(e))
-            raise ConnectionError(f"Network error: {str(e)}")
-        except Exception as e:
-            _LOGGER.exception("Unexpected error while scraping calendar")
-            raise
+            _LOGGER.error(f"Error fetching calendar: {e}")
+            return None
 
 
 if __name__ == "__main__":
