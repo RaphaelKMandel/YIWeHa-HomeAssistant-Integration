@@ -134,29 +134,38 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
             self._state = False
             return
 
-        # Get midnight of current day
         now = datetime.now()
-        midnight = datetime(now.year, now.month, now.day)
         
-        # Get all future events after midnight
-        future_candle_lighting = [t for t in candle_lighting_times if t.datetime > midnight]
-        future_havdalah = [t for t in havdalah_times if t.datetime > midnight]
+        # Get all events
+        past_candle_lighting = [t for t in candle_lighting_times if t.datetime < now]
+        past_havdalah = [t for t in havdalah_times if t.datetime < now]
+        future_candle_lighting = [t for t in candle_lighting_times if t.datetime > now]
+        future_havdalah = [t for t in havdalah_times if t.datetime > now]
         
-        if not future_candle_lighting and not future_havdalah:
-            self._state = False
-            return
-            
-        # Find the next event (either candle lighting or havdalah)
-        next_candle_lighting = min(future_candle_lighting).datetime if future_candle_lighting else None
-        next_havdalah = min(future_havdalah).datetime if future_havdalah else None
+        # Find most recent past event
+        most_recent_past = None
+        if past_candle_lighting:
+            most_recent_past = ("candle_lighting", max(past_candle_lighting, key=lambda x: x.datetime))
+        if past_havdalah:
+            havdalah = max(past_havdalah, key=lambda x: x.datetime)
+            if not most_recent_past or havdalah.datetime > most_recent_past[1].datetime:
+                most_recent_past = ("havdalah", havdalah)
         
-        # Determine state based on which event comes next
-        if next_candle_lighting and next_havdalah:
-            # If havdalah comes before candle lighting, we're in Issur Melacha
-            self._state = next_havdalah < next_candle_lighting
+        # Find next upcoming event
+        next_upcoming = None
+        if future_candle_lighting:
+            next_upcoming = ("candle_lighting", min(future_candle_lighting, key=lambda x: x.datetime))
+        if future_havdalah:
+            havdalah = min(future_havdalah, key=lambda x: x.datetime)
+            if not next_upcoming or havdalah.datetime < next_upcoming[1].datetime:
+                next_upcoming = ("havdalah", havdalah)
+        
+        # Determine state based on most recent past event
+        if most_recent_past:
+            self._state = most_recent_past[0] == "candle_lighting"
         else:
-            # If we only have one type of event, use that to determine state
-            self._state = bool(next_havdalah)  # True if next event is havdalah, False if candle lighting
+            # If no past events, check next upcoming event
+            self._state = next_upcoming and next_upcoming[0] == "havdalah"
             
         self.async_write_ha_state()
 
