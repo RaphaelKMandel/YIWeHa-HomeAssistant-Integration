@@ -12,6 +12,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import dt as dt_util
 
 from .scraper import YIWHScraper
+from .holiday_state import HolidayState
 
 _LOGGER = logging.getLogger(__name__)
 DOMAIN = "yiweha"
@@ -31,7 +32,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     async def async_update_data():
         """Fetch data from API."""
-        return await hass.async_add_executor_job(scraper.scrape_calendar)
+        await hass.async_add_executor_job(scraper.scrape_calendar)
+        return scraper
 
     coordinator = DataUpdateCoordinator(
         hass,
@@ -41,7 +43,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         update_interval=get_next_midnight(),
     )
 
-    await coordinator.async_config_entry_first_refresh()
+    # Force an immediate update before setting up sensors
+    await coordinator.async_refresh()
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
 

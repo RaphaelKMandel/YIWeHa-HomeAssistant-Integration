@@ -8,8 +8,9 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class Event:
-    def __init__(self, _datetime):
+    def __init__(self, _datetime, type):
         self.datetime = datetime.strptime(_datetime, "%Y-%m-%d %I:%M%p")
+        self.type = type
 
     def __eq__(self, other):
         return self.datetime == other.datetime
@@ -35,6 +36,8 @@ class YIWHScraper:
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
+        self.candle_lightings = []
+        self.havdalahs = []
 
     def parse_event_data(self, event_element, date_str):
         """Parse individual event data from the calendar popover"""
@@ -106,9 +109,9 @@ class YIWHScraper:
                     title, datetime_str = self.parse_event_data(event, date_str)
                     if title:
                         if Event.is_candle_lighting(title):
-                            candle_lighting.append(Event(datetime_str))
+                            candle_lighting.append(Event(datetime_str, "Candle Lighting"))
                         elif Event.is_havdalah(title):
-                            havdalah.append(Event(datetime_str))
+                            havdalah.append(Event(datetime_str, "Havdalah"))
                     
             except Exception as e:
                 _LOGGER.exception("Error processing day cell: %s", str(e))
@@ -148,7 +151,7 @@ class YIWHScraper:
             response.raise_for_status()
             
             html_content = response.text
-            return self.parse_calendar_html(html_content)
+            self.candle_lightings, self.havdalahs = self.parse_calendar_html(html_content)
             
         except requests.RequestException as e:
             _LOGGER.error(f"Error fetching calendar: {e}")
@@ -157,15 +160,15 @@ class YIWHScraper:
 
 if __name__ == "__main__":
     scraper = YIWHScraper()
-    candle_lighting, havdalah = scraper.scrape_calendar()
+    scraper.scrape_calendar()
     
     print("\nCandle Lighting Times:")
     print("=====================")
-    for event in candle_lighting:
+    for event in scraper.candle_lightings:
         print(event)
         
     print("\nHavdalah Times:")
     print("==============")
-    for event in havdalah:
+    for event in scraper.havdalahs:
         print(event)
 

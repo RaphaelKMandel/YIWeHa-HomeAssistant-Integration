@@ -16,6 +16,8 @@ from homeassistant.helpers.update_coordinator import (
 
 from . import DOMAIN
 
+from .scraper import CandleLighting
+
 _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(
@@ -42,6 +44,7 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self._attr_name = "Next Candle Lighting"
         self._attr_unique_id = f"{DOMAIN}_next_candle_lighting"
+        self._attr_device_class = "timestamp"
         self._next_time = None
 
     def _handle_coordinator_update(self) -> None:
@@ -50,21 +53,19 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
             self._next_time = None
             return
             
-        candle_lighting_times = self.coordinator.data[0]  # First element of tuple
-        if not candle_lighting_times:
-            self._next_time = None
-            return
-            
-        # Get midnight of current day
+        scraper = self.coordinator.data  # Get the scraper instance
         now = datetime.now()
-        midnight = datetime(now.year, now.month, now.day)
-        future_times = [t for t in candle_lighting_times if t.datetime > midnight]
+        
+        # Find future candle lighting times
+        future_times = [event for event in scraper.candle_lightings if event.datetime > now]
+        future_times.sort()
         
         if not future_times:
             self._next_time = None
             return
             
-        self._next_time = min(future_times).datetime
+        # Find the event with the minimum datetime
+        self._next_time = future_times[0].datetime
         self.async_write_ha_state()
 
     @property
@@ -80,6 +81,7 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self._attr_name = "Next Havdalah"
         self._attr_unique_id = f"{DOMAIN}_next_havdalah"
+        self._attr_device_class = "timestamp"
         self._next_time = None
 
     def _handle_coordinator_update(self) -> None:
@@ -88,21 +90,19 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
             self._next_time = None
             return
             
-        havdalah_times = self.coordinator.data[1]  # Second element of tuple
-        if not havdalah_times:
-            self._next_time = None
-            return
-            
-        # Get midnight of current day
+        scraper = self.coordinator.data  # Get the scraper instance
         now = datetime.now()
-        midnight = datetime(now.year, now.month, now.day)
-        future_times = [t for t in havdalah_times if t.datetime > midnight]
+        
+        # Find future havdalah times
+        future_times = [event for event in scraper.havdalahs if event.datetime > now]
+        future_times.sort()
         
         if not future_times:
             self._next_time = None
             return
             
-        self._next_time = min(future_times).datetime
+        # Find the event with the minimum datetime
+        self._next_time = future_times[0].datetime
         self.async_write_ha_state()
 
     @property
@@ -126,47 +126,21 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         if not self.coordinator.data:
             self._state = False
             return
-
-        candle_lighting_times = self.coordinator.data[0]
-        havdalah_times = self.coordinator.data[1]
-        
-        if not candle_lighting_times or not havdalah_times:
-            self._state = False
-            return
-
+            
+        scraper = self.coordinator.data  # Get the scraper instance
         now = datetime.now()
         
-        # Get all events
-        past_candle_lighting = [t for t in candle_lighting_times if t.datetime < now]
-        past_havdalah = [t for t in havdalah_times if t.datetime < now]
-        future_candle_lighting = [t for t in candle_lighting_times if t.datetime > now]
-        future_havdalah = [t for t in havdalah_times if t.datetime > now]
-        
-        # Find most recent past event
-        most_recent_past = None
-        if past_candle_lighting:
-            most_recent_past = ("candle_lighting", max(past_candle_lighting, key=lambda x: x.datetime))
-        if past_havdalah:
-            havdalah = max(past_havdalah, key=lambda x: x.datetime)
-            if not most_recent_past or havdalah.datetime > most_recent_past[1].datetime:
-                most_recent_past = ("havdalah", havdalah)
-        
-        # Find next upcoming event
-        next_upcoming = None
-        if future_candle_lighting:
-            next_upcoming = ("candle_lighting", min(future_candle_lighting, key=lambda x: x.datetime))
-        if future_havdalah:
-            havdalah = min(future_havdalah, key=lambda x: x.datetime)
-            if not next_upcoming or havdalah.datetime < next_upcoming[1].datetime:
-                next_upcoming = ("havdalah", havdalah)
-        
-        # Determine state based on most recent past event
-        if most_recent_past:
-            self._state = most_recent_past[0] == "candle_lighting"
-        else:
-            # If no past events, check next upcoming event
-            self._state = next_upcoming and next_upcoming[0] == "havdalah"
+        # Get all past events
+        events = scraper.candle_lightings + scraper.havdalah
+        past_events = [event for event in events if event.datetime < now]
+        past_events.sort()
+
+        if not past_events:
+            self._state = False
+            return
             
+        # Find the most recent past event
+        self._state = isinstance(past_events[-1], CandleLighting)
         self.async_write_ha_state()
 
     @property
