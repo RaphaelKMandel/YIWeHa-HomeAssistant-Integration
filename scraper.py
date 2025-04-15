@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class Event:
     def __init__(self, _datetime):
         self.datetime = datetime.strptime(_datetime, "%Y-%m-%d %I:%M%p")
@@ -26,6 +27,7 @@ class Event:
     @staticmethod
     def is_havdalah(title):
         return "Shabbat Ends" in title or "Yom Tov Ends" in title
+
 
 class YIWHScraper:
     def __init__(self):
@@ -141,7 +143,8 @@ class YIWHScraper:
             _LOGGER.exception("Unexpected error while scraping calendar")
             raise
 
-def main():
+
+if __name__ == "__main__":
     scraper = YIWHScraper()
     candle_lighting, havdalah = scraper.scrape_calendar()
     
@@ -154,7 +157,4 @@ def main():
     print("==============")
     for event in havdalah:
         print(event)
-
-if __name__ == "__main__":
-    main()
 
