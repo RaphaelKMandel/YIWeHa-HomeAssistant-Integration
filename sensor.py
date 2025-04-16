@@ -47,8 +47,6 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._attr_device_class = "timestamp"
         self._next_time = None
         _LOGGER.debug("Initialized NextCandleLightingSensor")
-        # Force an initial update
-        self._handle_coordinator_update()
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
@@ -95,8 +93,6 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._attr_device_class = "timestamp"
         self._next_time = None
         _LOGGER.debug("Initialized NextHavdalahSensor")
-        # Force an initial update
-        self._handle_coordinator_update()
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
@@ -143,8 +139,6 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         self._attr_device_class = "running"
         self._state = False
         _LOGGER.debug("Initialized IssurMelachaSensor")
-        # Force an initial update
-        self._handle_coordinator_update()
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
