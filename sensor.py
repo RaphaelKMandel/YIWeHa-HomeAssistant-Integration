@@ -53,11 +53,11 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
             self._next_time = None
             return
             
-        scraper = self.coordinator.data  # Get the scraper instance
+        data = self.coordinator.data
         now = datetime.now()
         
         # Find future candle lighting times
-        future_times = [event for event in scraper.candle_lightings if event.datetime > now]
+        future_times = [event for event in data["candle_lightings"] if event.datetime > now]
         future_times.sort()
         
         if not future_times:
@@ -90,11 +90,11 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
             self._next_time = None
             return
             
-        scraper = self.coordinator.data  # Get the scraper instance
+        data = self.coordinator.data
         now = datetime.now()
         
         # Find future havdalah times
-        future_times = [event for event in scraper.havdalahs if event.datetime > now]
+        future_times = [event for event in data["havdalahs"] if event.datetime > now]
         future_times.sort()
         
         if not future_times:
@@ -127,11 +127,11 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
             self._state = False
             return
             
-        scraper = self.coordinator.data  # Get the scraper instance
+        data = self.coordinator.data
         now = datetime.now()
         
         # Get all past events
-        events = scraper.candle_lightings + scraper.havdalah
+        events = data["candle_lightings"] + data["havdalahs"]
         past_events = [event for event in events if event.datetime < now]
         past_events.sort()
 
@@ -140,7 +140,8 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
             return
             
         # Find the most recent past event
-        self._state = isinstance(past_events[-1], CandleLighting)
+        last_event = past_events[-1]
+        self._state = any(event.datetime == last_event.datetime for event in data["candle_lightings"])
         self.async_write_ha_state()
 
     @property

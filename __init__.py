@@ -12,7 +12,6 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import dt as dt_util
 
 from .scraper import YIWHScraper
-from .holiday_state import HolidayState
 
 _LOGGER = logging.getLogger(__name__)
 DOMAIN = "yiweha"
@@ -32,8 +31,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     async def async_update_data():
         """Fetch data from API."""
-        await hass.async_add_executor_job(scraper.scrape_calendar)
-        return scraper
+        _LOGGER.debug("Fetching calendar data")
+        candle_lightings, havdalahs = await hass.async_add_executor_job(scraper.scrape_calendar)
+        if candle_lightings is None or havdalahs is None:
+            _LOGGER.error("Failed to fetch calendar data")
+            return None
+            
+        _LOGGER.debug("Found %d candle lighting times and %d havdalah times", 
+                     len(candle_lightings), len(havdalahs))
+        return {
+            "candle_lightings": candle_lightings,
+            "havdalahs": havdalahs
+        }
 
     coordinator = DataUpdateCoordinator(
         hass,
