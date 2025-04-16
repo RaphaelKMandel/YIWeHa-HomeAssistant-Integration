@@ -48,9 +48,8 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._next_time = None
         _LOGGER.debug("Initialized NextCandleLightingSensor")
 
-    def _handle_coordinator_update(self) -> None:
-        """Handle updated data from the coordinator."""
-        _LOGGER.debug("NextCandleLightingSensor received coordinator update")
+    def _update_next_times(self) -> None:
+        """Update the next event times based on current data."""
         if not self.coordinator.data:
             _LOGGER.debug("No data available from coordinator")
             self._next_time = None
@@ -78,6 +77,11 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._next_time = future_times[0].datetime
         _LOGGER.debug("Next candle lighting time set to: %s", self._next_time)
         self._attr_available = True
+
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        _LOGGER.debug("NextCandleLightingSensor received coordinator update")
+        self._update_next_times()
         self.async_write_ha_state()
 
     @property
@@ -102,9 +106,8 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._next_time = None
         _LOGGER.debug("Initialized NextHavdalahSensor")
 
-    def _handle_coordinator_update(self) -> None:
-        """Handle updated data from the coordinator."""
-        _LOGGER.debug("NextHavdalahSensor received coordinator update")
+    def _update_next_times(self) -> None:
+        """Update the next event times based on current data."""
         if not self.coordinator.data:
             _LOGGER.debug("No data available from coordinator")
             self._next_time = None
@@ -132,6 +135,11 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._next_time = future_times[0].datetime
         _LOGGER.debug("Next havdalah time set to: %s", self._next_time)
         self._attr_available = True
+
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        _LOGGER.debug("NextHavdalahSensor received coordinator update")
+        self._update_next_times()
         self.async_write_ha_state()
 
     @property
@@ -156,9 +164,8 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         self._state = False
         _LOGGER.debug("Initialized IssurMelachaSensor")
 
-    def _handle_coordinator_update(self) -> None:
-        """Handle updated data from the coordinator."""
-        _LOGGER.debug("IssurMelachaSensor received coordinator update")
+    def _update_state(self) -> None:
+        """Update the Issur Melacha state based on current data."""
         if not self.coordinator.data:
             _LOGGER.debug("No data available from coordinator")
             self._state = False
@@ -192,6 +199,11 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         self._state = any(event.datetime == last_event.datetime for event in data["candle_lightings"])
         _LOGGER.debug("Issur Melacha state set to: %s", self._state)
         self._attr_available = True
+
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        _LOGGER.debug("IssurMelachaSensor received coordinator update")
+        self._update_state()
         self.async_write_ha_state()
 
     @property
