@@ -16,8 +16,6 @@ from homeassistant.helpers.update_coordinator import (
 
 from . import DOMAIN
 
-from .scraper import CandleLighting
-
 _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(
