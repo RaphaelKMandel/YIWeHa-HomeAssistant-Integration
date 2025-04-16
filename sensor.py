@@ -25,6 +25,7 @@ async def async_setup_entry(
 ) -> None:
     """Set up the YIWH Calendar sensors."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
+    _LOGGER.debug("Setting up sensors with coordinator data: %s", coordinator.data)
 
     sensors = [
         NextCandleLightingSensor(coordinator),
@@ -44,26 +45,33 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._attr_unique_id = f"{DOMAIN}_next_candle_lighting"
         self._attr_device_class = "timestamp"
         self._next_time = None
+        _LOGGER.debug("Initialized NextCandleLightingSensor")
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
+        _LOGGER.debug("NextCandleLightingSensor received coordinator update")
         if not self.coordinator.data:
+            _LOGGER.debug("No data available from coordinator")
             self._next_time = None
             return
             
         data = self.coordinator.data
         now = datetime.now()
+        _LOGGER.debug("Current time: %s", now)
         
         # Find future candle lighting times
         future_times = [event for event in data["candle_lightings"] if event.datetime > now]
+        _LOGGER.debug("Found %d future candle lighting times", len(future_times))
         future_times.sort()
         
         if not future_times:
+            _LOGGER.debug("No future candle lighting times found")
             self._next_time = None
             return
             
         # Find the event with the minimum datetime
         self._next_time = future_times[0].datetime
+        _LOGGER.debug("Next candle lighting time set to: %s", self._next_time)
         self.async_write_ha_state()
 
     @property
@@ -81,26 +89,33 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._attr_unique_id = f"{DOMAIN}_next_havdalah"
         self._attr_device_class = "timestamp"
         self._next_time = None
+        _LOGGER.debug("Initialized NextHavdalahSensor")
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
+        _LOGGER.debug("NextHavdalahSensor received coordinator update")
         if not self.coordinator.data:
+            _LOGGER.debug("No data available from coordinator")
             self._next_time = None
             return
             
         data = self.coordinator.data
         now = datetime.now()
+        _LOGGER.debug("Current time: %s", now)
         
         # Find future havdalah times
         future_times = [event for event in data["havdalahs"] if event.datetime > now]
+        _LOGGER.debug("Found %d future havdalah times", len(future_times))
         future_times.sort()
         
         if not future_times:
+            _LOGGER.debug("No future havdalah times found")
             self._next_time = None
             return
             
         # Find the event with the minimum datetime
         self._next_time = future_times[0].datetime
+        _LOGGER.debug("Next havdalah time set to: %s", self._next_time)
         self.async_write_ha_state()
 
     @property
@@ -118,28 +133,37 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         self._attr_unique_id = f"{DOMAIN}_issur_melacha"
         self._attr_device_class = "running"
         self._state = False
+        _LOGGER.debug("Initialized IssurMelachaSensor")
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
+        _LOGGER.debug("IssurMelachaSensor received coordinator update")
         if not self.coordinator.data:
+            _LOGGER.debug("No data available from coordinator")
             self._state = False
             return
             
         data = self.coordinator.data
         now = datetime.now()
+        _LOGGER.debug("Current time: %s", now)
         
         # Get all past events
         events = data["candle_lightings"] + data["havdalahs"]
+        _LOGGER.debug("Total events found: %d", len(events))
         past_events = [event for event in events if event.datetime < now]
+        _LOGGER.debug("Past events found: %d", len(past_events))
         past_events.sort()
 
         if not past_events:
+            _LOGGER.debug("No past events found")
             self._state = False
             return
             
         # Find the most recent past event
         last_event = past_events[-1]
+        _LOGGER.debug("Last event time: %s", last_event.datetime)
         self._state = any(event.datetime == last_event.datetime for event in data["candle_lightings"])
+        _LOGGER.debug("Issur Melacha state set to: %s", self._state)
         self.async_write_ha_state()
 
     @property
