@@ -54,6 +54,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     # Force an immediate update before setting up sensors
     await coordinator.async_refresh()
+    
+    if not coordinator.data:
+        _LOGGER.error("Failed to get initial data from coordinator")
+        return False
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
 

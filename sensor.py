@@ -54,6 +54,7 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             _LOGGER.debug("No data available from coordinator")
             self._next_time = None
+            self._attr_available = False
             return
             
         data = self.coordinator.data
@@ -70,17 +71,24 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         if not future_times:
             _LOGGER.debug("No future candle lighting times found")
             self._next_time = None
+            self._attr_available = False
             return
             
         # Find the event with the minimum datetime
         self._next_time = future_times[0].datetime
         _LOGGER.debug("Next candle lighting time set to: %s", self._next_time)
+        self._attr_available = True
         self.async_write_ha_state()
 
     @property
     def native_value(self):
         """Return the next candle lighting time."""
         return self._next_time
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        return self._attr_available
 
 class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
     """Sensor for next havdalah time."""
@@ -100,6 +108,7 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             _LOGGER.debug("No data available from coordinator")
             self._next_time = None
+            self._attr_available = False
             return
             
         data = self.coordinator.data
@@ -116,17 +125,24 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         if not future_times:
             _LOGGER.debug("No future havdalah times found")
             self._next_time = None
+            self._attr_available = False
             return
             
         # Find the event with the minimum datetime
         self._next_time = future_times[0].datetime
         _LOGGER.debug("Next havdalah time set to: %s", self._next_time)
+        self._attr_available = True
         self.async_write_ha_state()
 
     @property
     def native_value(self):
         """Return the next havdalah time."""
         return self._next_time
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        return self._attr_available
 
 class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
     """Binary sensor for Issur Melacha status."""
@@ -146,6 +162,7 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         if not self.coordinator.data:
             _LOGGER.debug("No data available from coordinator")
             self._state = False
+            self._attr_available = False
             return
             
         data = self.coordinator.data
@@ -166,6 +183,7 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         if not past_events:
             _LOGGER.debug("No past events found")
             self._state = False
+            self._attr_available = False
             return
             
         # Find the most recent past event
@@ -173,10 +191,16 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         _LOGGER.debug("Last event time: %s", last_event.datetime)
         self._state = any(event.datetime == last_event.datetime for event in data["candle_lightings"])
         _LOGGER.debug("Issur Melacha state set to: %s", self._state)
+        self._attr_available = True
         self.async_write_ha_state()
 
     @property
     def is_on(self) -> bool:
         """Return True if currently in Issur Melacha period."""
         return self._state
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        return self._attr_available
 
