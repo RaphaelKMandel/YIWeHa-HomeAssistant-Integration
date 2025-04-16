@@ -34,6 +34,7 @@ async def async_setup_entry(
     ]
     
     async_add_entities(sensors)
+    _LOGGER.debug("Added %d sensors to Home Assistant", len(sensors))
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
     """Sensor for next candle lighting time."""
@@ -46,6 +47,8 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._attr_device_class = "timestamp"
         self._next_time = None
         _LOGGER.debug("Initialized NextCandleLightingSensor")
+        # Force an initial update
+        self._handle_coordinator_update()
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
@@ -62,6 +65,8 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         # Find future candle lighting times
         future_times = [event for event in data["candle_lightings"] if event.datetime > now]
         _LOGGER.debug("Found %d future candle lighting times", len(future_times))
+        for event in future_times:
+            _LOGGER.debug("Future candle lighting time: %s", event.datetime)
         future_times.sort()
         
         if not future_times:
@@ -90,6 +95,8 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._attr_device_class = "timestamp"
         self._next_time = None
         _LOGGER.debug("Initialized NextHavdalahSensor")
+        # Force an initial update
+        self._handle_coordinator_update()
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
@@ -106,6 +113,8 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         # Find future havdalah times
         future_times = [event for event in data["havdalahs"] if event.datetime > now]
         _LOGGER.debug("Found %d future havdalah times", len(future_times))
+        for event in future_times:
+            _LOGGER.debug("Future havdalah time: %s", event.datetime)
         future_times.sort()
         
         if not future_times:
@@ -134,6 +143,8 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         self._attr_device_class = "running"
         self._state = False
         _LOGGER.debug("Initialized IssurMelachaSensor")
+        # Force an initial update
+        self._handle_coordinator_update()
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
@@ -150,8 +161,12 @@ class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
         # Get all past events
         events = data["candle_lightings"] + data["havdalahs"]
         _LOGGER.debug("Total events found: %d", len(events))
+        for event in events:
+            _LOGGER.debug("Event time: %s", event.datetime)
         past_events = [event for event in events if event.datetime < now]
         _LOGGER.debug("Past events found: %d", len(past_events))
+        for event in past_events:
+            _LOGGER.debug("Past event time: %s", event.datetime)
         past_events.sort()
 
         if not past_events:
