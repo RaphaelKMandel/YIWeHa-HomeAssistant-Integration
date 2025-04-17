@@ -1,6 +1,6 @@
 """Scraper for YIWH calendar."""
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 
@@ -123,11 +123,24 @@ class YIWHScraper:
                 
         return candle_lighting, havdalah
 
-    def scrape_calendar(self):
+    def scrape_calendar(self, delta=15):
         """Scrape calendar events directly from the website."""
         try:
-            _LOGGER.debug("Attempting to fetch calendar from %s", self.base_url)
-            response = requests.get(self.base_url, headers=self.headers, timeout=10)
+            today = datetime.now()
+            start_date = today - timedelta(days=delta)
+            end_date = today + timedelta(days=delta)
+
+            start_date_str = start_date.strftime("%Y-%m-%d")
+            end_date_str = end_date.strftime("%Y-%m-%d")
+            url = (
+                f"{self.base_url}?advanced=Y&calendar=&"
+                f"date_start=specific+date&date_start_x=0&date_start_date={start_date_str}&"
+                f"has_second_date=Y&date_end=specific+date&date_end_x=0&date_end_date={end_date_str}&"
+                f"view=month&month_view_type="
+            )
+
+            _LOGGER.debug(f"Fetching calendar from URL: {url}")
+            response = requests.get(url, headers=self.headers, timeout=10)
             
             if response.status_code != 200:
                 _LOGGER.error("Failed to fetch calendar. Status code: %d", response.status_code)
@@ -146,7 +159,7 @@ class YIWHScraper:
 
 if __name__ == "__main__":
     scraper = YIWHScraper()
-    candle_lighting, havdalah = scraper.scrape_calendar()
+    candle_lighting, havdalah = scraper.scrape_calendar(delta=6)
     
     print("\nCandle Lighting Times:")
     print("=====================")
