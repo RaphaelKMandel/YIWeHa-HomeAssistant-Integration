@@ -17,6 +17,13 @@ _LOGGER = logging.getLogger(__name__)
 DOMAIN = "yiweha"
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
+def get_next_midnight() -> timedelta:
+    """Get timedelta until next midnight."""
+    now = dt_util.now()
+    next_midnight = (now + timedelta(days=1)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    return next_midnight - now
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Young Israel West Hartford Calendar from a config entry."""
@@ -31,7 +38,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER,
         name=DOMAIN,
         update_method=async_update_data,
-        update_interval=timedelta(days=1),
+        update_interval=get_next_midnight,
     )
 
     await coordinator.async_config_entry_first_refresh()
