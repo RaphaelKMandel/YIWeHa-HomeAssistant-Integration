@@ -50,7 +50,7 @@ class MidnightCoordinator(DataUpdateCoordinator):
     @callback
     async def _handle_startup(self, event):
         # Run update once at startup
-        await self._async_update_data()
+        await self._update_data()
 
         # Schedule the first midnight update
         self._schedule_next_midnight()
