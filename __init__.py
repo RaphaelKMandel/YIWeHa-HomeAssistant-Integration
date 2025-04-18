@@ -50,7 +50,7 @@ class MidnightCoordinator(DataUpdateCoordinator):
     @callback
     async def _handle_startup(self, event):
         # Run update once at startup
-        await self._update_data()
+        await self._async_update_data()
 
         # Schedule the first midnight update
         self._schedule_next_midnight()
@@ -65,10 +65,10 @@ class MidnightCoordinator(DataUpdateCoordinator):
         )
 
     async def _handle_midnight(self, _):
-        await self._update_data()
+        await self._async_update_data()
         self._schedule_next_midnight()
 
-    def _update_data(self):
+    async def _async_update_data(self):
         _LOGGER.info("YIWeHa Scraper is updating...")
-        self._data = self.scraper.scrape_calendar()
+        self._data = await self.hass.async_add_executor_job(self.scraper.scrape_calendar)
         return self._data
