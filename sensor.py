@@ -32,7 +32,7 @@ async def async_setup_entry(
     next_havdalah = NextHavdalahSensor(coordinator)
     last_candle = LastCandleLightingSensor(coordinator)
     last_havdalah = LastHavdalahSensor(coordinator)
-    issur_melacha = IssurMelachaSensor(coordinator, last_candle_lighting_sensor=last_candle, last_havdalah_sensor=last_havdalah)
+    issur_melacha = IssurMelachaSensor(last_candle_lighting_sensor=last_candle, last_havdalah_sensor=last_havdalah)
     sensors = [ next_candle, next_havdalah, last_candle, last_havdalah, issur_melacha]
     
     async_add_entities(sensors)
