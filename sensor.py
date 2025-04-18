@@ -31,6 +31,8 @@ async def async_setup_entry(
     sensors = [
         NextCandleLightingSensor(coordinator),
         NextHavdalahSensor(coordinator),
+        LastCandleLightingSensor(coordinator),
+        LastHavdalahSensor(coordinator),
         IssurMelachaSensor(coordinator),
     ]
     
