@@ -79,7 +79,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self._value:
+        if not self.past_event:
             self.update()
 
         return self.past_event
@@ -128,7 +128,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self._value:
+        if not self.past_event:
             self.update()
 
         return self.past_event
