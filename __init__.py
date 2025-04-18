@@ -7,14 +7,16 @@ from datetime import datetime
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.helpers.event import async_track_point_in_time, async_track_home_assistant_start
 from homeassistant.util import dt as dt_util
 
 from .scraper import YIWHScraper
 
+from const import DOMAIN
+
 _LOGGER = logging.getLogger(__name__)
-DOMAIN = "yiweha"
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 def get_next_midnight() -> timedelta:
@@ -27,21 +29,10 @@ def get_next_midnight() -> timedelta:
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Young Israel West Hartford Calendar from a config entry."""
-    scraper = YIWHScraper()
 
-    async def async_update_data():
-        """Fetch data from API."""
-        return await hass.async_add_executor_job(scraper.scrape_calendar)
+    coordinator = MidnightCoordinator(hass)
 
-    coordinator = DataUpdateCoordinator(
-        hass,
-        _LOGGER,
-        name=DOMAIN,
-        update_method=async_update_data,
-        update_interval=get_next_midnight(),
-    )
-
-    await coordinator.async_config_entry_first_refresh()
+    # await coordinator.async_config_entry_first_refresh()
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
 
@@ -55,3 +46,39 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.data[DOMAIN].pop(entry.entry_id)
 
     return unload_ok
+
+
+
+class MidnightCoordinator(DataUpdateCoordinator):
+    def __init__(self, hass: HomeAssistant):
+        super().__init__(hass, _LOGGER, name=DOMAIN)
+        self.scraper = YIWHScraper()
+        async_track_home_assistant_start(hass, self._handle_startup)
+
+    @callback
+    async def _handle_startup(self, event):
+        # Run update once at startup
+        await self._async_update_data()
+
+        # Schedule the first midnight update
+        self._schedule_next_midnight()
+
+    def _schedule_next_midnight(self):
+        """Schedule the next update at midnight."""
+        next_midnight = get_next_midnight()
+        async_track_point_in_time(
+            self.hass,
+            self._handle_midnight,
+            next_midnight,
+        )
+
+    async def _handle_midnight(self, _):
+        """Handle the midnight update and reschedule for the next midnight."""
+        await self._async_update_data()
+        self._schedule_next_midnight()
+
+    async def _async_update_data(self):
+        """Fetch data here."""
+        _LOGGER.info("Fetching updated data")
+        # Replace with your actual data fetching logic
+        return self.scraper.scrape_calendar()
