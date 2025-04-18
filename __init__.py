@@ -1,9 +1,8 @@
 """The Young Israel West Hartford Calendar integration."""
 from __future__ import annotations
 
-from datetime import timedelta
 import logging
-from datetime import datetime
+from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
@@ -19,25 +18,18 @@ from const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
-def get_next_midnight() -> timedelta:
+def get_next_midnight():
     """Get timedelta until next midnight."""
     now = dt_util.now()
     next_midnight = (now + timedelta(days=1)).replace(
         hour=0, minute=0, second=0, microsecond=0
     )
-    return next_midnight - now
+    return next_midnight
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Young Israel West Hartford Calendar from a config entry."""
-
     coordinator = MidnightCoordinator(hass)
-
-    # await coordinator.async_config_entry_first_refresh()
-
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
-
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-
     return True
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -46,7 +38,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.data[DOMAIN].pop(entry.entry_id)
 
     return unload_ok
-
 
 
 class MidnightCoordinator(DataUpdateCoordinator):
@@ -73,12 +64,10 @@ class MidnightCoordinator(DataUpdateCoordinator):
         )
 
     async def _handle_midnight(self, _):
-        """Handle the midnight update and reschedule for the next midnight."""
         await self._async_update_data()
         self._schedule_next_midnight()
 
     async def _async_update_data(self):
-        """Fetch data here."""
-        _LOGGER.info("Fetching updated data")
-        # Replace with your actual data fetching logic
-        return self.scraper.scrape_calendar()
+        _LOGGER.info("YIWeHa Scraper is updating...")
+        self._data = self.scraper.scrape_calendar()
+        return self._data
