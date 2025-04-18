@@ -65,10 +65,10 @@ class MidnightCoordinator(DataUpdateCoordinator):
         )
 
     async def _handle_midnight(self, _):
-        await self._async_update_data()
+        await self._update_data()
         self._schedule_next_midnight()
 
-    def _async_update_data(self):
+    def _update_data(self):
         _LOGGER.info("YIWeHa Scraper is updating...")
         self._data = self.scraper.scrape_calendar()
         return self._data
