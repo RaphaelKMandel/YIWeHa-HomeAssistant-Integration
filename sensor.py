@@ -190,142 +190,28 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
             
         return min(future_times).datetime
 
-class IssurMelachaSensor(CoordinatorEntity, BinarySensorEntity):
+
+class IssurMelachaSensor(BinarySensorEntity):
     """Binary sensor for Issur Melacha status."""
 
-    def __init__(self, coordinator: DataUpdateCoordinator) -> None:
-        """Initialize the sensor."""
-        super().__init__(coordinator)
+    def __init__(
+        self,
+        last_candle_lighting_sensor: LastCandleLightingSensor,
+        last_havdalah_sensor: LastHavdalahSensor,
+    ) -> None:
         self._attr_name = "Issur Melacha"
         self._attr_unique_id = f"{DOMAIN}_issur_melacha"
         self._attr_device_class = "running"
-        self._state = False
-        self._last_event_type = None  # "candle_lighting" or "havdalah"
-        self._next_event_time = None
-        self._unsub_time_listener = None
-
-    async def async_added_to_hass(self) -> None:
-        """When entity is added to hass."""
-        await super().async_added_to_hass()
-        self._schedule_next_update()
-
-    async def async_will_remove_from_hass(self) -> None:
-        """When entity will be removed from hass."""
-        if self._unsub_time_listener:
-            self._unsub_time_listener()
-        await super().async_will_remove_from_hass()
-
-    def _schedule_next_update(self) -> None:
-        """Schedule the next update for when the next event occurs."""
-        if self._unsub_time_listener:
-            self._unsub_time_listener()
-            self._unsub_time_listener = None
-
-        if not self.coordinator.data:
-            return
-
-        now = datetime.now()
-        candle_lightings = self.coordinator.data[0]
-        havdalahs = self.coordinator.data[1]
-
-        # Find next candle lighting
-        next_candle_lighting = None
-        for event in sorted(candle_lightings, key=lambda x: x.datetime):
-            if event.datetime > now:
-                next_candle_lighting = event.datetime
-                break
-
-        # Find next havdalah
-        next_havdalah = None
-        for event in sorted(havdalahs, key=lambda x: x.datetime):
-            if event.datetime > now:
-                next_havdalah = event.datetime
-                break
-
-        # Determine which event is next
-        if next_candle_lighting and next_havdalah:
-            self._next_event_time = min(next_candle_lighting, next_havdalah)
-        elif next_candle_lighting:
-            self._next_event_time = next_candle_lighting
-        elif next_havdalah:
-            self._next_event_time = next_havdalah
-        else:
-            self._next_event_time = None
-
-        if self._next_event_time:
-            self._unsub_time_listener = async_track_point_in_time(
-                self.hass,
-                self._handle_time_reached,
-                self._next_event_time,
-            )
-            _LOGGER.debug(
-                "Scheduled next update at %s",
-                self._next_event_time,
-            )
-
-    async def _handle_time_reached(self, now: datetime) -> None:
-        """Handle when the next event time is reached."""
-        _LOGGER.debug("Event time reached at %s", now)
-        
-        # Determine which event just occurred
-        if not self.coordinator.data:
-            return
-
-        now = datetime.now()
-        candle_lightings = self.coordinator.data[0]
-        havdalahs = self.coordinator.data[1]
-
-        # Find the most recent event
-        last_candle_lighting = None
-        for event in sorted(candle_lightings, key=lambda x: x.datetime):
-            if event.datetime <= now:
-                last_candle_lighting = event.datetime
-            else:
-                break
-
-        last_havdalah = None
-        for event in sorted(havdalahs, key=lambda x: x.datetime):
-            if event.datetime <= now:
-                last_havdalah = event.datetime
-            else:
-                break
-
-        # Determine which event was most recent
-        if last_candle_lighting and last_havdalah:
-            if last_candle_lighting > last_havdalah:
-                self._last_event_type = "candle_lighting"
-                self._state = True
-            else:
-                self._last_event_type = "havdalah"
-                self._state = False
-        elif last_candle_lighting:
-            self._last_event_type = "candle_lighting"
-            self._state = True
-        elif last_havdalah:
-            self._last_event_type = "havdalah"
-            self._state = False
-        else:
-            self._last_event_type = None
-            self._state = False
-
-        _LOGGER.debug(
-            "Updated state - Last event: %s, State: %s",
-            self._last_event_type,
-            self._state,
-        )
-
-        # Schedule the next update
-        self._schedule_next_update()
-        self.async_write_ha_state()
-
-    @callback
-    def _handle_coordinator_update(self) -> None:
-        """Handle updated data from the coordinator."""
-        _LOGGER.debug("IssurMelachaSensor received coordinator update")
-        self._schedule_next_update()
+        self._last_candle_lighting_sensor = last_candle_lighting_sensor
+        self._last_havdalah_sensor = last_havdalah_sensor
 
     @property
     def is_on(self) -> bool:
-        """Return True if currently in Issur Melacha period."""
-        return self._state
+        """Return True if last candle lighting is more recent than last havdalah."""
+        last_candle = self._last_candle_lighting_sensor.past_event
+        last_havdalah = self._last_havdalah_sensor.past_event
 
+        if not last_candle or not last_havdalah:
+            return None
+
+        return last_candle > last_havdalah
