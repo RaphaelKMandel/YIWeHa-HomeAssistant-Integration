@@ -14,7 +14,7 @@ from homeassistant.const import EVENT_HOMEASSISTANT_STARTED
 
 from .scraper import YIWHScraper
 
-from const import DOMAIN
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
