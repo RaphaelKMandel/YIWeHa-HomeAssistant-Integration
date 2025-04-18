@@ -70,5 +70,5 @@ class MidnightCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         _LOGGER.info("YIWeHa Scraper is updating...")
-        self.data = await self.hass.async_add_executor_job(self.scraper.scrape_calendar)
-        return self.data
+        data = await self.hass.async_add_executor_job(self.scraper.scrape_calendar)
+        self.async_set_updated_data(data)
