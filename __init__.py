@@ -10,6 +10,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.helpers.event import async_track_point_in_time, async_track_home_assistant_start
 from homeassistant.util import dt as dt_util
+from homeassistant.const import EVENT_HOMEASSISTANT_STARTED
 
 from .scraper import YIWHScraper
 
@@ -44,7 +45,7 @@ class MidnightCoordinator(DataUpdateCoordinator):
     def __init__(self, hass: HomeAssistant):
         super().__init__(hass, _LOGGER, name=DOMAIN)
         self.scraper = YIWHScraper()
-        async_track_home_assistant_start(hass, self._handle_startup)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, self._handle_startup)
 
     @callback
     async def _handle_startup(self, event):
