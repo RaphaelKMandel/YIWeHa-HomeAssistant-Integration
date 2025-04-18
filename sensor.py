@@ -63,6 +63,104 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
             
         return min(future_times).datetime
 
+
+class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
+    """Sensor for next candle lighting time."""
+
+    def __init__(self, coordinator: DataUpdateCoordinator) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._attr_name = "Last Candle Lighting"
+        self._attr_unique_id = f"{DOMAIN}_last_candle_lighting"
+        self.next_event = None
+        self.past_event = None
+
+    @property
+    def native_value(self):
+        if not self._value:
+            self.update()
+
+        return self.past_event
+
+    def update(self):
+        if not self.coordinator.data:
+            self.next_event = None
+            self.past_event = None
+
+        candle_lighting_times = self.coordinator.data[0]  # First element of tuple
+        if not candle_lighting_times:
+            self.next_event = None
+            self.past_event = None
+
+        now = datetime.now()
+        past_times = [event for event in candle_lighting_times if event.datetime < now]
+        future_times = [event for event in candle_lighting_times if event.datetime > now]
+
+        if not past_times:
+            self.past_event = None
+
+        if not future_times:
+            self.next_event = None
+
+        self.past_event = max(past_times).datetime
+        self.next_event = min(future_times).datetime
+
+    def schedule_next_update(self):
+        self._unsub_time_listener = async_track_point_in_time(
+            self.hass,
+            self.update,
+            self.next_event,
+        )
+
+
+class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
+    """Sensor for next candle lighting time."""
+
+    def __init__(self, coordinator: DataUpdateCoordinator) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._attr_name = "Last Havdalah"
+        self._attr_unique_id = f"{DOMAIN}_last_havdalah"
+        self.next_event = None
+        self.past_event = None
+
+    @property
+    def native_value(self):
+        if not self._value:
+            self.update()
+
+        return self.past_event
+
+    def update(self):
+        if not self.coordinator.data:
+            self.next_event = None
+            self.past_event = None
+
+        havdalah_times = self.coordinator.data[1]  # First element of tuple
+        if not havdalah_times:
+            self.next_event = None
+            self.past_event = None
+
+        now = datetime.now()
+        past_times = [event for event in havdalah_times if event.datetime < now]
+        future_times = [event for event in havdalah_times if event.datetime > now]
+
+        if not past_times:
+            self.past_event = None
+
+        if not future_times:
+            self.next_event = None
+
+        self.past_event = max(past_times).datetime
+        self.next_event = min(future_times).datetime
+
+    def schedule_next_update(self):
+        self._unsub_time_listener = async_track_point_in_time(
+            self.hass,
+            self.update,
+            self.next_event,
+        )
+
 class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
     """Sensor for next havdalah time."""
 
