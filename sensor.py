@@ -65,6 +65,34 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         return min(future_times).datetime
 
 
+class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
+    """Sensor for next havdalah time."""
+
+    def __init__(self, coordinator: DataUpdateCoordinator) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._attr_name = "Next Havdalah"
+        self._attr_unique_id = f"{DOMAIN}_next_havdalah"
+
+    @property
+    def native_value(self):
+        """Return the next havdalah time."""
+        if not self.coordinator.data:
+            return None
+
+        havdalah_times = self.coordinator.data[1]  # Second element of tuple
+        if not havdalah_times:
+            return None
+
+        now = datetime.now()
+        future_times = [event for event in havdalah_times if event.datetime > now]
+
+        if not future_times:
+            return None
+
+        return min(future_times).datetime
+
+
 class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
     """Sensor for next candle lighting time."""
 
@@ -105,6 +133,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
+        self.schedule_next_update()
 
     def schedule_next_update(self):
         self._unsub_time_listener = async_track_point_in_time(
@@ -154,6 +183,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
 
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
+        self.schedule_next_update()
 
     def schedule_next_update(self):
         self._unsub_time_listener = async_track_point_in_time(
@@ -162,32 +192,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
             self.next_event
         )
 
-class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
-    """Sensor for next havdalah time."""
 
-    def __init__(self, coordinator: DataUpdateCoordinator) -> None:
-        """Initialize the sensor."""
-        super().__init__(coordinator)
-        self._attr_name = "Next Havdalah"
-        self._attr_unique_id = f"{DOMAIN}_next_havdalah"
-
-    @property
-    def native_value(self):
-        """Return the next havdalah time."""
-        if not self.coordinator.data:
-            return None
-            
-        havdalah_times = self.coordinator.data[1]  # Second element of tuple
-        if not havdalah_times:
-            return None
-            
-        now = datetime.now()
-        future_times = [event for event in havdalah_times if event.datetime > now]
-        
-        if not future_times:
-            return None
-            
-        return min(future_times).datetime
 
 
 class IssurMelachaSensor(BinarySensorEntity):
