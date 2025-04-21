@@ -107,11 +107,11 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         if not self.past_event:
-            self.update()
+            self.update_events()
 
         return self.past_event
 
-    def update(self):
+    def update_events(self):
         if not self.coordinator.data:
             self.next_event = None
             self.past_event = None
@@ -138,7 +138,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
     def schedule_next_update(self):
         self._unsub_time_listener = async_track_point_in_time(
             self.hass,
-            self.update,
+            self.update_events,
             self.next_event
         )
 
@@ -157,11 +157,11 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         if not self.past_event:
-            self.update()
+            self.update_events()
 
         return self.past_event
 
-    def update(self):
+    def update_events(self):
         if not self.coordinator.data:
             self.next_event = None
             self.past_event = None
@@ -188,11 +188,9 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
     def schedule_next_update(self):
         self._unsub_time_listener = async_track_point_in_time(
             self.hass,
-            self.update,
+            self.update_events,
             self.next_event
         )
-
-
 
 
 class IssurMelachaSensor(BinarySensorEntity):
