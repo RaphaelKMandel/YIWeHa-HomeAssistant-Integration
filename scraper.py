@@ -165,15 +165,15 @@ class DummyScraper:
         now = datetime.now()
 
         self.candle_lightings = [
-            Event(tostring(now.replace(minute=now.minute - 40))),
-            Event(tostring(now.replace(minute=now.minute + 2))),
-            Event(tostring(now.replace(minute=now.minute + 4))),
-            Event(tostring(now.replace(minute=now.minute + 30)))
+            Event(tostring(now - timedelta(minutes=40))),
+            Event(tostring(now + timedelta(minutes=2))),
+            Event(tostring(now + timedelta(minutes=4))),
+            Event(tostring(now + timedelta(minutes=30)))
         ]
         self.havdalahs = [
-            Event(tostring(now.replace(minute=now.minute - 30))),
-            Event(tostring(now.replace(minute=now.minute + 3))),
-            Event(tostring(now.replace(minute=now.minute + 35)))
+            Event(tostring(now - timedelta(minutes=30))),
+            Event(tostring(now + timedelta(minutes=3))),
+            Event(tostring(now + timedelta(minutes=35)))
         ]
 
     def scrape_calendar(self, delta=15):
