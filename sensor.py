@@ -15,7 +15,6 @@ from homeassistant.helpers.update_coordinator import (
 )
 from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.core import callback
-from homeassistant.util import dt as dt_util
 
 from . import DOMAIN
 
@@ -111,7 +110,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._unsub_time_listener = async_track_point_in_time(
             self.hass,
             self.update,
-            dt_util.as_utc(self.next_event)
+            self.next_event
         )
 
 
@@ -160,7 +159,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._unsub_time_listener = async_track_point_in_time(
             self.hass,
             self.update,
-            dt_util.as_utc(self.next_event)
+            self.next_event
         )
 
 class NextHavdalahSensor(CoordinatorEntity, SensorEntity):

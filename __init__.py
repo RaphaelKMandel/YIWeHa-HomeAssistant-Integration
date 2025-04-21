@@ -12,7 +12,7 @@ from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.util import dt as dt_util
 from homeassistant.const import EVENT_HOMEASSISTANT_STARTED
 
-from .scraper import YIWHScraper
+from .scraper import YIWHScraper, DummyScraper
 
 from .const import DOMAIN
 
@@ -44,7 +44,8 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 class MidnightCoordinator(DataUpdateCoordinator):
     def __init__(self, hass: HomeAssistant):
         super().__init__(hass, _LOGGER, name=DOMAIN)
-        self.scraper = YIWHScraper()
+        # self.scraper = YIWHScraper()
+        self.scraper = DummyScraper()
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, self._handle_startup)
 
     @callback
