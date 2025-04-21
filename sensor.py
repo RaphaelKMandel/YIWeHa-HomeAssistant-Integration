@@ -46,6 +46,7 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._attr_name = "Next Candle Lighting"
+        self._attr_icon = "mdi:candle"
         self._attr_unique_id = f"{DOMAIN}_next_candle_lighting"
 
     @property
@@ -74,6 +75,7 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._attr_name = "Next Havdalah"
+        self._attr_icon = "mdi:campfire"
         self._attr_unique_id = f"{DOMAIN}_next_havdalah"
 
     @property
@@ -102,6 +104,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._attr_name = "Last Candle Lighting"
+        self._attr_icon = "mdi:candle"
         self._attr_unique_id = f"{DOMAIN}_last_candle_lighting"
         self.next_event = None
         self.past_event = None
@@ -159,6 +162,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._attr_name = "Last Havdalah"
+        self._attr_icon = "mdi:campfire"
         self._attr_unique_id = f"{DOMAIN}_last_havdalah"
         self.next_event = None
         self.past_event = None
@@ -218,6 +222,7 @@ class IssurMelachaSensor(BinarySensorEntity):
         last_havdalah_sensor: LastHavdalahSensor,
     ) -> None:
         self._attr_name = "Issur Melacha"
+        self._attr_icon = "mdi:power-plug-off"
         self._attr_unique_id = f"{DOMAIN}_issur_melacha"
         self._attr_device_class = "running"
         self._last_candle_lighting_sensor = last_candle_lighting_sensor
