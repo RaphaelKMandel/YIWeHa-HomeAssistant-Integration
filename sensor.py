@@ -138,6 +138,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
+        self.async_write_ha_state()
         self.schedule_next_update()
 
     def schedule_next_update(self):
@@ -193,6 +194,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
 
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
+        self.async_write_ha_state()
         self.schedule_next_update()
 
     def schedule_next_update(self):

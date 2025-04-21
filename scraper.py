@@ -156,12 +156,14 @@ class YIWHScraper:
             _LOGGER.exception("Unexpected error while scraping calendar")
             raise
 
+
 class DummyScraper(YIWHScraper):
     def scrape_calendar(self, delta=15):
         return [
-            [ Event("2025-04-21 09:00am"), Event("2025-04-21 01:01pm"), Event("2025-04-21 09:00pm")],
-            [ Event("2025-04-21 01:00am"), Event("2025-04-21 12:59pm"), Event("2025-04-21 10:00pm") ]
+            [ Event("2025-04-21 09:00am"), Event("2025-04-21 01:10pm"), Event("2025-04-21 09:00pm")],
+            [ Event("2025-04-21 01:00am"), Event("2025-04-21 01:07pm"), Event("2025-04-21 10:00pm") ]
         ]
+
 
 if __name__ == "__main__":
     # scraper = YIWHScraper()
