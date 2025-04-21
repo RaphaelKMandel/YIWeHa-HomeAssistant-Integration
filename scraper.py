@@ -159,12 +159,13 @@ class YIWHScraper:
 class DummyScraper(YIWHScraper):
     def scrape_calendar(self, delta=15):
         return [
-            (Event("09:00:00"), Event("15:00:00")),
-            (Event("09:35:00"))
+            [ Event("2025-04-21 09:00am"), Event("2025-04-21 03:00pm") ],
+            [ Event("2025-04-21 09:35am") ]
         ]
 
 if __name__ == "__main__":
-    scraper = YIWHScraper()
+    # scraper = YIWHScraper()
+    scraper = DummyScraper()
     candle_lighting, havdalah = scraper.scrape_calendar(delta=6)
     
     print("\nCandle Lighting Times:")
