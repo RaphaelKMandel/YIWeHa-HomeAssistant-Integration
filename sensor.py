@@ -161,7 +161,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
 
         return self.past_event
 
-    def update_events(self):
+    def update_events(self, hass_time=None):
         if not self.coordinator.data:
             self.next_event = None
             self.past_event = None
@@ -172,6 +172,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
             self.past_event = None
 
         now = datetime.now()
+        _LOGGER.info(f"Last Havdalah updating at {hass_time} and {now}")
         past_times = [event for event in havdalah_times if event.datetime <= now]
         future_times = [event for event in havdalah_times if event.datetime > now]
 
