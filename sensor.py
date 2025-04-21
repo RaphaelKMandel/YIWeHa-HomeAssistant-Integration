@@ -20,6 +20,8 @@ from . import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
+SENSORS = {}
+
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: ConfigEntry,
@@ -28,12 +30,12 @@ async def async_setup_entry(
     """Set up the YIWH Calendar sensors."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
 
-    next_candle = NextCandleLightingSensor(coordinator)
-    next_havdalah = NextHavdalahSensor(coordinator)
-    last_candle = LastCandleLightingSensor(coordinator)
-    last_havdalah = LastHavdalahSensor(coordinator)
-    issur_melacha = IssurMelachaSensor(last_candle_lighting_sensor=last_candle, last_havdalah_sensor=last_havdalah)
-    sensors = [ next_candle, next_havdalah, last_candle, last_havdalah, issur_melacha]
+    SENSORS["next_candle"] = NextCandleLightingSensor(coordinator)
+    SENSORS["next_havdalah"] = NextHavdalahSensor(coordinator)
+    SENSORS["last_candle"] = LastCandleLightingSensor(coordinator)
+    SENSORS["last_havdalah"] = LastHavdalahSensor(coordinator)
+    SENSORS["issur_melacha"] = IssurMelachaSensor(last_candle_lighting_sensor=SENSORS["last_candle"], last_havdalah_sensor=SENSORS["last_havdalah"])
+    sensors = list(SENSORS.values())
     
     async_add_entities(sensors)
 
@@ -139,6 +141,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
         self.async_write_ha_state()
+        SENSORS["issur_melacha"].async_write_ha_state()
         self.schedule_next_update()
 
     def schedule_next_update(self):
@@ -195,6 +198,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
         self.async_write_ha_state()
+        SENSORS["issur_melacha"].async_write_ha_state()
         self.schedule_next_update()
 
     def schedule_next_update(self):
