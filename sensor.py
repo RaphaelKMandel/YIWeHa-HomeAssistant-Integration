@@ -106,12 +106,16 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self.past_event:
+        if not self.past_event or not self.next_event:
+            self.update_events()
+
+        if datetime.now() >= self.next_event.datetime:
             self.update_events()
 
         return self.past_event
 
-    def update_events(self):
+    @callback
+    def update_events(self, hass_time=None):
         if not self.coordinator.data:
             self.next_event = None
             self.past_event = None
@@ -122,6 +126,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
             self.past_event = None
 
         now = datetime.now()
+        _LOGGER.info(f"Last Candle Lighting updating at {hass_time} and {now}")
         past_times = [event for event in candle_lighting_times if event.datetime <= now]
         future_times = [event for event in candle_lighting_times if event.datetime > now]
 
@@ -156,11 +161,15 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self.past_event:
+        if not self.past_event or not self.next_event:
+            self.update_events()
+
+        if datetime.now() >= self.next_event.datetime:
             self.update_events()
 
         return self.past_event
 
+    @callback
     def update_events(self, hass_time=None):
         if not self.coordinator.data:
             self.next_event = None
