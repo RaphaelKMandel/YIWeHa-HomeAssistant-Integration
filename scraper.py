@@ -121,7 +121,10 @@ class YIWHScraper:
         _LOGGER.debug("Found %d candle lighting times and %d havdalah times",
                       len(candle_lighting), len(havdalah))
 
-        return candle_lighting, havdalah
+        return {
+            "candle_lighting": candle_lighting,
+            "havdalah": havdalah
+        }
 
     def scrape_calendar(self, delta=15):
         """Scrape calendar events directly from the website."""
@@ -177,20 +180,23 @@ class DummyScraper:
         ]
 
     def scrape_calendar(self, delta=15):
-        return self.candle_lightings, self.havdalahs
+        return {
+            "candle_lighting": self.candle_lightings,
+            "havdalah": self.havdalahs
+        }
 
 
 if __name__ == "__main__":
     # scraper = YIWHScraper()
     scraper = DummyScraper()
-    candle_lighting, havdalah = scraper.scrape_calendar(delta=6)
+    events = scraper.scrape_calendar(delta=6)
 
     print("\nCandle Lighting Times:")
     print("=====================")
-    for event in candle_lighting:
+    for event in events["candle_lighting"]:
         print(event)
 
     print("\nHavdalah Times:")
     print("==============")
-    for event in havdalah:
+    for event in events["havdalah"]:
         print(event)

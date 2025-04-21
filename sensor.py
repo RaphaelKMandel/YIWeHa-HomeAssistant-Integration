@@ -54,7 +54,7 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             return None
             
-        candle_lighting_times = self.coordinator.data[0]  # First element of tuple
+        candle_lighting_times = self.coordinator.data["candle_lighting"]  # First element of tuple
         if not candle_lighting_times:
             return None
             
@@ -82,7 +82,7 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             return None
 
-        havdalah_times = self.coordinator.data[1]  # Second element of tuple
+        havdalah_times = self.coordinator.data["havdalah"]  # Second element of tuple
         if not havdalah_times:
             return None
 
@@ -122,7 +122,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
             self.next_event = None
             self.past_event = None
 
-        candle_lighting_times = self.coordinator.data[0]  # First element of tuple
+        candle_lighting_times = self.coordinator.data["candle_lighting"]  # First element of tuple
         if not candle_lighting_times:
             self.next_event = None
             self.past_event = None
@@ -179,7 +179,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
             self.next_event = None
             self.past_event = None
 
-        havdalah_times = self.coordinator.data[1]  # First element of tuple
+        havdalah_times = self.coordinator.data["havdalah"]  # First element of tuple
         if not havdalah_times:
             self.next_event = None
             self.past_event = None
