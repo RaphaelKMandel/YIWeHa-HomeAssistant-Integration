@@ -109,7 +109,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         if not self.past_event or not self.next_event:
             self.update_events()
 
-        if datetime.now() >= self.next_event.datetime:
+        if datetime.now() >= self.next_event:
             self.update_events()
 
         return self.past_event
@@ -164,7 +164,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         if not self.past_event or not self.next_event:
             self.update_events()
 
-        if datetime.now() >= self.next_event.datetime:
+        if datetime.now() >= self.next_event:
             self.update_events()
 
         return self.past_event
