@@ -94,7 +94,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
             self.past_event = None
 
         now = datetime.now()
-        past_times = [event for event in candle_lighting_times if event.datetime < now]
+        past_times = [event for event in candle_lighting_times if event.datetime <= now]
         future_times = [event for event in candle_lighting_times if event.datetime > now]
 
         if not past_times:
@@ -143,7 +143,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
             self.past_event = None
 
         now = datetime.now()
-        past_times = [event for event in havdalah_times if event.datetime < now]
+        past_times = [event for event in havdalah_times if event.datetime <= now]
         future_times = [event for event in havdalah_times if event.datetime > now]
 
         if not past_times:

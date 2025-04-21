@@ -160,7 +160,7 @@ class DummyScraper(YIWHScraper):
     def scrape_calendar(self, delta=15):
         return [
             [ Event("2025-04-21 09:00am"), Event("2025-04-21 03:00pm") ],
-            [ Event("2025-04-21 01:00am"), Event("2025-04-21 09:55am"), Event("2025-04-21 10:00pm") ]
+            [ Event("2025-04-21 01:00am"), Event("2025-04-21 12:15pm"), Event("2025-04-21 10:00pm") ]
         ]
 
 if __name__ == "__main__":
