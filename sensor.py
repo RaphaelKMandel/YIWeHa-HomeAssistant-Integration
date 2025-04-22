@@ -59,8 +59,6 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
     #     if not events:
     #         return None
     #
-    #     self.events = events
-    #
     #     return ";".join([repr(event) for event in events])
 
     @property
@@ -75,7 +73,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
 
         if events:
             return {
-                "events": [(event.datetime.strptime("%H:%M %p"), event.title) for event in events]
+                "events": [(event.datetime.strftime("%H:%M %p"), event.title) for event in events]
             }
 
 
