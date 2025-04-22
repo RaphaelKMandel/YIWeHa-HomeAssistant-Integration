@@ -39,6 +39,7 @@ async def async_setup_entry(
     SENSORS["today"] = TodaySensor(coordinator)
     async_add_entities(list(SENSORS.values()))
 
+
 class TodaySensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator: DataUpdateCoordinator) -> None:
         """Initialize the sensor."""
@@ -58,7 +59,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         if not events:
             return None
 
-        return "\n".join(repr(self))
+        return "\n".join([repr(event) for event in events])
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
