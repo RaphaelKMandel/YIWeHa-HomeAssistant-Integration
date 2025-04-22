@@ -7,6 +7,10 @@ from bs4 import BeautifulSoup
 _LOGGER = logging.getLogger(__name__)
 
 
+def totime(datetime):
+    return datetime.strftime("%I:%M%p")
+
+
 def tostring(datetime):
     return datetime.strftime("%Y-%m-%d %I:%M%p")
 
@@ -26,11 +30,11 @@ class Event:
     def __lt__(self, other):
         return self.datetime < other.datetime
 
-    def __repr__(self):
-        if not self.title:
-            return tostring(self.datetime)
+    def __str__(self):
+        return tostring(self.datetime)
 
-        return f"{self.title} @ {tostring(self.datetime)}"
+    def __repr__(self):
+        return f"{self.title} @ {totime(self.datetime)}"
 
     @staticmethod
     def is_candle_lighting(title):
@@ -44,7 +48,7 @@ class Event:
     def is_today(date):
         today = datetime.today().date()
         date = fromstring(date).date()
-        print(today, date, today==date)
+        print(today, date, today == date)
         return today == date
 
 
@@ -73,7 +77,6 @@ class YIWHScraper:
                 _LOGGER.debug("No title found in event popup")
                 return None, None
 
-
             # Get the visible text (usually contains time and title)
             visible_text = event_element.get_text().strip()
             time_str = visible_text.split()[0]
@@ -82,7 +85,8 @@ class YIWHScraper:
             datetime_str = f"{date_str} {time_str}"
 
             # Skip if not a target event
-            if not Event.is_candle_lighting(title) and not Event.is_havdalah(title) and not Event.is_today(datetime_str):
+            if not Event.is_candle_lighting(title) and not Event.is_havdalah(title) and not Event.is_today(
+                    datetime_str):
                 return None, None
 
             return title, datetime_str
@@ -187,7 +191,6 @@ class YIWHScraper:
 
 class DummyScraper:
     def __init__(self):
-
         now = datetime.now()
 
         self.candle_lightings = [
@@ -203,7 +206,6 @@ class DummyScraper:
         ]
 
     def scrape_calendar(self, delta=15):
-
         return {
             "candle_lighting": self.candle_lightings,
             "havdalah": self.havdalahs,
@@ -234,4 +236,4 @@ if __name__ == "__main__":
     print("\nToday:")
     print("==============")
     for event in events["today"]:
-        print(event)
+        print(repr(event))
