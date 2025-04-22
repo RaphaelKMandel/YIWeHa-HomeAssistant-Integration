@@ -59,7 +59,15 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         if not events:
             return None
 
+        self.events = events
+
         return ";".join([repr(event) for event in events])
+
+    @property
+    def extra_state_attributes(self):
+        return {
+            "events": self.events
+        }
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
