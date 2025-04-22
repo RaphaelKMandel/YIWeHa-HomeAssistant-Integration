@@ -73,7 +73,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
 
         if events:
             return {
-                "events": [(event.datetime.strftime("%H:%M %p"), event.title) for event in events]
+                "events": [(event.datetime.strftime("%I:%M %p"), event.title) for event in events]
             }
 
 
