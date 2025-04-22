@@ -1,9 +1,9 @@
 {
   "domain": "yiweha",
   "name": "Young Israel West Hartford Calendar",
-  "documentation": "https://github.com/yourusername/ha-yiweha",
+  "documentation": "https://github.com/RaphaelKMandel/YIWeHa-HomeAssistant-Integration",
   "dependencies": [],
-  "codeowners": ["@yourusername"],
+  "codeowners": ["@RaphaelKMandel"],
   "requirements": ["beautifulsoup4>=4.9.3"],
   "version": "1.0.0",
   "iot_class": "cloud_polling",

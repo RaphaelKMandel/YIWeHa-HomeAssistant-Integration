@@ -16,16 +16,16 @@ from homeassistant.helpers.update_coordinator import (
 from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.core import callback
 
-from . import DOMAIN
-
-_LOGGER = logging.getLogger(__name__)
+from .const import DOMAIN
 
 SENSORS = {}
+_LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup_entry(
-    hass: HomeAssistant,
-    entry: ConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the YIWH Calendar sensors."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
@@ -34,10 +34,10 @@ async def async_setup_entry(
     SENSORS["next_havdalah"] = NextHavdalahSensor(coordinator)
     SENSORS["last_candle"] = LastCandleLightingSensor(coordinator)
     SENSORS["last_havdalah"] = LastHavdalahSensor(coordinator)
-    SENSORS["issur_melacha"] = IssurMelachaSensor(last_candle_lighting_sensor=SENSORS["last_candle"], last_havdalah_sensor=SENSORS["last_havdalah"])
-    sensors = list(SENSORS.values())
-    
-    async_add_entities(sensors)
+    SENSORS["issur_melacha"] = IssurMelachaSensor(last_candle_lighting_sensor=SENSORS["last_candle"],
+                                                  last_havdalah_sensor=SENSORS["last_havdalah"])
+    async_add_entities(list(SENSORS.values()))
+
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
     """Sensor for next candle lighting time."""
@@ -54,17 +54,17 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         """Return the next candle lighting time."""
         if not self.coordinator.data:
             return None
-            
+
         candle_lighting_times = self.coordinator.data["candle_lighting"]  # First element of tuple
         if not candle_lighting_times:
             return None
-            
+
         now = datetime.now()
         future_times = [event for event in candle_lighting_times if event.datetime > now]
-        
+
         if not future_times:
             return None
-            
+
         return min(future_times).datetime
 
 
@@ -106,6 +106,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._attr_name = "Last Candle Lighting"
         self._attr_icon = "mdi:candle"
         self._attr_unique_id = f"{DOMAIN}_last_candle_lighting"
+        self._attr_entity_registry_enabled_default = False
         self.next_event = None
         self.past_event = None
 
@@ -164,6 +165,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._attr_name = "Last Havdalah"
         self._attr_icon = "mdi:campfire"
         self._attr_unique_id = f"{DOMAIN}_last_havdalah"
+        self._attr_entity_registry_enabled_default = False
         self.next_event = None
         self.past_event = None
 
@@ -217,9 +219,9 @@ class IssurMelachaSensor(BinarySensorEntity):
     """Binary sensor for Issur Melacha status."""
 
     def __init__(
-        self,
-        last_candle_lighting_sensor: LastCandleLightingSensor,
-        last_havdalah_sensor: LastHavdalahSensor,
+            self,
+            last_candle_lighting_sensor: LastCandleLightingSensor,
+            last_havdalah_sensor: LastHavdalahSensor,
     ) -> None:
         self._attr_name = "Issur Melacha"
         self._attr_icon = "mdi:power-plug-off"

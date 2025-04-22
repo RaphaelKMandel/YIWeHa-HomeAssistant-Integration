@@ -1,6 +1,5 @@
 """The Young Israel West Hartford Calendar integration."""
 from __future__ import annotations
-
 import logging
 from datetime import timedelta
 
@@ -12,12 +11,12 @@ from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.util import dt as dt_util
 from homeassistant.const import EVENT_HOMEASSISTANT_STARTED
 
-from .scraper import YIWHScraper, DummyScraper
-
 from .const import DOMAIN
+from .scraper import YIWHScraper, DummyScraper
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
+
 
 def get_next_midnight():
     """Get timedelta until next midnight."""
@@ -27,11 +26,13 @@ def get_next_midnight():
     )
     return next_midnight
 
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     coordinator = MidnightCoordinator(hass)
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
+
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
