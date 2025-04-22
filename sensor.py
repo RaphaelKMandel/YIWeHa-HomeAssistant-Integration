@@ -36,7 +36,28 @@ async def async_setup_entry(
     SENSORS["last_havdalah"] = LastHavdalahSensor(coordinator)
     SENSORS["issur_melacha"] = IssurMelachaSensor(last_candle_lighting_sensor=SENSORS["last_candle"],
                                                   last_havdalah_sensor=SENSORS["last_havdalah"])
+    SENSORS["today"] = TodaySensor(coordinator)
     async_add_entities(list(SENSORS.values()))
+
+class TodaySensor(CoordinatorEntity, SensorEntity):
+    def __init__(self, coordinator: DataUpdateCoordinator) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._attr_name = "Today"
+        self._attr_icon = "mdi:calendar"
+        self._attr_unique_id = f"{DOMAIN}_today"
+
+    @property
+    def native_value(self):
+        """Return the next candle lighting time."""
+        if not self.coordinator.data:
+            return None
+
+        events = self.coordinator.data["today"]
+        if not events:
+            return None
+
+        return events
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):

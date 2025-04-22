@@ -7,9 +7,18 @@ from bs4 import BeautifulSoup
 _LOGGER = logging.getLogger(__name__)
 
 
+def tostring(datetime):
+    return datetime.strftime("%Y-%m-%d %I:%M%p")
+
+
+def fromstring(string):
+    return datetime.strptime(string, "%Y-%m-%d %I:%M%p")
+
+
 class Event:
-    def __init__(self, _datetime):
-        self.datetime = datetime.strptime(_datetime, "%Y-%m-%d %I:%M%p")
+    def __init__(self, _datetime, title=None):
+        self.datetime = fromstring(_datetime)
+        self.title = title
 
     def __eq__(self, other):
         return self.datetime == other.datetime
@@ -18,7 +27,10 @@ class Event:
         return self.datetime < other.datetime
 
     def __str__(self):
-        return self.datetime.strftime("%Y-%m-%d %I:%M%p")
+        if not self.title:
+            return tostring(self.datetime)
+
+        return f"{self.title} @ {tostring(self.datetime)}"
 
     @staticmethod
     def is_candle_lighting(title):
@@ -27,6 +39,13 @@ class Event:
     @staticmethod
     def is_havdalah(title):
         return "Shabbat Ends" in title or "Yom Tov Ends" in title
+
+    @staticmethod
+    def is_today(date):
+        today = datetime.today().date()
+        date = fromstring(date).date()
+        print(today, date, today==date)
+        return today == date
 
 
 class YIWHScraper:
@@ -54,9 +73,6 @@ class YIWHScraper:
                 _LOGGER.debug("No title found in event popup")
                 return None, None
 
-            # Skip if not a target event
-            if not Event.is_candle_lighting(title) and not Event.is_havdalah(title):
-                return None, None
 
             # Get the visible text (usually contains time and title)
             visible_text = event_element.get_text().strip()
@@ -64,6 +80,10 @@ class YIWHScraper:
 
             # Create datetime string in format "YYYY-MM-DD HH:MMam/pm"
             datetime_str = f"{date_str} {time_str}"
+
+            # Skip if not a target event
+            if not Event.is_candle_lighting(title) and not Event.is_havdalah(title) and not Event.is_today(datetime_str):
+                return None, None
 
             return title, datetime_str
 
@@ -76,6 +96,7 @@ class YIWHScraper:
         soup = BeautifulSoup(html_content, 'html.parser')
         candle_lighting = []
         havdalah = []
+        today = []
 
         # Find all calendar day cells
         day_cells = soup.find_all('td', id=lambda x: x and x.startswith('td'))
@@ -109,6 +130,8 @@ class YIWHScraper:
                             candle_lighting.append(Event(datetime_str))
                         elif Event.is_havdalah(title):
                             havdalah.append(Event(datetime_str))
+                        elif Event.is_today(datetime_str):
+                            today.append(Event(datetime_str, title))
 
             except Exception as e:
                 _LOGGER.exception("Error processing day cell: %s", str(e))
@@ -117,13 +140,15 @@ class YIWHScraper:
         # Sort both lists
         candle_lighting.sort()
         havdalah.sort()
+        today.sort()
 
         _LOGGER.debug("Found %d candle lighting times and %d havdalah times",
                       len(candle_lighting), len(havdalah))
 
         return {
             "candle_lighting": candle_lighting,
-            "havdalah": havdalah
+            "havdalah": havdalah,
+            "today": today
         }
 
     def scrape_calendar(self, delta=15):
@@ -162,8 +187,6 @@ class YIWHScraper:
 
 class DummyScraper:
     def __init__(self):
-        def tostring(datetime):
-            return datetime.strftime("%Y-%m-%d %I:%M%p")
 
         now = datetime.now()
 
@@ -180,15 +203,22 @@ class DummyScraper:
         ]
 
     def scrape_calendar(self, delta=15):
+
         return {
             "candle_lighting": self.candle_lightings,
-            "havdalah": self.havdalahs
+            "havdalah": self.havdalahs,
+            "today": [
+                (fromstring("2025-04-22 09:00am"), "Shacharit1"),
+                (fromstring("2025-04-23 09:00am"), "Shacharit2"),
+                (fromstring("2025-04-24 09:00am"), "Shacharit3"),
+                (fromstring("2025-04-25 09:00am"), "Shacharit4"),
+            ]
         }
 
 
 if __name__ == "__main__":
-    # scraper = YIWHScraper()
-    scraper = DummyScraper()
+    scraper = YIWHScraper()
+    # scraper = DummyScraper()
     events = scraper.scrape_calendar(delta=6)
 
     print("\nCandle Lighting Times:")
@@ -199,4 +229,9 @@ if __name__ == "__main__":
     print("\nHavdalah Times:")
     print("==============")
     for event in events["havdalah"]:
+        print(event)
+
+    print("\nToday:")
+    print("==============")
+    for event in events["today"]:
         print(event)
