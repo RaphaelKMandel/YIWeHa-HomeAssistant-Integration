@@ -47,19 +47,19 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         self._attr_name = "Today"
         self._attr_icon = "mdi:calendar"
         self._attr_unique_id = f"{DOMAIN}_today"
-        self.events = None
 
     @property
     def native_value(self):
-        """Return the next candle lighting time."""
-        if not self.coordinator.data:
-            return None
-
-        events = self.coordinator.data["today"]
-        if not events:
-            return None
-
-        return ";".join([repr(event) for event in events])
+        # """Return the next candle lighting time."""
+        # if not self.coordinator.data:
+        #     return None
+        #
+        # events = self.coordinator.data["today"]
+        # if not events:
+        #     return None
+        #
+        # return ";".join([repr(event) for event in events])
+        return True
 
     @property
     def extra_state_attributes(self):
