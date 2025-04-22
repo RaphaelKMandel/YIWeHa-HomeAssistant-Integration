@@ -26,7 +26,7 @@ class Event:
     def __lt__(self, other):
         return self.datetime < other.datetime
 
-    def __str__(self):
+    def __repr__(self):
         if not self.title:
             return tostring(self.datetime)
 
