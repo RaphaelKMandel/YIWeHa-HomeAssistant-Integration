@@ -65,9 +65,10 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
 
     @property
     def extra_state_attributes(self):
-        return {
-            "events": [(event.datetime.strptime("%H:%M %p"), event.title) for event in self.events]
-        }
+        if self.events:
+            return {
+                "events": [(event.datetime.strptime("%H:%M %p"), event.title) for event in self.events]
+            }
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
