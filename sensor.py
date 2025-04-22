@@ -59,7 +59,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         if not events:
             return None
 
-        return ",".join([repr(event) for event in events])
+        return ";".join([repr(event) for event in events])
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
