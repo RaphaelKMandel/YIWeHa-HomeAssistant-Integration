@@ -46,6 +46,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         self._attr_name = "Today"
         self._attr_icon = "mdi:calendar"
         self._attr_unique_id = f"{DOMAIN}_today"
+        self.events = None
 
     @property
     def native_value(self):
@@ -57,6 +58,8 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         if not events:
             return None
 
+
+        self.events = events
         return events
 
 
