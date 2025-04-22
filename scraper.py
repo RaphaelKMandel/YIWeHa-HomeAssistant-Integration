@@ -132,9 +132,11 @@ class YIWHScraper:
                     if title:
                         if Event.is_candle_lighting(title):
                             candle_lighting.append(Event(datetime_str))
-                        elif Event.is_havdalah(title):
+
+                        if Event.is_havdalah(title):
                             havdalah.append(Event(datetime_str))
-                        elif Event.is_today(datetime_str):
+
+                        if Event.is_today(datetime_str):
                             today.append(Event(datetime_str, title))
 
             except Exception as e:
