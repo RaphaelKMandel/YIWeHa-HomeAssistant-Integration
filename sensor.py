@@ -62,6 +62,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         self.events = events
 
         # return ";".join([repr(event) for event in events])
+        return True
 
     @property
     def extra_state_attributes(self):
