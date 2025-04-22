@@ -34,7 +34,7 @@ class Event:
         return tostring(self.datetime)
 
     def __repr__(self):
-        return f"{self.title} @ {totime(self.datetime)}"
+        return f"{totime(self.datetime)}: {self.title}"
 
     @staticmethod
     def is_candle_lighting(title):

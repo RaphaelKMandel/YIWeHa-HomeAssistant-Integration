@@ -58,9 +58,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         if not events:
             return None
 
-
-        self.events = events
-        return events
+        return "\n".join(repr(self))
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
