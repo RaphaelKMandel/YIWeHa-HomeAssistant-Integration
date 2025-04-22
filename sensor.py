@@ -49,8 +49,22 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         self._attr_unique_id = f"{DOMAIN}_today"
         self.events = None
 
+    # @property
+    # def native_value(self):
+    #     """Return the next candle lighting time."""
+    #     if not self.coordinator.data:
+    #         return None
+    #
+    #     events = self.coordinator.data["today"]
+    #     if not events:
+    #         return None
+    #
+    #     self.events = events
+    #
+    #     return ";".join([repr(event) for event in events])
+
     @property
-    def native_value(self):
+    def extra_state_attributes(self):
         """Return the next candle lighting time."""
         if not self.coordinator.data:
             return None
@@ -59,15 +73,9 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         if not events:
             return None
 
-        self.events = events
-
-        return ";".join([repr(event) for event in events])
-
-    @property
-    def extra_state_attributes(self):
-        if self.events:
+        if events:
             return {
-                "events": [(event.datetime.strptime("%H:%M %p"), event.title) for event in self.events]
+                "events": [(event.datetime.strptime("%H:%M %p"), event.title) for event in events]
             }
 
 
