@@ -20,9 +20,11 @@ def fromstring(string):
 
 
 class Event:
-    def __init__(self, _datetime, title=None):
-        self.datetime = fromstring(_datetime)
+    def __init__(self, title, _datetime):
         self.title = title
+        self.datetime = fromstring(_datetime)
+        self.date = self.datetime.date()
+        self.time = self.datetime.time()
 
     def __eq__(self, other):
         return self.datetime == other.datetime
@@ -38,25 +40,76 @@ class Event:
 
     @staticmethod
     def is_candle_lighting(title):
-        return "Candle Lighting" in title and "Earliest" not in title
+        return
 
     @staticmethod
     def is_havdalah(title):
-        return "Shabbat Ends" in title or "Yom Tov Ends" in title
-
-    @staticmethod
-    def is_today(date):
-        today = datetime.today().date()
-        date = fromstring(date).date()
-        return today == date
+        return
 
 
-class YIWHScraper:
-    def __init__(self):
-        self.base_url = "https://www.youngisraelwh.org/calendar"
-        self.headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        }
+class CalendarDay:
+    def __init__(self, day_cell):
+        self.candle_lighting = None
+        self.havdalah = None
+        self.omer = None
+        self.hebcal = None
+        self.events = []
+        self.sedra = []
+
+        self.parse_day_cell(day_cell)
+
+    def parse_day_cell(self, day_cell):
+        try:
+            """Parse the calendar HTML and extract events"""
+            # Get the date information
+            day_header = day_cell.find('div', class_='dayhead')
+            if not day_header:
+                return
+
+            date_link = day_header.find('a')
+            if not date_link:
+                return
+
+            self.date_str = date_link.get('href', '').split('cal_date=')[-1]
+            self.date = datetime.strptime(self.date_str, "%Y-%m-%d").date()
+            self.is_today = datetime.today().date() == self.date
+            self.parse_jewish_day(day_cell)
+            self.parse_sedra(day_cell)
+            self.parse_events(day_cell)
+        except Exception as e:
+            _LOGGER.exception("YIWeHa: Error processing day cell: %s", str(e))
+
+    def parse_jewish_day(self, day_cell):
+        text = day_cell.find("span", class_="jewishDay")
+        if text:
+            self.hebcal = text.get_text(strip=True)
+
+    def parse_sedra(self, day_cell):
+        sedra_divs = day_cell.find_all("div", class_="sedra")
+        for sedra_div in sedra_divs:
+            text = sedra_div.get_text(strip=True)
+            if "Day Omer" in text:
+                self.omer = text
+            else:
+                self.sedra += [text]
+
+    def parse_events(self, day_cell):
+        # Find all events for this day
+        day_events = day_cell.find_all('li', class_='calendar_popover_trigger')
+
+        for day_event in day_events:
+            event = self.parse_event_data(day_event, self.date_str)
+            if not event:
+                continue
+
+            self.events += [event]
+
+            if "Candle Lighting" in event.title and "Earliest" not in event.title:
+                self.candle_lighting = event
+            elif "Shabbat Ends" in event.title or "Yom Tov Ends" in event.title:
+                self.havdalah = event
+
+        self.events.sort()
 
     def parse_event_data(self, event_element, date_str):
         """Parse individual event data from the calendar popover"""
@@ -65,7 +118,7 @@ class YIWHScraper:
             popup_html = event_element.get('data-popuphtml', '')
             if not popup_html:
                 _LOGGER.debug("YIWeHa: Found no popup HTML for event")
-                return None, None
+                return None
 
             # Parse the HTML content of the popup
             popup_soup = BeautifulSoup(popup_html, 'html.parser')
@@ -74,7 +127,7 @@ class YIWHScraper:
             title = popup_soup.find('h3').get_text() if popup_soup.find('h3') else ''
             if not title:
                 _LOGGER.debug("YIWeHa: Found no title in event popup")
-                return None, None
+                return None
 
             # Get the visible text (usually contains time and title)
             visible_text = event_element.get_text().strip()
@@ -83,16 +136,19 @@ class YIWHScraper:
             # Create datetime string in format "YYYY-MM-DD HH:MMam/pm"
             datetime_str = f"{date_str} {time_str}"
 
-            # Skip if not a target event
-            if not Event.is_candle_lighting(title) and not Event.is_havdalah(title) and not Event.is_today(
-                    datetime_str):
-                return None, None
-
-            return title, datetime_str
+            return Event(title, datetime_str)
 
         except Exception as e:
             _LOGGER.exception("YIWeHa: Error parsing event: %s", str(e))
-            return None, None
+            return None
+
+
+class YIWHScraper:
+    def __init__(self):
+        self.base_url = "https://www.youngisraelwh.org/calendar"
+        self.headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
 
     def parse_calendar_html(self, html_content):
         """Parse the calendar HTML and extract events"""
@@ -111,36 +167,16 @@ class YIWHScraper:
         _LOGGER.debug("YIWeHa: Found %d day cells in calendar", len(day_cells))
 
         for cell in day_cells:
-            try:
-                # Get the date information
-                day_header = cell.find('div', class_='dayhead')
-                if not day_header:
-                    continue
+            day = CalendarDay(cell)
+            if day.candle_lighting:
+                candle_lighting.append(day.candle_lighting)
 
-                date_link = day_header.find('a')
-                if not date_link:
-                    continue
+            if day.havdalah:
+                havdalah.append(day.havdalah)
 
-                date_str = date_link.get('href', '').split('cal_date=')[-1]
-
-                # Find all events for this day
-                day_events = cell.find_all('li', class_='calendar_popover_trigger')
-
-                for event in day_events:
-                    title, datetime_str = self.parse_event_data(event, date_str)
-                    if title:
-                        if Event.is_candle_lighting(title):
-                            candle_lighting.append(Event(datetime_str))
-
-                        if Event.is_havdalah(title):
-                            havdalah.append(Event(datetime_str))
-
-                        if Event.is_today(datetime_str):
-                            today.append(Event(datetime_str, title))
-
-            except Exception as e:
-                _LOGGER.exception("YIWeHa: Error processing day cell: %s", str(e))
-                continue
+            if day.is_today:
+                for event in day.events:
+                    today.append(event)
 
         # Sort both lists
         candle_lighting.sort()
@@ -180,7 +216,7 @@ class YIWHScraper:
                 raise ConnectionError(f"YIWeHa: HTTP {response.status_code}: Failed to fetch calendar")
 
             _LOGGER.debug("YIWeHa: Successfully fetched calendar page")
-            with open("response.txt", "w") as f: f.write(response.text)
+            with open("response.html", "w") as f: f.write(response.text)
             return self.parse_calendar_html(response.text)
 
         except requests.RequestException as e:
