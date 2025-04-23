@@ -22,9 +22,9 @@ def fromstring(string):
 class Event:
     def __init__(self, title, _datetime):
         self.title = title
-        self.datetime = fromstring(_datetime)
-        self.date = self.datetime.date()
-        self.time = self.datetime.time()
+        self.datetime = fromstring(_datetime) if _datetime else None
+        self.date = self.datetime.date() if _datetime else None
+        self.time = self.datetime.time() if _datetime else None
 
     def __eq__(self, other):
         return self.datetime == other.datetime
@@ -33,18 +33,16 @@ class Event:
         return self.datetime < other.datetime
 
     def __str__(self):
-        return tostring(self.datetime)
+        if self.datetime:
+            return tostring(self.datetime)
+
+        return self.title
 
     def __repr__(self):
+        if not self.datetime:
+            return str(self)
+
         return f"{totime(self.datetime)}: {self.title}"
-
-    @staticmethod
-    def is_candle_lighting(title):
-        return
-
-    @staticmethod
-    def is_havdalah(title):
-        return
 
 
 class CalendarDay:
@@ -56,9 +54,6 @@ class CalendarDay:
         self.events = []
         self.sedra = []
 
-        self.parse_day_cell(day_cell)
-
-    def parse_day_cell(self, day_cell):
         try:
             """Parse the calendar HTML and extract events"""
             # Get the date information
@@ -89,9 +84,9 @@ class CalendarDay:
         for sedra_div in sedra_divs:
             text = sedra_div.get_text(strip=True)
             if "Day Omer" in text:
-                self.omer = text
+                self.omer = Event(text, None)
             else:
-                self.sedra += [text]
+                self.sedra += [Event(text, None)]
 
     def parse_events(self, day_cell):
         # Find all events for this day
@@ -149,15 +144,24 @@ class YIWHScraper:
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
+        self.days = {}
+
+    def get_candle_lightings(self):
+        candle_lightings = sorted([day.candle_lighting for day in self.days.values() if day.candle_lighting])
+        _LOGGER.debug("YIWeHa: Found %d candle lighting times", len(candle_lightings))
+        return candle_lightings
+
+    def get_havdalahs(self):
+        havdalahs = sorted([day.havdalah for day in self.days.values() if day.havdalah])
+        _LOGGER.debug("YIWeHa: Found %d havdalah times", len(havdalahs))
+        return havdalahs
+
+    def get_today(self):
+        day = self.days[datetime.now().date()]
+        return ([day.omer] if day.omer else []) + day.sedra + day.events
 
     def parse_calendar_html(self, html_content):
-        """Parse the calendar HTML and extract events"""
         soup = BeautifulSoup(html_content, 'html.parser')
-        candle_lighting = []
-        havdalah = []
-        today = []
-
-        # Find all calendar day cells
         day_cells = soup.find_all('td', id=lambda x: x and x.startswith('td'))
 
         if not day_cells:
@@ -166,30 +170,15 @@ class YIWHScraper:
 
         _LOGGER.debug("YIWeHa: Found %d day cells in calendar", len(day_cells))
 
+        self.days = {}
         for cell in day_cells:
             day = CalendarDay(cell)
-            if day.candle_lighting:
-                candle_lighting.append(day.candle_lighting)
-
-            if day.havdalah:
-                havdalah.append(day.havdalah)
-
-            if day.is_today:
-                for event in day.events:
-                    today.append(event)
-
-        # Sort both lists
-        candle_lighting.sort()
-        havdalah.sort()
-        today.sort()
-
-        _LOGGER.debug("YIWeHa: Found %d candle lighting times and %d havdalah times",
-                      len(candle_lighting), len(havdalah))
+            self.days[day.date] = day
 
         return {
-            "candle_lighting": candle_lighting,
-            "havdalah": havdalah,
-            "today": today
+            "candle_lighting": self.get_candle_lightings(),
+            "havdalah": self.get_havdalahs(),
+            "today": self.get_today()
         }
 
     def scrape_calendar(self, delta=15):
