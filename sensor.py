@@ -170,7 +170,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
             self.past_event = None
 
         now = datetime.now()
-        _LOGGER.info(f"Last Candle Lighting updating at {hass_time} and {now}")
+        _LOGGER.info(f"YIWeHa: Last Candle Lighting updating at {hass_time} and {now}")
         past_times = [event for event in candle_lighting_times if event.datetime <= now]
         future_times = [event for event in candle_lighting_times if event.datetime > now]
 
@@ -229,7 +229,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
             self.past_event = None
 
         now = datetime.now()
-        _LOGGER.info(f"Last Havdalah updating at {hass_time} and {now}")
+        _LOGGER.info(f"YIWeHa: Last Havdalah updating at {hass_time} and {now}")
         past_times = [event for event in havdalah_times if event.datetime <= now]
         future_times = [event for event in havdalah_times if event.datetime > now]
 

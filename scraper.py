@@ -48,7 +48,6 @@ class Event:
     def is_today(date):
         today = datetime.today().date()
         date = fromstring(date).date()
-        print(today, date, today == date)
         return today == date
 
 
@@ -65,7 +64,7 @@ class YIWHScraper:
             # Get the data-popuphtml attribute and parse it
             popup_html = event_element.get('data-popuphtml', '')
             if not popup_html:
-                _LOGGER.debug("No popup HTML found for event")
+                _LOGGER.debug("YIWeHa: Found no popup HTML for event")
                 return None, None
 
             # Parse the HTML content of the popup
@@ -74,7 +73,7 @@ class YIWHScraper:
             # Extract event details
             title = popup_soup.find('h3').get_text() if popup_soup.find('h3') else ''
             if not title:
-                _LOGGER.debug("No title found in event popup")
+                _LOGGER.debug("YIWeHa: Found no title in event popup")
                 return None, None
 
             # Get the visible text (usually contains time and title)
@@ -92,7 +91,7 @@ class YIWHScraper:
             return title, datetime_str
 
         except Exception as e:
-            _LOGGER.exception("Error parsing event: %s", str(e))
+            _LOGGER.exception("YIWeHa: Error parsing event: %s", str(e))
             return None, None
 
     def parse_calendar_html(self, html_content):
@@ -106,10 +105,10 @@ class YIWHScraper:
         day_cells = soup.find_all('td', id=lambda x: x and x.startswith('td'))
 
         if not day_cells:
-            _LOGGER.error("No calendar day cells found in HTML")
-            raise ValueError("Calendar structure not found in response")
+            _LOGGER.error("YIWeHa: No calendar day cells found in HTML")
+            raise ValueError("YIWeHa: Calendar structure not found in response")
 
-        _LOGGER.debug("Found %d day cells in calendar", len(day_cells))
+        _LOGGER.debug("YIWeHa: Found %d day cells in calendar", len(day_cells))
 
         for cell in day_cells:
             try:
@@ -140,7 +139,7 @@ class YIWHScraper:
                             today.append(Event(datetime_str, title))
 
             except Exception as e:
-                _LOGGER.exception("Error processing day cell: %s", str(e))
+                _LOGGER.exception("YIWeHa: Error processing day cell: %s", str(e))
                 continue
 
         # Sort both lists
@@ -148,7 +147,7 @@ class YIWHScraper:
         havdalah.sort()
         today.sort()
 
-        _LOGGER.debug("Found %d candle lighting times and %d havdalah times",
+        _LOGGER.debug("YIWeHa: Found %d candle lighting times and %d havdalah times",
                       len(candle_lighting), len(havdalah))
 
         return {
@@ -173,21 +172,22 @@ class YIWHScraper:
                 f"view=month&month_view_type="
             )
 
-            _LOGGER.debug(f"Fetching calendar from URL: {url}")
+            _LOGGER.debug(f"YIWeHa: Fetching calendar from URL: {url}")
             response = requests.get(url, headers=self.headers, timeout=10)
 
             if response.status_code != 200:
-                _LOGGER.error("Failed to fetch calendar. Status code: %d", response.status_code)
-                raise ConnectionError(f"HTTP {response.status_code}: Failed to fetch calendar")
+                _LOGGER.error("YIWeHa: Failed to fetch calendar. Status code: %d", response.status_code)
+                raise ConnectionError(f"YIWeHa: HTTP {response.status_code}: Failed to fetch calendar")
 
-            _LOGGER.debug("Successfully fetched calendar page")
+            _LOGGER.debug("YIWeHa: Successfully fetched calendar page")
+            with open("response.txt", "w") as f: f.write(response.text)
             return self.parse_calendar_html(response.text)
 
         except requests.RequestException as e:
-            _LOGGER.error("Network error while fetching calendar: %s", str(e))
-            raise ConnectionError(f"Network error: {str(e)}")
+            _LOGGER.error("YIWeHa: Network error while fetching calendar: %s", str(e))
+            raise ConnectionError(f"YIWeHa: Network error: {str(e)}")
         except Exception as e:
-            _LOGGER.exception("Unexpected error while scraping calendar")
+            _LOGGER.exception("YIWeHa: Unexpected error while scraping calendar")
             raise
 
 

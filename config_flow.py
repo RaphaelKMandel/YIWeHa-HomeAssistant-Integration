@@ -24,29 +24,29 @@ def _validate_connection(scraper: YIWHScraper) -> tuple[list, list]:
 
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
-    _LOGGER.debug("Starting validation of YIWH Calendar input")
+    _LOGGER.debug("YIWeHa: Starting validation of YIWeHa Calendar input")
     scraper = YIWHScraper()
     
     try:
-        _LOGGER.debug("Attempting to scrape calendar")
+        _LOGGER.debug("YIWeHa: Attempting to scrape calendar")
         # Run the blocking scraper in an executor
         candle_lighting, havdalah = await hass.async_add_executor_job(
             _validate_connection, scraper
         )
         
         if not candle_lighting and not havdalah:
-            _LOGGER.error("No calendar events found in the response")
-            raise CannotConnect("No calendar events found")
+            _LOGGER.error("YIWeHa: No calendar events found in the response")
+            raise CannotConnect("YIWeHa: No calendar events found")
             
-        _LOGGER.info("Successfully validated calendar connection")
-        _LOGGER.debug("Found %d candle lighting times and %d havdalah times",
+        _LOGGER.info("YIWeHa: Successfully validated calendar connection")
+        _LOGGER.debug("YIWeHa: Found %d candle lighting times and %d havdalah times",
                      len(candle_lighting), len(havdalah))
         
     except ConnectionError as error:
-        _LOGGER.error("Connection error: %s", str(error))
+        _LOGGER.error("YIWeHa: Connection error: %s", str(error))
         raise CannotConnect(str(error)) from error
     except Exception as error:
-        _LOGGER.exception("Unexpected error during calendar validation")
+        _LOGGER.exception("YIWeHa: Unexpected error during calendar validation")
         raise UnknownError from error
 
     return {"title": "Young Israel West Hartford Calendar"}
@@ -66,10 +66,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             try:
                 info = await validate_input(self.hass, user_input)
             except CannotConnect as error:
-                _LOGGER.error("Connection failed: %s", str(error))
+                _LOGGER.error("YIWeHa: Connection failed: %s", str(error))
                 errors["base"] = "cannot_connect"
             except UnknownError as error:
-                _LOGGER.exception("Unknown error occurred")
+                _LOGGER.exception("YIWeHa: Unknown error occurred")
                 errors["base"] = "unknown"
             else:
                 return self.async_create_entry(title=info["title"], data=user_input)

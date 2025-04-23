@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    
+        <title>Calendar - Young Israel of West Hartford</title>
+    
+    <link rel="stylesheet" type="text/css" href="/admin/css/syncfusion.bootstrap-22.1.34.css?date=1710192302" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <!-- nprogress -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://images.shulcloud.com/static_files/js/6a64875860.js" type="text/javascript"></script>
+
+    <!-- User centrics cookie consent -->
+    <link rel="manifest" href="/dashboard/manifest.json">
+    <link rel="preconnect" href="//app.usercentrics.eu">
+    <link rel="preconnect" href="//api.usercentrics.eu">
+    <link rel="preload" href="//app.usercentrics.eu/browser-ui/latest/loader.js" as="script">
+                <script id="usercentrics-cmp"
+                    src="https://app.usercentrics.eu/browser-ui/latest/loader.js"
+                    data-settings-id="B6mNsZwfUIEqQt"
+                    async>
+            </script>
+            <script id="usercentrics-cmp"
+                    src="https://app.usercentrics.eu/browser-ui/latest/loader.js"
+                    data-settings-id="enDq0aXA_l_jMV"
+                    async>
+            </script>
+
+        <!-- StyleSheets -->
+                <link id="id_main_css"
+                  href="/css/global.css?date=1744855689"
+                  rel="stylesheet"
+                  type="text/css"
+                  media="screen"/>
+                            <link id="id_template_css"
+                      href="/templates/16/css/main.css?date=1744855691"
+                      rel="stylesheet"
+                      type="text/css"
+                      media="screen"/>
+               
+                <link href="/admin/css/jquery.ui.button.css" rel="stylesheet" type="text/css" media="screen"/>
+
+                                    <link rel="stylesheet"
+                          href="/css/print.css?date=1744855689"
+                          type="text/css"
+                          media="print"/>
+                                                    <link rel="apple-touch-icon" href="/mobile/images/apple_touch.png"/>
+                                    <link rel="shortcut icon"
+                  href="https://images.shulcloud.com/628/favicon/1473283115.ico"/>
+                    <link href="/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" media="screen"/>
+            <link href="/admin/css/jquery.multiselect.css" rel="stylesheet" type="text/css" media="screen"/>
+            <link href="/admin/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" media="screen"/>
+            <link rel="stylesheet" href="/admin/dropzone/dropzone.css">
+
+                            <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
+                <script type="text/javascript" src="/js/jquery-migrate-3.5.2.min.js"></script>
+            
+
+                        <script type='text/javascript' src='/js/jquery-ui-1.11.4-patched.js'></script>
+            <script type="text/javascript" src="/js/ckeditor-4.14.1/ckeditor.js?ver=1" charset="utf-8"></script>
+            <script type='text/javascript' src='/js/ckeditor-4.14.1/adapters/jquery.js'></script>
+            <script type='text/javascript' src="/admin/dropzone/dropzone.js"></script>
+            <script type='text/javascript' src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+            <script src="https://js.stripe.com/v3/"></script>
+            <script type='text/javascript'
+                    src='/admin/js/jquery.multiselect.min.js?date=1744855688'></script>
+            <script type='text/javascript'
+                    src='/admin/js/jquery.datetimepicker.js?1744855688'></script>
+
+                        <script>
+                var $j = jQuery.noConflict();
+                var in_testing = false;
+                var site_id = 628;
+                var site = 'www.youngisraelwh.org';
+                var popup_cal_display_format = "M/d/yyyy";
+                var jquery_popup_date_format = "m/d/yy";
+                var datepicker_date_format = "m/d/yy";
+                var datetimepicker_date_format = "m/d/Y";
+                var datetimepicker_format = "m/d/Y h:i A";
+                var datepicker_doubledigit_format = "mm/dd/yy";
+                var jqueryui_date_display = 'mm/dd/yy';
+                var jqueryui_datetime_display = 'mm/dd/yy hh:MM TT';
+                var jqueryui_date_format = 'mm/dd/yy';
+                var js_date_format = 'mm/dd/yyyy';
+                var fb_app_id = "589020364623599";
+                var sc_support_num = "";
+                var locale = 'en-us';
+
+                var dtp_time = 'g:i A';
+                var dtp_time_moment = 'hh:mm A';
+                var dtp_date = 'm/d/Y';
+                var dtp_date_moment = 'MM/DD/YYYY';
+                var dtp_date_time = 'm/d/Y g:i A';
+                var dtp_date_time_moment = 'MM/DD/YYYY hh:mm A';
+
+                //color util
+                                var overrides_in_action = 0;
+                /* console.log(overrides_in_action); */
+                var hue_override = false;
+                var base_color_override =false;
+                var light_shift_override =false;
+                var saturation_override =false;
+
+                                var facebook_login_url = '/login.php?action=login&login_mode=fb&url=https%3A%2F%2Fwww.youngisraelwh.org%2Fcalendar%3Fadvanced%3DY%26calendar%3D%26date_start%3Dspecific%2Bdate%26date_start_x%3D0%26date_start_date%3D2025-04-17%26has_second_date%3DY%26date_end%3Dspecific%2Bdate%26date_end_x%3D0%26date_end_date%3D2025-04-29%26view%3Dmonth%26month_view_type%3D&state=369bb0a9dfb2ba007f03135b6645e6b2bd8640265fa84827356b6258baa3bec4d1a26a279fe5b474755f9000533cb11ebf45fd83e09597600b187db3271e58a0';
+                                                //call before ckeditor is included
+                if (typeof CKEDITOR !== 'undefined') {
+                    CKEDITOR.disableAutoInline = true;
+                    CKEDITOR.timestamp = 'ABCD';
+                }
+                var https_inside_subdomain = "";
+            </script>
+                        
+
+            <script type="text/javascript"
+                    src="/js/main.js?date=1744855690"></script>
+
+
+                            <script type="text/javascript" src="/shared_js/CalendarPopupCombined.js"></script>
+                                <script>
+        var $ = jQuery;
+        window.$j = jQuery; 
+        window.$ = jQuery;
+    </script> 
+    <!-- Syncfusion global configuration-->
+    <script>
+        
+        //vars starting with _ are globals
+        var _useSyncfusionRTE = false;
+        var _useSyncfusionRTEPhase2 = false;
+        var _useLegacyMailToBEE = false;
+
+        //use closure to keep transient vars out of global namespace
+        (function(){
+            var isFlagEnabled = '';
+            var isPhase2FlagEnabled = '';
+            var isBeeFlagEnabled = '';
+            _useSyncfusionRTE = (isFlagEnabled == '1') ? true : false;
+            _useSyncfusionRTEPhase2 = (isPhase2FlagEnabled == '1') ? true : false;
+            _useLegacyMailToBEE = (isBeeFlagEnabled == '1') ? true : false;
+        })();
+
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="/admin/css/syncfusion.bootstrap-22.1.34.css?date=1744855688" />
+    <!-- style tag guarantees higher precedence than global and main.css 
+         ckeditor used an iframe so it didn't have to worry about rule collisions   
+    -->
+    <link href="/css/SidebarTopMenu.css" rel="stylesheet"/> 
+    <link href="/css/sidebar-flmenu.css" rel="stylesheet"/> 
+    <link href="/css/Tsearchbar.css" rel="stylesheet"/> 
+    <style>
+        div[id*='edit-view'] ul {
+            padding-inline-start: 40px;
+        }
+
+        div[id*='edit-view'] ul li {
+            list-style: disc;
+            display: list-item;
+            text-align: -webkit-match-parent;
+        }
+
+        .e-rte-elements.e-dialog .e-vid-uploadwrap.e-droparea {
+            display: none;
+        }
+    </style>
+
+    <!-- until we are ready to work with syncfusion Menu and Autocomplete components we are not
+    using ej2-24.1.41.min.js version -->
+    <!-- <script src="/js/syncfusion/ej2-24.1.41.min.js"></script> -->
+    <script src="/dashboard/js/ej2.min-22.1.34.js" type="text/javascript"></script>
+    <script>
+        ej.base.registerLicense('ORg4AjUWIQA/Gnt2V1hhQlJAfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5XdkxiXHxXdHdVQGNf');
+    </script>
+    <script src="/js/SyncfusionRTEFactory.js"></script>
+    <!-- END Syncfusion global configuration -->
+
+    <script>
+            </script>
+            <script type="text/javascript" src="/js/cke-content.js?date=1744855690"></script>
+
+    <link href="templates/16/css/calendar.css" rel="stylesheet" type="text/css" media="screen" />
+            <link href="/templates/16/css/color.parchment.dark.css?date=1744855691" rel="stylesheet" type="text/css" media="screen" />
+        <link href='https://images.shulcloud.com/628/css_override/1677272447.css' rel='stylesheet' type='text/css' />    <style>
+        .ui-widget-overlay{
+            z-index: 49 !important;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	
+    <!--[if lte IE 6]>
+    <style type="text/css" media="all">@import "css/main.ie.css";</style>
+    <script type="text/javascript" src="/js/ie6.js"></script>
+    <![endif]-->
+    
+        <meta property="fb:app_id" content="589020364623599"/>
+    
+        
+    
+     <!-- Admin (Internal Google Analytics Integration) -->
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+                  <script 
+                
+                async src="https://www.googletagmanager.com/gtag/js?id=G-G15Z9XMJ3K"></script>
+                <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-G15Z9XMJ3K');
+        </script>
+        
+    <!-- Client Google Analytics Integration -->
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+                  <script 
+                
+                async src="https://www.googletagmanager.com/gtag/js?id=G-WXP6GJK75T"></script>
+                <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-WXP6GJK75T');
+        </script>
+    </head>
+
+<body class="
+                 lang        "
+         >
+    <div id="bar-spinner-overlay" style="display:none;"></div>
+    <div id="bar-spinner-container" style="display:none;">
+    <div id="bar-spinner" style="display:block;">
+        <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <style>
+            .spinner_OSmW{
+                transform-origin:center;
+                animation:spinner_T6mA .75s step-end infinite;
+                stroke: #0068F5
+            }
+            @keyframes spinner_T6mA{
+                8.3%{transform:rotate(30deg)}
+                16.6%{transform:rotate(60deg)}
+                25%{transform:rotate(90deg)}
+                33.3%{transform:rotate(120deg)}
+                41.6%{transform:rotate(150deg)}
+                50%{transform:rotate(180deg)}
+                58.3%{transform:rotate(210deg)}
+                66.6%{transform:rotate(240deg)}
+                75%{transform:rotate(270deg)}
+                83.3%{transform:rotate(300deg)}
+                91.6%{transform:rotate(330deg)}
+                100%{transform:rotate(360deg)}
+            }
+            </style>
+            <g class="spinner_OSmW">
+                <rect x="11" y="1" width="2" height="5" opacity=".14"/>
+                <rect x="11" y="1" width="2" height="5" transform="rotate(30 12 12)" opacity=".29"/>
+                <rect x="11" y="1" width="2" height="5" transform="rotate(60 12 12)" opacity=".43"/>
+                <rect x="11" y="1" width="2" height="5" transform="rotate(90 12 12)" opacity=".57"/>
+                <rect x="11" y="1" width="2" height="5" transform="rotate(120 12 12)" opacity=".71"/>
+                <rect x="11" y="1" width="2" height="5" transform="rotate(150 12 12)" opacity=".86"/>
+                <rect x="11" y="1" width="2" height="5" transform="rotate(180 12 12)"/>
+            </g>
+        </svg>
+    </div>
+    </div>
+    <div id="fb-root"></div>
+    
+        
+    <div id="header_login_menu" class="header_menu" >
+                    <form class="head_signin" name="loginFrmHead" method="POST" action="https://www.youngisraelwh.org/login.php">
+                <input type="hidden" name="sccsrf" value="6ae859a4362981fbf544cb8edbd8c40c"/>
+                <input type="hidden" name="redirect" value="https://www.youngisraelwh.org/calendar%3Fadvanced%3DY%26calendar%3D%26date_start%3Dspecific%2Bdate%26date_start_x%3D0%26date_start_date%3D2025-04-17%26has_second_date%3DY%26date_end%3Dspecific%2Bdate%26date_end_x%3D0%26date_end_date%3D2025-04-29%26view%3Dmonth%26month_view_type%3D" />
+                <input type="hidden" name="action" value="login" />
+
+                <input type="text" name="email" class="input_area login_form_email"  placeholder="Email Address"/>
+                <input type="password" name="password" class="input_area" placeholder="Password" autocomplete="off"/>
+                
+                                
+                <a href='#' class="header_button"  onclick="document.loginFrmHead.submit();return false;"
+                style="margin:0; margin-bottom:9px;">
+                    Sign In</a>
+                <input type="submit" style="display:none"/>
+
+                <a style="display: inline-block; margin-top: -6px; margin-bottom: 5px; padding-left: 10px;
+                color: black; font-size: 10px;" href="/login.php?action=forgot">Forgot Password</a>
+
+                
+                    <hr class="login_dropdown_line"/>
+                    <span class="extra_login_text">or Sign In With</span>
+                                            <img src='/pics/facebook-icon.png' class="fb_login"/>
+                                        
+                            </form>
+            </div>
+<div id="container">
+    <div id="sessionTimeOutContainer"></div>
+                    <div id="header">
+                <a id="mobile_nav_dropdown" href="#" class="visible-xs" style="display:none">&nbsp;</a>
+                <div id="header_inner">
+                    <span class="hosted_by_text">
+                        Powered By <a href="https://www.shulcloud.com/">ShulCloud</a>                    </span>
+
+                    <div id="header_buttons" class="clearfix">
+                                                                        <div class="column">
+                                <a href="https://www.youngisraelwh.org/login.php?url=https://www.youngisraelwh.org/calendar%3Fadvanced%3DY%26calendar%3D%26date_start%3Dspecific%2Bdate%26date_start_x%3D0%26date_start_date%3D2025-04-17%26has_second_date%3DY%26date_end%3Dspecific%2Bdate%26date_end_x%3D0%26date_end_date%3D2025-04-29%26view%3Dmonth%26month_view_type%3D">
+                                    <div id="loginLabel" class="sr-only">Log in</div>
+                                    <div class="header_button" aria-labelledby="loginLabel">Log in</div>
+                                </a>
+                            </div>    
+                                                                                    </div>
+                </div>
+            </div>
+            <!-- End #header -->
+                                                        
+            <div id="content" class=" contentBoxDiv" >
+                                    <div id="topnav"></div>
+                 
+                                <div id="quick_links_search_wrapper">
+                    <div id="quick_links_search">
+                                                    <div class="search_area_wrapper">
+                                <div class="search_area_2">
+                                    <form method="get" action="https://www.google.com/search">
+                                        <input type="text"   name="q"
+                                        maxlength="255" value="" />
+                                        <input type="submit" value="Go" />
+                                        <input type="hidden"  name="sitesearch"
+                                        value="https://www.youngisraelwh.org/" />
+                                    </form>
+                                </div>
+                            </div>
+                                            </div>
+                </div>
+                                <div id="sidebar_left">
+                    <div id="img_div">
+                                                    <a href="https://www.youngisraelwh.org/"><img src=
+                                "https://images.shulcloud.com/628/logo/1473283164.img"
+                            alt="Logo for Young Israel of West Hartford" /></a>
+                                                                    </div>
+                    <div class="bt"></div>
+
+                    <div id="mainnav"
+                                            >   
+                        <ul id="nav_section">
+                                                        <li class=" no_subcontent">
+                                    <a href="https://www.youngisraelwh.org/">Home</a>
+                                                                </li>
+                                                        <li class="">
+                                    <a href="javascript:;">About<span></span></a>
+                                            <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/congregation">
+                    About Us                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/rabbi">
+                    Our Rabbi                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/communityscholar">
+                    Our Community Scholar/Yoetzet Halacha                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/contact">
+                    Contact &amp; Directions                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/minyan-schedule.html">
+                    Minyan Schedule                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/stayconnected">
+                    Stay Connected                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/soh-chazak">
+                    Chazak Society Scroll of Honor                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/photo_gallery.php">
+                    Photo Albums                                </a>
+                            </li>
+                </ul>
+                                </li>
+                                                        <li class="">
+                                    <a href="javascript:;">Learn<span></span></a>
+                                            <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/weeklylearning">
+                    Weekly Learning Opporunities                                </a>
+                            </li>
+                    <li class="subnav_has_children">
+                <a href="https://www.youngisraelwh.org/audio-classes">
+                    Audio Classes                <span></span>                </a>
+                        <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/minofmish">
+                    Minutes of Mishna                                </a>
+                            </li>
+                </ul>
+                </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/jeremiasmemoriallecture">
+                    Margot Jeremias  Memorial Lectures                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/archives">
+                     Weisel Learning Packets- Archives                                </a>
+                            </li>
+                </ul>
+                                </li>
+                                                        <li class="">
+                                    <a href="javascript:;">Youth<span></span></a>
+                                            <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/youthdirector">
+                    Youth Director                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/youth/yiwhyouthdepartment">
+                    Youth Department                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/dorldor">
+                    Weisel Dor L&#039;Dor Family Learning                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/past-youth-events">
+                    Past Youth Events                                </a>
+                            </li>
+                </ul>
+                                </li>
+                                                        <li class="">
+                                    <a href="javascript:;">Events<span></span></a>
+                                            <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/upcoming-events">
+                    Upcoming Events                                </a>
+                            </li>
+                    <li class="subnav_has_children">
+                <a href="https://www.youngisraelwh.org/past-events">
+                    Past Events                <span></span>                </a>
+                        <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/events-5782">
+                    Past Events 2021-2022                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/events-5781">
+                    Events 2020-2021                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/50th">
+                    50th Anniversary Celebration                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/events-5780">
+                    Events 2019-2020                                </a>
+                            </li>
+                </ul>
+                </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/bulletin">
+                    Weekly Bulletin                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/kiddush">
+                    Sponsor a Kiddush                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/seudahshlishit">
+                    Seudah Shlishit                                </a>
+                            </li>
+                    <li class="subnav_has_children">
+                <a href="https://www.youngisraelwh.org/israel">
+                    Israel                <span></span>                </a>
+                        <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/abk">
+                    Amiel BaKehila in West Hartford                                </a>
+                            </li>
+                </ul>
+                </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/simcha">
+                    Host Your Simcha                                </a>
+                            </li>
+                    <li class="">
+                <a href="">
+                                                    </a>
+                            </li>
+                </ul>
+                                </li>
+                                                        <li class="">
+                                    <a href="javascript:;">Jewish West Hartford<span></span></a>
+                                            <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/aboutourtown">
+                    About West Hartford                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/growwesthartford">
+                    Jewish West Hartford                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/eruv">
+                    Eruv                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/mikveh">
+                    Mikveh                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/schools">
+                    Schools                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/employment">
+                    Employment                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/yedei-chesed">
+                    YIWH Yedei Chesed                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/other-jewish-resources">
+                    Other Jewish Resources                                </a>
+                            </li>
+                </ul>
+                                </li>
+                                                        <li class="">
+                                    <a href="javascript:;">Donate<span></span></a>
+                                            <ul>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/payment.php">
+                    Make a Donation                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/chazak">
+                    Join Our Chazak Society                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/kiddush">
+                    Sponsor a Kiddush                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/seudahshlishit">
+                    Sponsor A Seudat Shlishit                                </a>
+                            </li>
+                    <li class="">
+                <a href="https://www.youngisraelwh.org/scrip-program">
+                    Scrip Programs                                </a>
+                            </li>
+                </ul>
+                                </li>
+                                                        <li class=" no_subcontent">
+                                    <a href=""></a>
+                                                                </li>
+                                                        <li class=" no_subcontent">
+                                    <a href=""></a>
+                                                                </li>
+                                                        <li class=" no_subcontent">
+                                    <a href=""></a>
+                                                                </li>
+                                                    </ul>
+                    </div>
+                                        <div class="bb"></div>
+                </div>
+                                <div id="maincontent" class="cal                     full_width">
+                <div class="pad-helper">
+                    <script>
+        var notificationTooltip = new ej.popups.Tooltip({
+            tipPointerPosition: "Middle",
+            position: "BottomCenter",
+            tabIndex: 0,
+            style: 'display: inline-block;',
+            windowCollision: true,
+            width: '160px',
+            height: '30px',
+            target: '#notify_div',
+            content: 'Notification'
+        });
+
+        notificationTooltip.appendTo('#notify_div');
+
+        let jsonString = 'false';
+
+        //\n need to be removed from the string because it is not required and creating problems while parsing
+        jsonString = jsonString.replace(/\n/g, "");
+        let jsonObject = JSON.parse(jsonString);
+        
+        let dataString = "[";
+        let ObjectKeys = Object.keys(jsonObject);
+
+        if (ObjectKeys.length > 0) {
+            //Creating the required object for notification syncfusion component
+            //loop for the main category's
+            ObjectKeys.forEach((subCat, indexMain) => {
+                //loop for the subcategory's
+                Object.values(jsonObject[subCat]).forEach((value, index) => {
+                    //number count should be there in api response
+                    if (value?.alert_num) {
+
+                        let alertNum = value['alert_num'] || '';
+                        let alertText = value['alert_text'] || 'No Details';
+                        let alertLink = (value['link']) ? encodeURIComponent(value['link']) : '#';
+
+                        //SHWR-12810 : point number 7 , need to break the notifications for Online Payments
+                        if (typeof alertNum == "string" && value['name'] == 'Online Payments' &&
+                            alertNum.includes("/")) {
+                            let alertNumArray = alertNum.split("/");
+                            //variable to prevent display `failing payment update` 
+                            //notification multiple times
+                            let paymentLink2Update = false;
+                            Object.values(alertNumArray).forEach((ovalue, oindex) => {
+                                ovalue = ovalue.replace(/ |'/g, '');
+                                //checking the possiblities of 
+                                //all 3 types of payment notification display
+                                if (oindex == 0) {
+                                    if(value?.payment_link1) {
+                                        alertText = "You have public " + ovalue + " online payments waiting";
+                                        alertLink = (value['payment_link1']) 
+                                                ? encodeURIComponent(value['payment_link1']) : '#';
+                                    } 
+                                    else if(value?.payment_link2) {
+                                        paymentLink2Update = true;
+                                        alertText = "You have " + ovalue + " failing payments";
+                                        alertLink = (value['payment_link2']) 
+                                                ? encodeURIComponent(value['payment_link2']) : '#';
+
+                                    } 
+                                    else if(value?.payment_link3) {
+                                        alertText = "You have " + ovalue + " pending payments";
+                                        alertLink = (value['payment_link3']) 
+                                                ? encodeURIComponent(value['payment_link3']) : '#';
+                                    }
+                                } //checking if failling or pending payments notification is available
+                                else if (oindex == 1) {
+                                    if(value?.payment_link2 && paymentLink2Update == false) {
+                                        alertText = "You have " + ovalue + " failing payments";
+                                        alertLink = (value['payment_link2']) 
+                                                ? encodeURIComponent(value['payment_link2']) : '#';
+
+                                    } 
+                                    else if(value?.payment_link3) {
+                                        alertText = "You have " + ovalue + " pending payments";
+                                        alertLink = (value['payment_link3']) 
+                                                ? encodeURIComponent(value['payment_link3']) : '#';
+
+                                    }
+                                } //checking if pending payments notification is available
+                                else if (oindex == 2 && value?.payment_link3) {
+                                    alertText = "You have " + ovalue + " pending payments";
+                                    alertLink = (value['payment_link3']) 
+                                                ? encodeURIComponent(value['payment_link3']) : '#';
+                                }
+
+                                if (dataString != '[') {
+                                    dataString += ", ";
+                                }
+                                dataString += "{id: '', title: '" + value['name'] + "', description: '" +
+                                    alertText + "', link: '" + alertLink + "'}";
+                            });
+                        } 
+                        else {
+                            if (dataString != '[') {
+                                dataString += ", ";
+                            }
+                            
+                            //SHWR-14926 : Implement deep links for online payments notifications
+                            //case : if only 1 payment notification is available
+                            if (value['name'] == 'Online Payments') {
+                                for(var i=1; i<=3; i++) {
+                                    if(value['payment_link'+i]) {
+                                        alertLink = (value['payment_link'+i]) 
+                                                    ? encodeURIComponent(value['payment_link'+i]) : '#';
+                                    }
+                                }
+                            }
+                            alertText = alertText.replace(/\n/g, "");
+                            dataString += "{id: '', title: '" + value['name'] + "', description: '" +
+                                alertText + "', link: '" + alertLink + "'}";
+                        }
+                    }
+                });
+            });
+        }
+
+        dataString += "]";
+        dataString = dataString.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
+        dataString = dataString.replace(/'/g, '"');
+        dataString = JSON.parse(dataString);
+
+        if (dataString.length > 0) {
+            var template = '<div ${if(category!==null)} class = "clearfix desc e-list-wrapper ' +
+                'e-list-multi-line e-list-avatar" ${else} class = "clearfix e-list-wrapper ' +
+                'e-list-multi-line e-list-avatar" ${/if}><a class="e-avatar notification_ancher" ' +
+                'name="${link}" href="javascript:void(0)">View</a><span class="e-list-item-header">${title}<br/></span>' +
+                '<span class="e-list-content e-text-overflow" >${description} </span>';
+
+            //Initialize ListView component
+            var templateObj = new ej.lists.ListView({
+
+                //Set defined data to dataSource property
+                dataSource: dataString,
+
+                //Set defined customized template
+                template: template,
+
+                //Set header title
+                headerTitle: 'Notifications',
+
+                cssClass: 'e-list-template',
+
+                //Set true to show header title
+                showHeader: true,
+
+                //bind event to customize ListView
+                actionComplete: onComplete
+            });
+            //Render initialized ListView component
+            templateObj.appendTo('#lists');
+        } 
+
+        function onComplete() {
+            var listHeader = templateObj.element.childNodes?.[0];
+            var header = listHeader.childNodes?.[0];
+            if (header.style.display === 'none' || listHeader.childNodes.length === 3) {
+                if (listHeader.childNodes?.[2] != null) {
+                    var childHeader = listHeader.childNodes[2];
+                    childHeader.remove();
+                }
+            } 
+            else {
+                var headerEle = templateObj.element.querySelector('.e-list-header');
+                var headerElement = templateObj.element.querySelector('#list-logo');
+                var clone = headerElement.cloneNode(true);
+                headerEle.appendChild(clone);
+            }
+        }
+
+        jQuery(function($) {
+            notificationTooltip.content = "You have no notifications";
+            if (dataString?.length > 0) {
+                $('#notificationCount').text(dataString?.length);
+                notificationTooltip.content = "You have " + dataString?.length + " notifications";
+                $('.e-badge').show();
+            }
+
+            $('#notify_div').click(function() {
+                $('#lists').toggle();
+            });
+
+            $('#notificationCount').click(function(e) {
+                $('#lists').toggle();
+                e.stopPropagation();
+            });
+
+            $("#content-panel").on("click", function(e) {
+                let allClass = ['#notify', '.e-list-content', '.e-list-item-header',
+                    '.e-list-avatar', '.e-list-header', '.notification_ancher', '#notificationCount'
+                ];
+                let notificationHide = true;
+                allClass.forEach((value, index) => {
+                    if ($(e.target).is("" + value + "")) {
+                        notificationHide = false;
+                    }
+                });
+                if (notificationHide == true) {
+                    $('#lists').hide();
+                }
+            });
+
+            $('.notification_ancher').click(function() {
+                let url = $(this).attr('name');
+                window.open(decodeURIComponent(url), "_blank");
+            });
+        });
+    </script>
+    <style>
+        .e-badge {
+            background-color: #CD402C !important;
+        }
+
+        .badge-default {
+            padding: 10px 17px 0px 0px;
+        }
+
+        .notify {
+            color: #2a3f54;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+        .e-badge.e-badge-overlap {
+            top: -18px;
+        }
+
+        .e-listview.e-list-template .e-list-wrapper.e-list-multi-line.e-list-avatar .notification_ancher {
+            left: 364px !important;
+            border: 1px solid #55bff7 !important;
+            background-color: #fff !important;
+            color: #55bff7;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .e-listview.e-list-template .e-list-wrapper.e-list-multi-line .e-list-item-header {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .e-listview {
+            position: absolute;
+            width: 428px;
+            margin-top: 30px;
+            z-index: 1000;
+            transform: translate3d(-400px, 5px, 0px);
+        }
+
+        .e-listview .e-list-item {
+            cursor: default;
+        }
+
+        .e-listview.e-list-template .e-list-wrapper.e-list-multi-line .e-list-content {
+            font-size: 12px;
+        }
+
+        .e-listview .e-list-header #list-logo {
+            margin-top: 2.5px;
+            position: absolute;
+            right: 20px;
+        }
+
+        .e-listview.e-rtl .e-list-header #list-logo {
+            margin-top: 2.5px;
+            position: absolute;
+            right: 280px;
+        }
+
+        #lists.e-listview {
+            box-shadow: 0px 4px 4px 0px #00000040;
+            border: 1px solid #DEE2E6;
+            border-radius: 4px;
+        }
+
+        .e-listview.e-rtl.e-list-template .e-list-wrapper.e-list-avatar:not(.e-list-badge) {
+            padding-left: 1.0666em;
+            padding-right: 18px;
+        }
+
+        .e-listview.e-list-template .e-list-wrapper.e-list-avatar:not(.e-list-badge) {
+            padding-left: 18px;
+            padding-right: 1.0666em;
+        }
+        #notify_div {
+            height: 15px;
+        }
+    </style>
+        
+
+<style>
+    .site_sponsor_new_css {  
+        position: relative;
+        text-align: right;
+        max-width: 1000px;
+        margin: 13px auto;
+    }
+</style>
+  
+
+    <h2 id="calendar_page_header">Calendar of Events</h2>
+<span id="calendar_page_head_info"></span><style>
+    @media print { 
+        #launcher { 
+            display: none; 
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .calender_table_custom_margin {
+            margin-left:-12px;
+        }
+    }
+</style>
+
+<form name="calFilter" method="GET" action="/calendar" id="filterFrm" style="display:none">
+    <fieldset>
+        <input type="hidden" name="advanced" id="advanced_mode"
+            checked="checked"value="Y"/>
+        <table class="calendar_table calender_table_custom_margin" width="100%" cellspacing="0" cellpadding="0">
+
+
+                              <tr>
+                    <td align="right" width="30%">Calendars to Show</td>
+                    <td width="50%">
+                                  <script>
+                $j(document).ready(function(){
+                    var selection_changed = false;
+                    $j("#calendar_select")
+                    .css('width','250px').multiselect({
+                        selectedList: 5,
+                        height: "400",
+                                                    'header': true,
+                            'noneSelectedText':"Filter Calendar",
+                                                uncheckAllText: 'Uncheck All',
+                        checkAllText: 'Check All',
+                        beforeclose: function(){
+                            var $input = $j("input[name='calendar']");
+                            var old = $input.val();
+                            var tmp = '';
+                            $j("#calendar_select").multiselect("getChecked").map(
+                            function(){
+                               tmp += (tmp!=''?',':'')+this.value;	
+                            }).get();
+                            $input.val(tmp);
+                            selection_changed = (old!=tmp);
+                        },
+                        close : function(){
+                            if(selection_changed){
+                                 autoSubmitForCalendars();                            }
+                        }
+                    })
+                    .multiselect('uncheckAll')
+                    .multiselect("widget").find("input").each(function(){
+                       //click the ones that are selected
+                       val = $j("input[name='calendar']").val();
+                       if(!isNaN(val)){
+                           if(val == $j(this).val())this.click();
+                       }
+                       else {
+                           checked = val.split(',');
+                           if($j.inArray($j(this).val(),checked)>=0) this.click();
+                       }
+                    });
+                                    });
+                
+            </script>
+            <select  id="calendar_select" multiple="multiple">
+
+                                <optgroup label="Calendars">
+                
+				                <option value="0">
+                    General                </option>
+				
+                                    <option value="2629">
+                        Kiddush                    </option>
+                                                        <option value="17599">
+                        Yoetzet                    </option>
+                                                        <option value="5598">
+                        Youth                    </option>
+                                                                        </optgroup>
+                
+                <optgroup label="Lifecycles">                    
+                                                                                                                                                                                </optgroup>
+                            </select> 
+            <input name="calendar" type="hidden" value=""/>
+            
+                            </td>
+                    <td align="right">
+                        <a href="#" id="advanced_mode_button">More Filters/Views</a>                    </td>
+                 </tr>
+             
+             <tr>
+                <td align="right" valign="top" width="30%">Date</td>
+                <td class="date_area" width="50%">
+                                <select name="date_start" class="relative_date">
+                <option value="none">none</option>
+<option value="today">today</option>
+<option value="specific date" selected>specific date</option>
+<option value="beginning of this month">beginning of this month</option>
+<option value="end of this month">end of this month</option>
+<option value="beginning of this year">beginning of this year</option>
+<option value="end of this year">end of this year</option>
+<option value="beginning of fiscal year">beginning of fiscal year</option>
+<option value="end of fiscal year">end of fiscal year</option>
+<option value="_ days from now">_ days from now</option>
+<option value="_ days ago">_ days ago</option>
+<option value="_ months from now">_ months from now</option>
+<option value="beginning of _ months from now">beginning of _ months from now</option>
+<option value="end of _ months from now">end of _ months from now</option>
+<option value="_ months ago">_ months ago</option>
+<option value="beginning of _ months ago">beginning of _ months ago</option>
+<option value="end of _ months ago">end of _ months ago</option>
+<option value="_ years from now">_ years from now</option>
+<option value="beginning of _ years from now">beginning of _ years from now</option>
+<option value="end of _ years from now">end of _ years from now</option>
+<option value="_ years ago">_ years ago</option>
+<option value="beginning of _ years ago">beginning of _ years ago</option>
+<option value="end of _ years ago">end of _ years ago</option>
+<option value="Earliest date in use">Earliest date in use</option>
+<option value="Last date in use">Last date in use</option>            </select>
+            <input type="number" name="date_start_x" value="0" style="display: none; width: 50px;"/>
+            <input type="text"
+                   class="relative_date_display"
+                   value="04/17/2025"
+                   style="display: none;"/>
+            <input type="hidden" name="date_start_date" value="2025-04-17"/>
+                                <span class="second_date advanced_option">
+                        <label class="has_second_date_label">
+                            <input name="has_second_date" value="Y" checked                                type="checkbox"/>
+                                Through another date                        </label><br/>
+                        <div class="date_end_box">
+                                        <select name="date_end" class="relative_date">
+                <option value="none">none</option>
+<option value="today">today</option>
+<option value="specific date" selected>specific date</option>
+<option value="beginning of this month">beginning of this month</option>
+<option value="end of this month">end of this month</option>
+<option value="beginning of this year">beginning of this year</option>
+<option value="end of this year">end of this year</option>
+<option value="beginning of fiscal year">beginning of fiscal year</option>
+<option value="end of fiscal year">end of fiscal year</option>
+<option value="_ days from now">_ days from now</option>
+<option value="_ days ago">_ days ago</option>
+<option value="_ months from now">_ months from now</option>
+<option value="beginning of _ months from now">beginning of _ months from now</option>
+<option value="end of _ months from now">end of _ months from now</option>
+<option value="_ months ago">_ months ago</option>
+<option value="beginning of _ months ago">beginning of _ months ago</option>
+<option value="end of _ months ago">end of _ months ago</option>
+<option value="_ years from now">_ years from now</option>
+<option value="beginning of _ years from now">beginning of _ years from now</option>
+<option value="end of _ years from now">end of _ years from now</option>
+<option value="_ years ago">_ years ago</option>
+<option value="beginning of _ years ago">beginning of _ years ago</option>
+<option value="end of _ years ago">end of _ years ago</option>
+<option value="Earliest date in use">Earliest date in use</option>
+<option value="Last date in use">Last date in use</option>            </select>
+            <input type="number" name="date_end_x" value="0" style="display: none; width: 50px;"/>
+            <input type="text"
+                   class="relative_date_display"
+                   value="04/29/2025"
+                   style="display: none;"/>
+            <input type="hidden" name="date_end_date" value="2025-04-29"/>
+                                    </div>
+                    </span>
+                </td>
+                <td align="right"></td>
+             </tr>
+
+            <tr class="advanced_option">
+                <td align="right" valign="top">Layout</td>
+                <td>
+                   <div id="calendar_type_selector">
+                        <span class="hidden-xs">
+                            <input name="view" type="radio" id="view_month" value="month"
+                            checked value=""/>
+                            <label for="view_month">Month</label>
+                        </span>
+
+                        <input name="view" type="radio" value="week" id="view_week"
+                         />
+                        <label for="view_week">Week</label>
+
+                        <input name="view" type="radio" value="day" id="view_day"
+                        />
+                        <label for="view_day">Day</label>
+
+                                            </div>
+
+                    <div class="for_week for_day">
+                        <div style="clear:both;height10px;"></div>
+                        <div id="day_view_selector">
+                             <input name="day_view_horizontal" type="radio" value="N" id="day_view_selector_N"
+                             checked/>
+                            <label for="day_view_selector_N">Regular</label>
+                             <input name="day_view_horizontal" type="radio" value="Y" id="day_view_selector_Y"
+                             />
+                            <label for="day_view_selector_Y">Compressed</label>
+
+                        </div>
+                    </div>
+
+                     <div class="for_month">
+                        <div style="clear:both;height10px;"></div>
+                        <div id="month_view_selector">
+                             <input name="month_view_type" type="radio" value="" id="month_view_type_none"
+                             checked/>
+                            <label for="month_view_type_none">Screen</label>
+                            <input name="month_view_type" type="radio" value="pdf" id="month_view_type_pdf"
+                             />
+                            <label for="month_view_type_pdf">PDF</label>
+                            <input name="month_view_type" type="radio" value="rtf" id="month_view_type_rtf"
+                             />
+                            <label for="month_view_type_rtf">Word Document</label>
+                        </div>
+                    </div>
+                                    </td>
+                <td>&nbsp;</td>
+            </tr>
+
+                          <tr class="advanced_option for_pdf for_rtf">
+                <td align="right" valign="top">Information to Include</td>
+                <td>
+
+                    <input id="showSS" type="checkbox" name="show_sunrise_sunset" value="Y" checked/>
+                    <label for="showSS">Sunrise & Sunset Times</label><br/>
+                                                        </td>
+                <td>&nbsp;</td>
+             </tr>
+
+              
+              <tr class="">
+                <td colspan="3" align="center">
+                    <input type="submit" id="submit_button" value="Update View">
+                    &nbsp;
+                    <a href="#" onclick="javascript:window.print()">Print</a>
+                    &nbsp;
+                    <a href="/calendar">Clear</a>
+                </td>
+
+             </tr>
+        </table>
+	</fieldset>
+	</form>
+
+        <table border="0" cellspacing="0" cellpadding="0"
+                class="hidden-xs calendar calendar_main " width="100%">
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tues</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td  id="td1744862400"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-17">
+                <span class="day">17 Apr</span><span class="jewishDay">Nisan 19</span></a></div><div class="sedra">Chol Hamoed Pesach</div><div class="sedra">4th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Thu, Apr 17th&lt;br/&gt;6:30am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:30am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Mincha/Maariv&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Thu, Apr 17th&lt;br/&gt;7:15pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >7:15pm Mincha/Maariv</li></ul></div></td><td  id="td1744959600"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-18">
+                <span class="day">18 Apr</span><span class="jewishDay">Nisan 20</span></a></div><div class="sedra">Chol Hamoed Pesach</div><div class="sedra">5th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Fri, Apr 18th&lt;br/&gt;6:30am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:30am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;a href=&quot;/event/candle-lighting7.html&quot;&gt;&lt;h3&gt;Candle Lighting&lt;/h3&gt;&lt;/a&gt;&lt;div class=&quot;datetime&quot;&gt; Fri, Apr 18th&lt;br/&gt;7:17pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;
+                                         &lt;a href=&quot;/event/candle-lighting7.html&quot;&gt;Go to event &amp;raquo;&lt;/a&gt;&lt;/div&gt;' >7:17pm Candle Lighting</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;a href=&quot;/event/mincha-and-kabbalat-shabbat1.html&quot;&gt;&lt;h3&gt;Mincha and Kabbalat Shabbat&lt;/h3&gt;&lt;/a&gt;&lt;div class=&quot;datetime&quot;&gt; Fri, Apr 18th&lt;br/&gt;7:22pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;
+                                         &lt;a href=&quot;/event/mincha-and-kabbalat-shabbat1.html&quot;&gt;Go to event &amp;raquo;&lt;/a&gt;&lt;/div&gt;' >7:22pm Mincha and Kabbalat Shabbat</li></ul></div></td><td  id="td1745046000"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-19">
+                <span class="day">19 Apr</span><span class="jewishDay">Nisan 21</span></a></div><div class="sedra">Pesach</div><div class="sedra">6th Day Omer</div><div class="sedra"></div><div class="clear"></div><ul><li  title="Shabbat-Winter"  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sat, Apr 19th&lt;br/&gt;9:00am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;Shabbat-Winter&lt;/div&gt;' >9:00am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;a href=&quot;/event/mincha3.html&quot;&gt;&lt;h3&gt;Mincha&lt;/h3&gt;&lt;/a&gt;&lt;div class=&quot;datetime&quot;&gt; Sat, Apr 19th&lt;br/&gt;7:10pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;
+                                         &lt;a href=&quot;/event/mincha3.html&quot;&gt;Go to event &amp;raquo;&lt;/a&gt;&lt;/div&gt;' >7:10pm Mincha</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;a href=&quot;/event/maariv3.html&quot;&gt;&lt;h3&gt;Maariv&lt;/h3&gt;&lt;/a&gt;&lt;div class=&quot;datetime&quot;&gt; Sat, Apr 19th&lt;br/&gt;7:40pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;
+                                         &lt;a href=&quot;/event/maariv3.html&quot;&gt;Go to event &amp;raquo;&lt;/a&gt;&lt;/div&gt;' >7:40pm Maariv</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;a href=&quot;/event/candle-lighting-after1.html&quot;&gt;&lt;h3&gt;Candle Lighting After&lt;/h3&gt;&lt;/a&gt;&lt;div class=&quot;datetime&quot;&gt; Sat, Apr 19th&lt;br/&gt;8:20pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;
+                                         &lt;a href=&quot;/event/candle-lighting-after1.html&quot;&gt;Go to event &amp;raquo;&lt;/a&gt;&lt;/div&gt;' >8:20pm Candle Lighting After</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;a href=&quot;/event/kiddush-including-havdalah.html&quot;&gt;&lt;h3&gt;Kiddush (Including Havdalah)&lt;/h3&gt;&lt;/a&gt;&lt;div class=&quot;datetime&quot;&gt; Sat, Apr 19th&lt;br/&gt;8:20pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;
+                                         &lt;a href=&quot;/event/kiddush-including-havdalah.html&quot;&gt;Go to event &amp;raquo;&lt;/a&gt;&lt;/div&gt;' >8:20pm Kiddush (Including Havdalah)</li></ul></div></td></tr><tr><td  id="td1745132400"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-20">
+                <span class="day">20 Apr</span><span class="jewishDay">Nisan 22</span></a></div><div class="sedra">Pesach</div><div class="sedra">Yizkor</div><div class="sedra">7th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 20th&lt;br/&gt;9:00am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >9:00am Shacharit</li><li  title="Pesach Yizkor"  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Yizkor&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 20th&lt;br/&gt;10:20am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;Pesach Yizkor&lt;/div&gt;' >10:20am Yizkor</li><li  title="Mincha"  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Mincha &lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 20th&lt;br/&gt;7:10pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;Mincha&lt;/div&gt;' >7:10pm Mincha </li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;a href=&quot;/event/seudat-mashiach.html&quot;&gt;&lt;h3&gt;Seudat Moshiach&lt;/h3&gt;&lt;/a&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 20th&lt;br/&gt;7:30pm -&lt;br/&gt;8:00pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;
+                                         &lt;a href=&quot;/event/seudat-mashiach.html&quot;&gt;Go to event &amp;raquo;&lt;/a&gt;&lt;/div&gt;' >7:30pm Seudat Mashiach</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Maariv and Yom Tov Ends&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 20th&lt;br/&gt;8:21pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >8:21pm Maariv and Yom Tov Ends</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Chametz Sold with Rabbi may be eaten&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 20th&lt;br/&gt;9:15pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >9:15pm Chametz Sold with Rabbi may be eaten</li></ul></div></td><td  id="td1745218800"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-21">
+                <span class="day">21 Apr</span><span class="jewishDay">Nisan 23</span></a></div><div class="sedra">8th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Mon, Apr 21st&lt;br/&gt;6:40am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:40am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;&lt;a name=YIWH class=YIWH&gt;Mincha/Maariv&lt;/a&gt;&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Mon, Apr 21st&lt;br/&gt;7:25pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >7:25pm <a name=YIWH class=YIWH>Mincha/Maariv</a></li></ul></div></td><td  id="td1745305200"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-22">
+                <span class="day">22 Apr</span><span class="jewishDay">Nisan 24</span></a></div><div class="sedra">9th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Tue, Apr 22nd&lt;br/&gt;6:45am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:45am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;&lt;a name=YIWH class=YIWH&gt;Mincha/Maariv&lt;/a&gt;&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Tue, Apr 22nd&lt;br/&gt;7:25pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >7:25pm <a name=YIWH class=YIWH>Mincha/Maariv</a></li></ul></div></td><td class=" today " id="td1745391600"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-23">
+                <span class="day">23 Apr</span><span class="jewishDay">Nisan 25</span></a></div><div class="sedra">10th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Wed, Apr 23rd&lt;br/&gt;6:45am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:45am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;&lt;a name=YIWH class=YIWH&gt;Mincha/Maariv&lt;/a&gt;&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Wed, Apr 23rd&lt;br/&gt;7:25pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >7:25pm <a name=YIWH class=YIWH>Mincha/Maariv</a></li></ul></div></td><td  id="td1745478000"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-24">
+                <span class="day">24 Apr</span><span class="jewishDay">Nisan 26</span></a></div><div class="sedra">Yom HaShoah</div><div class="sedra">11th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Thu, Apr 24th&lt;br/&gt;6:40am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:40am Shacharit</li><li  title="Mincha & Maariv"  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Mincha &amp; Maariv&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Thu, Apr 24th&lt;br/&gt;7:30pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;Mincha &amp; Maariv&lt;/div&gt;' >7:30pm Mincha & Maariv</li></ul></div></td><td  id="td1745564400"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-25">
+                <span class="day">25 Apr</span><span class="jewishDay">Nisan 27</span></a></div><div class="sedra">12th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Fri, Apr 25th&lt;br/&gt;6:45am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:45am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Earliest Candle Lighting&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Fri, Apr 25th&lt;br/&gt;6:16pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:16pm Earliest Candle Lighting</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Mincha &amp; Kabbalat Shabbat&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Fri, Apr 25th&lt;br/&gt;7:00pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >7:00pm Mincha & Kabbalat Shabbat</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Candle Lighting&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Fri, Apr 25th&lt;br/&gt;7:25pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >7:25pm Candle Lighting</li></ul></div></td><td  id="td1745650800"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-26">
+                <span class="day">26 Apr</span><span class="jewishDay">Nisan 28</span></a></div><div class="sedra">Shabbat Mevarchim</div><div class="sedra">13th Day Omer</div><div class="sedra">Shmini</div><div class="clear"></div><ul><li  title="Shabbat-Winter"  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sat, Apr 26th&lt;br/&gt;9:00am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;Shabbat-Winter&lt;/div&gt;' >9:00am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Mincha&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sat, Apr 26th&lt;br/&gt;7:15pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >7:15pm Mincha</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Maariv &amp;amp; Shabbat Ends&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sat, Apr 26th&lt;br/&gt;8:30pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >8:30pm Maariv &amp; Shabbat Ends</li></ul></div></td></tr><tr><td  id="td1745737200"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-27">
+                <span class="day">27 Apr</span><span class="jewishDay">Nisan 29</span></a></div><div class="sedra">14th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 27th&lt;br/&gt;8:15am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >8:15am Shacharit</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;a href=&quot;/event/yom-hashoah-commemoration.html&quot;&gt;&lt;h3&gt;Yom Hashoah Commemoration&lt;/h3&gt;&lt;/a&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 27th&lt;br/&gt;2:00pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;
+                                         &lt;a href=&quot;/event/yom-hashoah-commemoration.html&quot;&gt;Go to event &amp;raquo;&lt;/a&gt;&lt;/div&gt;' >2:00pm Yom Hashoah Commemoration</li><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;&lt;a name=YIWH class=YIWH&gt;Mincha/Maariv&lt;/a&gt;&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Sun, Apr 27th&lt;br/&gt;7:30pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >7:30pm <a name=YIWH class=YIWH>Mincha/Maariv</a></li></ul></div></td><td  id="td1745823600"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-28">
+                <span class="day">28 Apr</span><span class="jewishDay">Nisan 30</span></a></div><div class="sedra">Rosh Chodesh Iyyar</div><div class="sedra">15th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Mon, Apr 28th&lt;br/&gt;6:30am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:30am Shacharit</li><li  title="Mincha & Maariv on Zoom"  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Mincha &amp; Maariv &lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Mon, Apr 28th&lt;br/&gt;7:35pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;Mincha &amp; Maariv on Zoom&lt;/div&gt;' >7:35pm Mincha & Maariv </li></ul></div></td><td  id="td1745910000"><div class="daywrap"style="width:auto;"><div class="dayhead"><a href="/cal.php?view=day&cal_date=2025-04-29">
+                <span class="day">29 Apr</span><span class="jewishDay">Iyyar 1</span></a></div><div class="sedra">Rosh Chodesh Iyyar</div><div class="sedra">16th Day Omer</div><div class="clear"></div><ul><li  title=""  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Shacharit&lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Tue, Apr 29th&lt;br/&gt;6:30am&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;&lt;/div&gt;' >6:30am Shacharit</li><li  title="Mincha & Maariv on Zoom"  class="calendar_popover_trigger"
+                        data-popuphtml='&lt;h3&gt;Mincha &amp; Maariv &lt;/h3&gt;&lt;div class=&quot;datetime&quot;&gt; Tue, Apr 29th&lt;br/&gt;7:35pm&lt;/div&gt;&lt;div class=&quot;description&quot;&gt;Mincha &amp; Maariv on Zoom&lt;/div&gt;' >7:35pm Mincha & Maariv </li></ul></div></td></tr>            </tbody>
+        </table>
+                
+        <div style="display:none"  class="visible-xs" >
+            
+                    <div class="calendar_day_view  " id="day4">
+                <h2>Thursday, April 17, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;19 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Chol Hamoed Pesach</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">4th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:30am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:15pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Mincha/Maariv                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day5">
+                <h2>Friday, April 18, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;20 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Chol Hamoed Pesach</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">5th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:30am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:17pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                        <a href="https://www.youngisraelwh.org/event/candle-lighting7.html">                                                                Candle Lighting                                                            </a>                                    </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:22pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                        <a href="https://www.youngisraelwh.org/event/mincha-and-kabbalat-shabbat1.html">                                                                Mincha and Kabbalat Shabbat                                                            </a>                                    </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day6">
+                <h2>Shabbat, April 19, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;21 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Pesach</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">6th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">9:00am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc">Shabbat-Winter</div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:10pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                        <a href="https://www.youngisraelwh.org/event/mincha3.html">                                                                Mincha                                                            </a>                                    </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:40pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                        <a href="https://www.youngisraelwh.org/event/maariv3.html">                                                                Maariv                                                            </a>                                    </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">8:20pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                        <a href="https://www.youngisraelwh.org/event/candle-lighting-after1.html">                                                                Candle Lighting After                                                            </a>                                    </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">8:20pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                        <a href="https://www.youngisraelwh.org/event/kiddush-including-havdalah.html">                                                                Kiddush (Including Havdalah)                                                            </a>                                    </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day0">
+                <h2>Sunday, April 20, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;22 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Pesach</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Yizkor</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">7th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">9:00am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">10:20am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Yizkor                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc">Pesach Yizkor</div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:10pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Mincha                                                                                                 </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc">Mincha</div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:30pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                <span class="ce_time">8:00pm</span>                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                        <a href="https://www.youngisraelwh.org/event/seudat-mashiach.html">                                                                Seudat Moshiach                                                            </a>                                    </div>
+                                    <div class="ce_event_location">At Young Isreal of West Hartford</div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">8:21pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Maariv and Yom Tov Ends                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">9:15pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Chametz Sold with Rabbi may be eaten                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day1">
+                <h2>Monday, April 21, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;23 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">8th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:40am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:25pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        <a name=YIWH class=YIWH>Mincha/Maariv</a>                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day2">
+                <h2>Tuesday, April 22, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;24 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">9th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:45am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:25pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        <a name=YIWH class=YIWH>Mincha/Maariv</a>                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day3">
+                <h2>Wednesday, April 23, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;25 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">10th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:45am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:25pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        <a name=YIWH class=YIWH>Mincha/Maariv</a>                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day4">
+                <h2>Thursday, April 24, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;26 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Yom HaShoah</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">11th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:40am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:30pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Mincha & Maariv                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc">Mincha & Maariv</div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day5">
+                <h2>Friday, April 25, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;27 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">12th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:45am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:16pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Earliest Candle Lighting                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:00pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Mincha & Kabbalat Shabbat                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:25pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Candle Lighting                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day6">
+                <h2>Shabbat, April 26, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;28 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Shabbat Mevarchim</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">13th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start">&nbsp;</td>
+                            <td class="ce_desc"  colspan="999">
+                                <div class="ce_sedra">Parshat Shmini</div>
+                            </td>
+                        </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">9:00am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc">Shabbat-Winter</div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:15pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Mincha                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">8:30pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Maariv &amp; Shabbat Ends                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day0">
+                <h2>Sunday, April 27, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;29 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">14th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">8:15am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">2:00pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                        <a href="https://www.youngisraelwh.org/event/yom-hashoah-commemoration.html">                                                                Yom Hashoah Commemoration                                                            </a>                                    </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:30pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        <a name=YIWH class=YIWH>Mincha/Maariv</a>                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day1">
+                <h2>Monday, April 28, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;30 Nisan 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Rosh Chodesh Iyyar</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">15th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:30am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:35pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Mincha & Maariv                                                                                                 </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc">Mincha & Maariv on Zoom</div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+                        <div class="calendar_day_view  " id="day2">
+                <h2>Tuesday, April 29, 2025                &nbsp;&nbsp;&bull; &nbsp;&nbsp;1 Iyyar 5785</h2>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ce_table ce_view_week">
+                                        <tbody>
+
+
+                                                <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">Rosh Chodesh Iyyar</div>
+                                </td>
+                            </tr>
+                                                        <tr>
+                                <td class="ce_time_start">&nbsp;</td>
+                                <td class="ce_desc" colspan="999">
+                                    <div class="ce_holiday">16th Day Omer</div>
+                                </td>
+                            </tr>
+                                                    <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">6:30am</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Shacharit                                                                                                </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc"></div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                                <tr>
+                            <td class="ce_time_start" valign="top">
+                                <span class="ce_time">7:35pm</span>                            </td>
+                            <td class="ce_time_end" valign="top">
+                                &nbsp;                            </td>
+
+                            
+                                <td class="ce_type" valign="top">
+                                                                    </td>
+                                <td class="ce_desc">
+                                    <div class="ce_event_name">
+                                                                                                        Mincha & Maariv                                                                                                 </div>
+                                    <div class="ce_event_location"></div>
+                                    <div class="ce_event_desc">Mincha & Maariv on Zoom</div>
+                                                                                                                                                                                </td>
+                                                    </tr>
+                                            </tbody>
+                </table>
+            </div>
+            
+        
+        </div>
+
+        <span id="calendar_page_footer_info" class="hide_on_print"></span><script type="text/javascript">
+    var current_view='week';
+    var orig_view='month';
+    var langs = {
+        'Download': 'Download',
+        'Update View': 'Update View',
+        'Setup iCal': 'Setup iCal',
+        'More Filters/Views': 'More Filters/Views',
+        'Hide Filters/Views': 'Hide Filters/Views',
+    }
+</script>
+<script src="/js/cal.js?date=1744855690"></script>
+        </div><!-- end pad helper -->
+        <div class="clearfix"></div>
+    </div><!-- End Main Content -->
+                    <div class="search_area">
+                    <form method="get" action="https://www.google.com/search">
+                        <input type="text"   name="q" maxlength="255" value="" />
+                        <input type="submit" value="Go" />
+                        <input type="hidden"  name="sitesearch" value="https://www.youngisraelwh.org/" />
+                    </form>
+                </div>
+                    <div class="right_box2">
+        Wed, April 23 2025&nbsp;25 Nisan 5785    </div>
+
+    <div style="clear:both"></div>
+
+            <div id="footer">
+            <div class="footer_inner">
+                
+                    <div class="content_body">
+                <div id="search">
+<form action="http://www.bing.com/search" method="get"><input maxlength="255" name="q" size="25" style="border-radius: 5px; height: 28px;" type="text" value=""> <input class="header_button" type="submit" value="Search"> <span style="display: none;"><input name="q1" type="radio" value="">The Web <input name="q1" style="width: 20px;" type="radio" value="site:www.youngisraelwh.org"> Young Israel of West Hartford Only</span><input class="header_button" onclick="location.href='http://www.youngisraelwh.org/bulletin'" type="button" value="Weekly Bulletin">&nbsp;</form>
+</div>
+
+<p><span style="font-size: 22px;">© 2025&nbsp;Young Israel of&nbsp;West Hartford</span></p>
+
+<p><span style="font-size: 22px;"><a href="http://binged.it/1shCIXh" style="font-size: 22px;">2240 Albany Avenue; West Hartford, Connecticut 06117</a><br>
+<a href="mailto:info@youngisraelwh.org" style="font-size: 22px;">info@youngisraelwh.org</a> • <span class="skype_c2c_print_container skype_c2c notranslate">(860) 233-3084</span></span></p>
+
+<p><a href="mailto:info@youngisraelwh.org" style="font-size: 22px;"><span><span style="font-size: 18px;"><span style="font-size: 12px;">A member of the </span></span></span></a><a href="http://www.youngisrael.org/">National Council of Young Israel </a>and the <a href="http://www.ou.org/">Union of Orthodox Jewish Congregations of America</a>.</p>
+
+<p><span style="font-size: 14px;"><span style="font-size: 18px;"><span style="font-size: 12px;">Nationally affiliated with the <a href="http://www.njop.org/">National Jewish Outreach Program</a>, and <a href="http://www.ncsy.org/">National Conference of Synagogue Youth</a>.<br>
+Locally affiliated with the <a href="http://www.hartfordkashrut.org/">Kashrut Commission of Greater Hartford</a>, <a href="https://www.youngisraelwh.org/eruv">Eruv of West Hartford</a>, and <a href="http://www.bessisrael.org/">Mikveh Bess Israel of Greater Hartford</a>.</span></span></span></p>
+
+<p><span style="font-size: 14px;"><span style="font-size: 18px;"><span style="font-size: 12px;">Site hosted by <a href="http://www.shulcloud.com">ShulCloud</a>, © 2025&nbsp;All rights reserved.</span></span></span></p>
+
+<ul>
+	<li><a href="https://www.youngisraelwh.org/">Home</a> |</li>
+	<li><a href="https://www.youngisraelwh.org/payment.php">Donate&nbsp;</a></li>
+</ul>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41630186-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<p>&nbsp;</p>                </div>
+
+                
+                <p class="global_terms_links">
+                    <a href="#" onClick="UC_UI.showSecondLayer();">Privacy Settings</a>   
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="https://www.youngisraelwh.org/privacy">Privacy Policy</a>
+                    &nbsp;|&nbsp;
+                    <a href="https://www.youngisraelwh.org/member-terms">Member Terms</a>
+                                    </p>
+                <p class="copyright">&copy;2025 All rights reserved. Find out more about 
+                    <a href="http://www.shulcloud.com/">ShulCloud</a>
+                </p>
+            </div>
+        </div>
+        <!-- End #footer -->
+    </div>
+    <!-- end #content -->
+</div>
+<!-- end #content-panel -->
+
+</div>
+
+<!-- for ckeditor right? -->
+<!-- end #container -->
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+
+                _gaq.push(
+                    ['_setAccount', 'UA-3218888-14'],
+                    //['_setDomainName', 'shulcloud.com'],
+                    ['_setAllowLinker', true],
+                    ['_trackPageview']
+                                        , ['b._setAccount', 'UA-41630186-1'],
+                    ['b._trackPageview']
+                                    );
+
+
+                (function () {
+                    var ga = document.createElement('script');
+                    ga.type = 'text/javascript';
+                    ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+                })();
+            </script>
+                <script type="text/javascript" 
+        src="https://images.shulcloud.com/628/js_override/1677272490.js">
+    </script>
+<!-- moment -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js"></script>
+<script>
+    //set global locale for all moment
+    moment.locale('en-us');
+    //override because canadians seem to disagree here
+    moment.localeData('en-ca')._longDateFormat.L="DD/MM/YYYY";
+    sc_support_num = "";
+</script>
+
+<script type="text/javascript" src="/js/jquery.reject.min.js"></script>
+<link href="/css/jquery.reject.css" rel="stylesheet" type="text/css" media="screen" />
+<script>
+    if ($(window).innerWidth() > 767) {
+        $("#admin_menu_nav").hide();
+    }
+</script>
+</body>
+</html>
