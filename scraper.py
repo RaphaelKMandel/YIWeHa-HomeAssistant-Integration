@@ -44,6 +44,12 @@ class Event:
 
         return f"{totime(self.datetime)}: {self.title}"
 
+    def tostring(self):
+        if not self.datetime:
+            return f"***{self.title}***"
+
+        return f"**{totime(self.datetime)}**: *{self.title}*"
+
 
 class CalendarDay:
     def __init__(self, day_cell):
