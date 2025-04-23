@@ -60,7 +60,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
 
         if events:
             return {
-                "events": [event.tostring() for event in events]
+                "events": events
             }
 
 
