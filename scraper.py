@@ -26,6 +26,12 @@ class Event:
         self.date = self.datetime.date() if _datetime else None
         self.time = self.datetime.time() if _datetime else None
 
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "datetime": self.datetime
+        }
+
     def __eq__(self, other):
         return self.datetime == other.datetime
 
@@ -162,7 +168,7 @@ class YIWHScraper:
 
     def get_today(self):
         day = self.days[datetime.now().date()]
-        return {"sedra": day.sedra, "schedule": day.events}
+        return {"sedra": [event.to_dict() for event in day.sedra], "schedule": [event.to_dict() for event in day.events]}
 
     def parse_calendar_html(self, html_content):
         soup = BeautifulSoup(html_content, 'html.parser')
