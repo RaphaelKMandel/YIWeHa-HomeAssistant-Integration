@@ -44,18 +44,13 @@ class Event:
 
         return f"{totime(self.datetime)}: {self.title}"
 
-    def tostring(self):
-        if not self.datetime:
-            return f"***{self.title}***"
-
-        return f"**{totime(self.datetime)}**: *{self.title}*"
-
 
 class CalendarDay:
     def __init__(self, day_cell):
         self.candle_lighting = None
         self.havdalah = None
         self.omer = None
+        self.rosh_chodesh = False
         self.hebcal = None
         self.events = []
         self.sedra = []
@@ -90,9 +85,12 @@ class CalendarDay:
         for sedra_div in sedra_divs:
             text = sedra_div.get_text(strip=True)
             if "Day Omer" in text:
-                self.omer = Event(text, None)
-            else:
-                self.sedra += [Event(text, None)]
+                self.omer = text
+
+            if "Rosh Chodesh" in text:
+                self.rosh_chodesh = True
+
+            self.sedra += [Event(text, None)]
 
     def parse_events(self, day_cell):
         # Find all events for this day
@@ -164,7 +162,7 @@ class YIWHScraper:
 
     def get_today(self):
         day = self.days[datetime.now().date()]
-        return ([day.omer] if day.omer else []) + day.sedra + day.events
+        return {"sedra": day.sedra, "schedule": day.events}
 
     def parse_calendar_html(self, html_content):
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -211,7 +209,8 @@ class YIWHScraper:
                 raise ConnectionError(f"YIWeHa: HTTP {response.status_code}: Failed to fetch calendar")
 
             _LOGGER.debug("YIWeHa: Successfully fetched calendar page")
-            with open("response.html", "w") as f: f.write(response.text)
+            with open("response.html", "w") as f:
+                f.write(response.text)
             return self.parse_calendar_html(response.text)
 
         except requests.RequestException as e:

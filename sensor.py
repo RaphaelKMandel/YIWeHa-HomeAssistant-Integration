@@ -54,14 +54,11 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             return None
 
-        events = self.coordinator.data["today"]
-        if not events:
+        today = self.coordinator.data["today"]
+        if not today:
             return None
 
-        if events:
-            return {
-                "events": events
-            }
+        return today
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
