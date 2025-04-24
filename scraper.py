@@ -51,6 +51,17 @@ class Event:
         return f"{totime(self.datetime)}: {self.title}"
 
 
+class Sedra:
+    def __init__(self, title):
+        self.title = title
+
+    def to_dict(self):
+        return {"title": self.title}
+
+    def __repr__(self):
+        return self.title
+
+
 class CalendarDay:
     def __init__(self, day_cell):
         self.candle_lighting = None
@@ -59,8 +70,14 @@ class CalendarDay:
         self.rosh_chodesh = False
         self.hebcal = None
         self.events = []
-        self.sedra = []
+        self.sedras = []
+        self.init(day_cell)
 
+    def to_dict(self):
+        return {key: getattr(self, key) for key in
+                {"candle_lighting", "havdalah", "omer", "rosh_chodesh", "hebcal", "events", "sedras"}}
+
+    def init(self, day_cell):
         try:
             """Parse the calendar HTML and extract events"""
             # Get the date information
@@ -96,7 +113,7 @@ class CalendarDay:
             if "Rosh Chodesh" in text:
                 self.rosh_chodesh = True
 
-            self.sedra += [Event(text, None)]
+            self.sedras += [Sedra(text)]
 
     def parse_events(self, day_cell):
         # Find all events for this day
@@ -168,7 +185,7 @@ class YIWHScraper:
 
     def get_today(self):
         day = self.days[datetime.now().date()]
-        return {"sedra": [event.to_dict() for event in day.sedra], "schedule": [event.to_dict() for event in day.events]}
+        return day.to_dict()
 
     def parse_calendar_html(self, html_content):
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -273,5 +290,5 @@ if __name__ == "__main__":
 
     print("\nToday:")
     print("==============")
-    for event in events["today"]:
+    for event in events["today"].items():
         print(repr(event))
