@@ -66,7 +66,7 @@ class MidnightCoordinator(DataUpdateCoordinator):
             self._handle_midnight,
             next_midnight,
         )
-        _LOGGER.debug("YIWeHa: Coordinator scheduled next midnight for {next_midnight}")
+        _LOGGER.debug(f"YIWeHa: Coordinator scheduled next midnight for {next_midnight}")
 
     async def _handle_midnight(self, _):
         await self._async_update_data()
