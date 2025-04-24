@@ -58,7 +58,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
 
         today = self.coordinator.data["today"]
         if not today:
-            _LOGGER.debug(f"{DOMAIN}: TodaySensor cannot find today in coorindator data")
+            _LOGGER.debug(f"{DOMAIN}: TodaySensor cannot find today in coordinator data")
             return None
 
         _LOGGER.debug(f"{DOMAIN}: TodaySensor attributes are being updated to {today}")
