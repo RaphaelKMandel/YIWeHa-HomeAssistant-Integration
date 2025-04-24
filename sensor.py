@@ -164,12 +164,14 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor coordinator data is None")
             self.next_event = None
             self.past_event = None
+            return
 
         candle_lighting_times = self.coordinator.data["candle_lighting"]
         if not candle_lighting_times:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor could not find any times")
             self.next_event = None
             self.past_event = None
+            return
 
         now = datetime.now()
         past_times = [event for event in candle_lighting_times if event.datetime <= now]
