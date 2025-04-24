@@ -74,8 +74,15 @@ class CalendarDay:
         self.init(day_cell)
 
     def to_dict(self):
-        return {key: getattr(self, key) for key in
-                {"candle_lighting", "havdalah", "omer", "rosh_chodesh", "hebcal", "events", "sedras"}}
+        result = {}
+        for key in {"candle_lighting", "havdalah", "omer", "rosh_chodesh", "hebcal", "events", "sedras"}:
+            value = getattr(self, key)
+            if isinstance(value, Event | Sedra):
+                value = value.to_dict()
+
+            result[key] = value
+
+        return result
 
     def init(self, day_cell):
         try:
