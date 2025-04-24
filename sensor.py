@@ -58,7 +58,7 @@ class TodaySensor(CoordinatorEntity, SensorEntity):
         if not today:
             return None
 
-        return today
+        return today.to_dict()
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):

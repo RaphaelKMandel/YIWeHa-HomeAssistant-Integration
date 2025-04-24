@@ -77,6 +77,9 @@ class CalendarDay:
         result = {}
         for key in {"candle_lighting", "havdalah", "omer", "rosh_chodesh", "hebcal", "events", "sedras"}:
             value = getattr(self, key)
+            if isinstance(value, list) and hasattr(value[0], "to_dict"):
+                value = [v.to_dict() for v in value]
+
             if isinstance(value, Event | Sedra):
                 value = value.to_dict()
 
@@ -98,7 +101,6 @@ class CalendarDay:
 
             self.date_str = date_link.get('href', '').split('cal_date=')[-1]
             self.date = datetime.strptime(self.date_str, "%Y-%m-%d").date()
-            self.is_today = datetime.today().date() == self.date
             self.parse_jewish_day(day_cell)
             self.parse_sedra(day_cell)
             self.parse_events(day_cell)
@@ -191,8 +193,7 @@ class YIWHScraper:
         return havdalahs
 
     def get_today(self):
-        day = self.days[datetime.now().date()]
-        return day.to_dict()
+        return self.days[datetime.now().date()]
 
     def parse_calendar_html(self, html_content):
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -297,5 +298,5 @@ if __name__ == "__main__":
 
     print("\nToday:")
     print("==============")
-    for event in events["today"].items():
+    for event in events["today"].__dict__.items():
         print(repr(event))
