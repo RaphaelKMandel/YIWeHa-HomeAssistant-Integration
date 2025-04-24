@@ -38,7 +38,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
             _LOGGER.error("YIWeHa: No calendar events found in the response")
             raise CannotConnect("YIWeHa: No calendar events found")
             
-        _LOGGER.info("YIWeHa: Successfully validated calendar connection")
+        _LOGGER.debug("YIWeHa: Successfully validated calendar connection")
         _LOGGER.debug("YIWeHa: Found %d candle lighting times and %d havdalah times",
                      len(candle_lighting), len(havdalah))
         
