@@ -257,33 +257,28 @@ class DummyScraper:
         now = datetime.now()
 
         self.candle_lightings = [
-            Event(tostring(now - timedelta(minutes=40))),
-            Event(tostring(now + timedelta(minutes=2))),
-            Event(tostring(now + timedelta(minutes=4))),
-            Event(tostring(now + timedelta(minutes=30)))
+            Event("candle_lighting", tostring(now - timedelta(minutes=40))),
+            Event("candle_lighting", tostring(now + timedelta(minutes=2))),
+            Event("candle_lighting", tostring(now + timedelta(minutes=4))),
+            Event("candle_lighting", tostring(now + timedelta(minutes=30)))
         ]
         self.havdalahs = [
-            Event(tostring(now - timedelta(minutes=30))),
-            Event(tostring(now + timedelta(minutes=3))),
-            Event(tostring(now + timedelta(minutes=35)))
+            Event("havdalah", tostring(now - timedelta(minutes=30))),
+            Event("havdalah", tostring(now + timedelta(minutes=3))),
+            Event("havdalah", tostring(now + timedelta(minutes=35)))
         ]
 
     def scrape_calendar(self, delta=15):
         return {
             "candle_lighting": self.candle_lightings,
             "havdalah": self.havdalahs,
-            "today": [
-                (fromstring("2025-04-22 09:00am"), "Shacharit1"),
-                (fromstring("2025-04-23 09:00am"), "Shacharit2"),
-                (fromstring("2025-04-24 09:00am"), "Shacharit3"),
-                (fromstring("2025-04-25 09:00am"), "Shacharit4"),
-            ]
+            "today": CalendarDay("")
         }
 
 
 if __name__ == "__main__":
-    scraper = YIWHScraper()
-    # scraper = DummyScraper()
+    # scraper = YIWHScraper()
+    scraper = DummyScraper()
     events = scraper.scrape_calendar(delta=6)
 
     print("\nCandle Lighting Times:")
