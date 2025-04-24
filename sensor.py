@@ -148,11 +148,12 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self.past_event or not self.next_event:
+        if not self.past_event or not self.next_event or datetime.now() >= self.next_event:
             self.update_events()
 
-        if datetime.now() >= self.next_event:
-            self.update_events()
+        if not self.past_event or not self.next_event:
+            _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value is failed to set")
+            return
 
         _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value is being updated to {self.past_event}")
 
@@ -219,11 +220,13 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self.past_event or not self.next_event:
+        if not self.past_event or not self.next_event or datetime.now() >= self.next_event:
             self.update_events()
 
-        if datetime.now() >= self.next_event:
-            self.update_events()
+        if not self.past_event or not self.next_event:
+            _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor native value is failed to set")
+            return
+
 
         _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor native value is being updated to {self.past_event}")
 
@@ -235,12 +238,14 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor coordinator data is None")
             self.next_event = None
             self.past_event = None
+            return
 
-        havdalah_times = self.coordinator.data["havdalah"]  # First element of tuple
+        havdalah_times = self.coordinator.data["havdalah"]
         if not havdalah_times:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor could not find any times")
             self.next_event = None
             self.past_event = None
+            return
 
         now = datetime.now()
         past_times = [event for event in havdalah_times if event.datetime <= now]
