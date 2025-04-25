@@ -38,7 +38,7 @@ async def async_setup_entry(
                                                   last_havdalah_sensor=SENSORS["last_havdalah"])
     SENSORS["today"] = TodaySensor(coordinator)
     async_add_entities(list(SENSORS.values()))
-    _LOGGER.info(f"YIWeHa: Set up {SENSORS}")
+    _LOGGER.info(f"{DOMAIN}: Set up {SENSORS}")
 
 
 class TodaySensor(CoordinatorEntity, SensorEntity):
@@ -143,29 +143,26 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._attr_icon = "mdi:candle"
         self._attr_unique_id = f"{DOMAIN}_last_candle_lighting"
         self._attr_entity_registry_enabled_default = False
-        self.next_event = None
-        self.past_event = None
+        self.next_event = self.past_event = None
 
     @property
     def native_value(self):
         if not self.past_event or not self.next_event or datetime.now() >= self.next_event:
             self.update_all()
 
-        _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value is being updated to {self.past_event}")
+        _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value is being retrieved: {self.past_event}")
 
         return self.past_event
 
     def update_events(self):
         if not self.coordinator.data:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor coordinator data is None")
-            self.next_event = None
-            self.past_event = None
+            self.next_event = self.past_event = None
 
         candle_lighting_times = self.coordinator.data["candle_lighting"]
         if not candle_lighting_times:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor could not find any times")
-            self.next_event = None
-            self.past_event = None
+            self.next_event = self.past_event = None
 
         now = datetime.now()
         past_times = [event for event in candle_lighting_times if event.datetime <= now]
@@ -181,7 +178,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
-        _LOGGER.info(f"YIWeHa: LastCandleLightingSensor updated past event to {self.past_event} and next event to {self.next_event}")
+        _LOGGER.info(f"{DOMAIN}: LastCandleLightingSensor updated past event to {self.past_event} and next event to {self.next_event}")
 
     def update_all(self):
         self.update_events()
@@ -192,14 +189,13 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         SENSORS["issur_melacha"].async_write_ha_state()
         self.schedule_next_update()
 
-
     def schedule_next_update(self):
         self._unsub_time_listener = async_track_point_in_time(
             self.hass,
             self.update_all,
             self.next_event
         )
-        _LOGGER.info(f"YIWeHa: LastCandleLightingSensor scheduled next update for {self.next_event}")
+        _LOGGER.info(f"{DOMAIN}: LastCandleLightingSensor scheduled next update for {self.next_event}")
 
 
 class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
@@ -212,39 +208,26 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._attr_icon = "mdi:campfire"
         self._attr_unique_id = f"{DOMAIN}_last_havdalah"
         self._attr_entity_registry_enabled_default = False
-        self.next_event = None
-        self.past_event = None
+        self.next_event = self.past_event = None
 
     @property
     def native_value(self):
-        if not self.past_event or not self.next_event:
-            self.update_events()
+        if not self.past_event or not self.next_event or datetime.now() >= self.next_event:
+            self.update_all()
 
-        if datetime.now() >= self.next_event:
-            self.update_events()
-
-        if not self.past_event or not self.next_event:
-            _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor native value failed to set")
-            # return
-
-        _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor native value is being updated to {self.past_event}")
+        _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor native value is being retrieved {self.past_event}")
 
         return self.past_event
 
-    @callback
-    def update_events(self, hass_time=None):
+    def update_events(self):
         if not self.coordinator.data:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor coordinator data is None")
-            self.next_event = None
-            self.past_event = None
-            return
+            self.next_event = self.past_event = None
 
         havdalah_times = self.coordinator.data["havdalah"]
         if not havdalah_times:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor could not find any times")
-            self.next_event = None
-            self.past_event = None
-            return
+            self.next_event = self.past_event = None
 
         now = datetime.now()
         past_times = [event for event in havdalah_times if event.datetime <= now]
@@ -258,12 +241,15 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor could not find any future times among {future_times}")
             self.next_event = None
 
-        if self.past_event is None or self.next_event is None:
-            return
-
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
-        _LOGGER.info(f"YIWeHa: LastHavdalahSensor updated past event to {self.past_event} and next event to {self.next_event}")
+        _LOGGER.info(f"{DOMAIN}: LastHavdalahSensor updated past event to {self.past_event} and next event to {self.next_event}")
+
+    def update_all(self):
+        self.update_events()
+        self.update_ha()
+
+    def update_ha(self):
         self.async_write_ha_state()
         SENSORS["issur_melacha"].async_write_ha_state()
         self.schedule_next_update()
@@ -271,10 +257,10 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
     def schedule_next_update(self):
         self._unsub_time_listener = async_track_point_in_time(
             self.hass,
-            self.update_events,
+            self.update_all,
             self.next_event
         )
-        _LOGGER.info(f"YIWeHa: LastHavdalahSensor scheduled next update for {self.next_event}")
+        _LOGGER.info(f"{DOMAIN}: LastHavdalahSensor scheduled next update for {self.next_event}")
 
 
 class IssurMelachaSensor(BinarySensorEntity):
