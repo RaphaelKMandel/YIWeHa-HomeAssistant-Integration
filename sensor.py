@@ -148,7 +148,10 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self.past_event or not self.next_event or datetime.now() >= self.next_event:
+        if not self.past_event or not self.next_event:
+            self.update_events()
+
+        if datetime.now() >= self.next_event:
             self.update_events()
 
         if not self.past_event or not self.next_event:
@@ -220,7 +223,10 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self.past_event or not self.next_event or datetime.now() >= self.next_event:
+        if not self.past_event or not self.next_event:
+            self.update_events()
+
+        if datetime.now() >= self.next_event:
             self.update_events()
 
         if not self.past_event or not self.next_event:
