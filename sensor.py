@@ -153,7 +153,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
         if not self.past_event or not self.next_event:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value failed to set")
-            return
+            # return
 
         _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value is being updated to {self.past_event}")
 
@@ -225,8 +225,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
 
         if not self.past_event or not self.next_event:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor native value failed to set")
-            return
-
+            # return
 
         _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor native value is being updated to {self.past_event}")
 
