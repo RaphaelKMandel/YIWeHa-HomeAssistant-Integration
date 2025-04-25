@@ -149,10 +149,10 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         if not self.past_event or not self.next_event:
-            self.update_events()
+            self.update_all()
 
         if datetime.now() >= self.next_event:
-            self.update_events()
+            self.update_all()
 
         if not self.past_event or not self.next_event:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value failed to set")
@@ -195,14 +195,21 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
         _LOGGER.info(f"YIWeHa: LastCandleLightingSensor updated past event to {self.past_event} and next event to {self.next_event}")
+
+    def update_all(self):
+        self.update_events()
+        self.update_ha()
+
+    def update_ha(self):
         self.async_write_ha_state()
         SENSORS["issur_melacha"].async_write_ha_state()
         self.schedule_next_update()
 
+
     def schedule_next_update(self):
         self._unsub_time_listener = async_track_point_in_time(
             self.hass,
-            self.update_events,
+            self.update_all,
             self.next_event
         )
         _LOGGER.info(f"YIWeHa: LastCandleLightingSensor scheduled next update for {self.next_event}")
