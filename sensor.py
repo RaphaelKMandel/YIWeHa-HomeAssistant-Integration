@@ -148,34 +148,24 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self.past_event or not self.next_event:
+        if not self.past_event or not self.next_event or datetime.now() >= self.next_event:
             self.update_all()
-
-        if datetime.now() >= self.next_event:
-            self.update_all()
-
-        if not self.past_event or not self.next_event:
-            _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value failed to set")
-            # return
 
         _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor native value is being updated to {self.past_event}")
 
         return self.past_event
 
-    @callback
-    def update_events(self, hass_time=None):
+    def update_events(self):
         if not self.coordinator.data:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor coordinator data is None")
             self.next_event = None
             self.past_event = None
-            return
 
         candle_lighting_times = self.coordinator.data["candle_lighting"]
         if not candle_lighting_times:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor could not find any times")
             self.next_event = None
             self.past_event = None
-            return
 
         now = datetime.now()
         past_times = [event for event in candle_lighting_times if event.datetime <= now]
@@ -188,9 +178,6 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         if not future_times:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor could not find any future times among {future_times}")
             self.next_event = None
-
-        if self.past_event is None or self.next_event is None:
-            return
 
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
