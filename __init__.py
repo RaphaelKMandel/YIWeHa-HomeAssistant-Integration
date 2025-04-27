@@ -46,8 +46,8 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 class MidnightCoordinator(DataUpdateCoordinator):
     def __init__(self, hass: HomeAssistant):
         super().__init__(hass, _LOGGER, name=DOMAIN)
-        # self.scraper = YIWHScraper()
-        self.scraper = DummyScraper()
+        self.scraper = YIWHScraper()
+        # self.scraper = DummyScraper()
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, self._handle_startup)
 
     @callback

@@ -180,7 +180,8 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self.next_event = min(future_times).datetime
         _LOGGER.info(f"{DOMAIN}: LastCandleLightingSensor updated past event to {self.past_event} and next event to {self.next_event}")
 
-    def update_all(self):
+    @callback
+    def update_all(self, hass_time=None):
         self.update_events()
         self.update_ha()
 
@@ -245,7 +246,8 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         self.next_event = min(future_times).datetime
         _LOGGER.info(f"{DOMAIN}: LastHavdalahSensor updated past event to {self.past_event} and next event to {self.next_event}")
 
-    def update_all(self):
+    @callback
+    def update_all(self, hass_time=None):
         self.update_events()
         self.update_ha()
 
