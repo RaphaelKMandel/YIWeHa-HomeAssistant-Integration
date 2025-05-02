@@ -73,8 +73,8 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self._attr_name = "Next Candle Lighting"
         self._attr_icon = "mdi:candle"
-        self._attr_device_class = "timestamp"
         self._attr_unique_id = f"{DOMAIN}_next_candle_lighting"
+        self._attr_device_class = "timestamp"
 
     @property
     def native_value(self):
@@ -108,8 +108,8 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self._attr_name = "Next Havdalah"
         self._attr_icon = "mdi:campfire"
-        self._attr_device_class = "timestamp"
         self._attr_unique_id = f"{DOMAIN}_next_havdalah"
+        self._attr_device_class = "timestamp"
 
     @property
     def native_value(self):
@@ -161,7 +161,6 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor coordinator data is None")
             self.next_event = self.past_event = None
-            return
 
         candle_lighting_times = self.coordinator.data["candle_lighting"]
         if not candle_lighting_times:
@@ -187,8 +186,7 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
     @callback
     def update_all(self, hass_time=None):
         self.update_events()
-        if self.past_event and self.next_event:
-            self.update_ha()
+        self.update_ha()
 
     def update_ha(self):
         self.async_write_ha_state()
@@ -230,7 +228,6 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor coordinator data is None")
             self.next_event = self.past_event = None
-            return
 
         havdalah_times = self.coordinator.data["havdalah"]
         if not havdalah_times:
@@ -256,8 +253,7 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
     @callback
     def update_all(self, hass_time=None):
         self.update_events()
-        if self.past_event and self.next_event:
-            self.update_ha()
+        self.update_ha()
 
     def update_ha(self):
         self.async_write_ha_state()
