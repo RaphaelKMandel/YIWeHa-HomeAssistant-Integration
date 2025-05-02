@@ -15,6 +15,7 @@ from homeassistant.helpers.update_coordinator import (
 )
 from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.core import callback
+from homeassistant.util import dt as dt_util
 
 from .const import DOMAIN
 
@@ -97,7 +98,7 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
 
         value = min(future_times).datetime
         _LOGGER.debug(f"{DOMAIN}: NextCandleLightingSensor native value is being updated to {value}")
-        return value
+        return dt_util(value)
 
 
 class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
@@ -132,7 +133,7 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
 
         value = min(future_times).datetime
         _LOGGER.debug(f"{DOMAIN}: NextHavdalahSensor native value is being updated to {value}")
-        return value
+        return dt_util(value)
 
 
 class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
@@ -180,8 +181,8 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor could not find any future times among {future_times}")
             self.next_event = None
 
-        self.past_event = max(past_times).datetime
-        self.next_event = min(future_times).datetime
+        self.past_event = dt_util.as_local(max(past_times).datetime)
+        self.next_event = dt_util.as_local(min(future_times).datetime)
         _LOGGER.info(f"{DOMAIN}: LastCandleLightingSensor updated past event to {self.past_event} and next event to {self.next_event}")
 
     @callback
@@ -249,8 +250,8 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor could not find any future times among {future_times}")
             self.next_event = None
 
-        self.past_event = max(past_times).datetime
-        self.next_event = min(future_times).datetime
+        self.past_event = dt_util.as_local(max(past_times).datetime)
+        self.next_event = dt_util.as_local(min(future_times).datetime)
         _LOGGER.info(f"{DOMAIN}: LastHavdalahSensor updated past event to {self.past_event} and next event to {self.next_event}")
 
     @callback
