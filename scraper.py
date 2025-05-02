@@ -277,8 +277,8 @@ class DummyScraper:
 
 
 if __name__ == "__main__":
-    # scraper = YIWHScraper()
-    scraper = DummyScraper()
+    scraper = YIWHScraper()
+    # scraper = DummyScraper()
     events = scraper.scrape_calendar(delta=6)
 
     print("\nCandle Lighting Times:")
