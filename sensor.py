@@ -74,7 +74,6 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         self._attr_name = "Next Candle Lighting"
         self._attr_icon = "mdi:candle"
         self._attr_unique_id = f"{DOMAIN}_next_candle_lighting"
-        self._attr_device_class = "timestamp"
 
     @property
     def native_value(self):
@@ -109,7 +108,6 @@ class NextHavdalahSensor(CoordinatorEntity, SensorEntity):
         self._attr_name = "Next Havdalah"
         self._attr_icon = "mdi:campfire"
         self._attr_unique_id = f"{DOMAIN}_next_havdalah"
-        self._attr_device_class = "timestamp"
 
     @property
     def native_value(self):
@@ -143,7 +141,6 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self._attr_name = "Last Candle Lighting"
         self._attr_icon = "mdi:candle"
-        self._attr_device_class = "timestamp"
         self._attr_unique_id = f"{DOMAIN}_last_candle_lighting"
         self._attr_entity_registry_enabled_default = False
         self.next_event = self.past_event = None
@@ -210,7 +207,6 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self._attr_name = "Last Havdalah"
         self._attr_icon = "mdi:campfire"
-        self._attr_device_class = "timestamp"
         self._attr_unique_id = f"{DOMAIN}_last_havdalah"
         self._attr_entity_registry_enabled_default = False
         self.next_event = self.past_event = None
