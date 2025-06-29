@@ -196,6 +196,8 @@ class YIWHScraper:
 
     def get_candle_lightings_and_havdalahs(self):
         candle_lightings, havdalahs = self.hebcal.get_zmanim()
+        candle_lightings = [Event("candle lighting", candle_lighting) for candle_lighting in candle_lightings]
+        havdalahs = [Event("havdalahs", havdalahs) for havdalah in havdalahs]
         _LOGGER.debug("YIWeHa: Found %d candle lighting times", len(candle_lightings))
         _LOGGER.debug("YIWeHa: Found %d havdalah times", len(havdalahs))
         return candle_lightings, havdalahs
