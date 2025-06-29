@@ -3,7 +3,7 @@ import logging
 from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
-from hebcal import HebCal
+from .hebcal import HebCal
 
 _LOGGER = logging.getLogger(__name__)
 
