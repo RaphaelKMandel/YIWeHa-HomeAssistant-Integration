@@ -3,6 +3,7 @@ import logging
 from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
+from hebcal import HebCal
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -181,6 +182,7 @@ class YIWHScraper:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
         self.days = {}
+        self.hebcal = HebCal("06117")
 
     def get_candle_lightings(self):
         candle_lightings = sorted([day.candle_lighting for day in self.days.values() if day.candle_lighting])
@@ -191,6 +193,12 @@ class YIWHScraper:
         havdalahs = sorted([day.havdalah for day in self.days.values() if day.havdalah])
         _LOGGER.debug("YIWeHa: Found %d havdalah times", len(havdalahs))
         return havdalahs
+
+    def get_candle_lightings_and_havdalahs(self):
+        candle_lightings, havdalahs = self.hebcal.get_zmanim()
+        _LOGGER.debug("YIWeHa: Found %d candle lighting times", len(candle_lightings))
+        _LOGGER.debug("YIWeHa: Found %d havdalah times", len(havdalahs))
+        return candle_lightings, havdalahs
 
     def get_today(self):
         return self.days[datetime.now().date()]
@@ -210,9 +218,11 @@ class YIWHScraper:
             day = CalendarDay(cell)
             self.days[day.date] = day
 
+        candle_lightings, havdalahs = self.get_candle_lightings_and_havdalahs()
+
         return {
-            "candle_lighting": self.get_candle_lightings(),
-            "havdalah": self.get_havdalahs(),
+            "candle_lighting": candle_lightings,
+            "havdalah": havdalahs,
             "today": self.get_today()
         }
 
