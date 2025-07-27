@@ -3,7 +3,10 @@ from datetime import datetime, timedelta
 
 
 def get_datetime(string):
-    return datetime.strptime(string, "%Y-%m-%dT%H:%M:%S%z")
+    try:
+        return datetime.strptime(string, "%Y-%m-%dT%H:%M:%S%z")
+    except:
+        return datetime.strptime(string, "%Y-%m-%d")
 
 
 class HebCal:
