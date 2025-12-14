@@ -36,33 +36,8 @@ async def async_setup_entry(
     SENSORS["last_havdalah"] = LastHavdalahSensor(coordinator)
     SENSORS["issur_melacha"] = IssurMelachaSensor(last_candle_lighting_sensor=SENSORS["last_candle"],
                                                   last_havdalah_sensor=SENSORS["last_havdalah"])
-    SENSORS["today"] = TodaySensor(coordinator)
     async_add_entities(list(SENSORS.values()))
     _LOGGER.info(f"{DOMAIN}: Set up {SENSORS}")
-
-
-class TodaySensor(CoordinatorEntity, SensorEntity):
-    def __init__(self, coordinator: DataUpdateCoordinator) -> None:
-        """Initialize the sensor."""
-        super().__init__(coordinator)
-        self._attr_name = "Today"
-        self._attr_icon = "mdi:calendar"
-        self._attr_unique_id = f"{DOMAIN}_today"
-
-    @property
-    def extra_state_attributes(self):
-        """Return the next candle lighting time."""
-        if not self.coordinator.data:
-            _LOGGER.debug(f"{DOMAIN}: TodaySensor coordinator data is None")
-            return None
-
-        today = self.coordinator.data["today"]
-        if not today:
-            _LOGGER.debug(f"{DOMAIN}: TodaySensor cannot find today in coordinator data")
-            return None
-
-        _LOGGER.debug(f"{DOMAIN}: TodaySensor attributes are being updated to {today}")
-        return today.to_dict()
 
 
 class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
@@ -91,7 +66,8 @@ class NextCandleLightingSensor(CoordinatorEntity, SensorEntity):
         future_times = [event for event in candle_lighting_times if event.datetime > now]
 
         if not future_times:
-            _LOGGER.debug(f"{DOMAIN}: NextCandleLightingSensor could not find any future times among {candle_lighting_times}")
+            _LOGGER.debug(
+                f"{DOMAIN}: NextCandleLightingSensor could not find any future times among {candle_lighting_times}")
             return None
 
         value = min(future_times).datetime
@@ -158,11 +134,13 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor coordinator data is None")
             self.next_event = self.past_event = None
+            return
 
         candle_lighting_times = self.coordinator.data["candle_lighting"]
         if not candle_lighting_times:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor could not find any times")
             self.next_event = self.past_event = None
+            return
 
         now = datetime.now()
         past_times = [event for event in candle_lighting_times if event.datetime <= now]
@@ -171,14 +149,17 @@ class LastCandleLightingSensor(CoordinatorEntity, SensorEntity):
         if not past_times:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor could not find any past times among {past_times}")
             self.past_event = None
+            return
 
         if not future_times:
             _LOGGER.debug(f"{DOMAIN}: LastCandleLightingSensor could not find any future times among {future_times}")
             self.next_event = None
+            return
 
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
-        _LOGGER.info(f"{DOMAIN}: LastCandleLightingSensor updated past event to {self.past_event} and next event to {self.next_event}")
+        _LOGGER.info(
+            f"{DOMAIN}: LastCandleLightingSensor updated past event to {self.past_event} and next event to {self.next_event}")
 
     @callback
     def update_all(self, hass_time=None):
@@ -224,11 +205,13 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         if not self.coordinator.data:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor coordinator data is None")
             self.next_event = self.past_event = None
+            return
 
         havdalah_times = self.coordinator.data["havdalah"]
         if not havdalah_times:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor could not find any times")
             self.next_event = self.past_event = None
+            return
 
         now = datetime.now()
         past_times = [event for event in havdalah_times if event.datetime <= now]
@@ -237,14 +220,17 @@ class LastHavdalahSensor(CoordinatorEntity, SensorEntity):
         if not past_times:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor could not find any past times among {past_times}")
             self.past_event = None
+            return
 
         if not future_times:
             _LOGGER.debug(f"{DOMAIN}: LastHavdalahSensor could not find any future times among {future_times}")
             self.next_event = None
+            return
 
         self.past_event = max(past_times).datetime
         self.next_event = min(future_times).datetime
-        _LOGGER.info(f"{DOMAIN}: LastHavdalahSensor updated past event to {self.past_event} and next event to {self.next_event}")
+        _LOGGER.info(
+            f"{DOMAIN}: LastHavdalahSensor updated past event to {self.past_event} and next event to {self.next_event}")
 
     @callback
     def update_all(self, hass_time=None):
@@ -287,7 +273,8 @@ class IssurMelachaSensor(BinarySensorEntity):
         last_havdalah = self._last_havdalah_sensor.past_event
 
         if not last_candle or not last_havdalah:
-            _LOGGER.debug(f"IssurMelachaSensor is missing last_candle ({last_candle}) or last_havdalah ({last_havdalah})")
+            _LOGGER.debug(
+                f"IssurMelachaSensor is missing last_candle ({last_candle}) or last_havdalah ({last_havdalah})")
             return None
 
         value = last_candle > last_havdalah
