@@ -185,83 +185,88 @@ class YIWHScraper:
         self.hebcal = HebCal("06117")
 
     def get_candle_lightings(self):
-        candle_lightings = sorted([day.candle_lighting for day in self.days.values() if day.candle_lighting])
-        _LOGGER.debug("YIWeHa: Found %d candle lighting times", len(candle_lightings))
-        return candle_lightings
+        # candle_lightings = sorted([day.candle_lighting for day in self.days.values() if day.candle_lighting])
+        # _LOGGER.debug("YIWeHa: Found %d candle lighting times", len(candle_lightings))
+        # return candle_lightings
+        return []
 
     def get_havdalahs(self):
-        havdalahs = sorted([day.havdalah for day in self.days.values() if day.havdalah])
-        _LOGGER.debug("YIWeHa: Found %d havdalah times", len(havdalahs))
-        return havdalahs
+        # havdalahs = sorted([day.havdalah for day in self.days.values() if day.havdalah])
+        # _LOGGER.debug("YIWeHa: Found %d havdalah times", len(havdalahs))
+        # return havdalahs
+        return []
 
     def get_candle_lightings_and_havdalahs(self):
-        candle_lightings, havdalahs = self.hebcal.get_zmanim()
-        candle_lightings = [Event("candle lighting", tostring(candle_lighting)) for candle_lighting in candle_lightings]
-        havdalahs = [Event("havdalahs", tostring(havdalah)) for havdalah in havdalahs]
-        _LOGGER.debug("YIWeHa: Found %d candle lighting times", len(candle_lightings))
-        _LOGGER.debug("YIWeHa: Found %d havdalah times", len(havdalahs))
-        return candle_lightings, havdalahs
+        # candle_lightings, havdalahs = self.hebcal.get_zmanim()
+        # candle_lightings = [Event("candle lighting", tostring(candle_lighting)) for candle_lighting in candle_lightings]
+        # havdalahs = [Event("havdalahs", tostring(havdalah)) for havdalah in havdalahs]
+        # _LOGGER.debug("YIWeHa: Found %d candle lighting times", len(candle_lightings))
+        # _LOGGER.debug("YIWeHa: Found %d havdalah times", len(havdalahs))
+        # return candle_lightings, havdalahs
+        return [[], []]
 
     def get_today(self):
         return self.days[datetime.now().date()]
 
     def parse_calendar_html(self, html_content):
-        soup = BeautifulSoup(html_content, 'html.parser')
-        day_cells = soup.find_all('td', id=lambda x: x and x.startswith('td'))
-
-        if not day_cells:
-            _LOGGER.error("YIWeHa: No calendar day cells found in HTML")
-            raise ValueError("YIWeHa: Calendar structure not found in response")
-
-        _LOGGER.debug("YIWeHa: Found %d day cells in calendar", len(day_cells))
-
-        self.days = {}
-        for cell in day_cells:
-            day = CalendarDay(cell)
-            self.days[day.date] = day
-
-        candle_lightings, havdalahs = self.get_candle_lightings_and_havdalahs()
-
-        return {
-            "candle_lighting": candle_lightings,
-            "havdalah": havdalahs,
-            "today": self.get_today()
-        }
+        # soup = BeautifulSoup(html_content, 'html.parser')
+        # day_cells = soup.find_all('td', id=lambda x: x and x.startswith('td'))
+        #
+        # if not day_cells:
+        #     _LOGGER.error("YIWeHa: No calendar day cells found in HTML")
+        #     raise ValueError("YIWeHa: Calendar structure not found in response")
+        #
+        # _LOGGER.debug("YIWeHa: Found %d day cells in calendar", len(day_cells))
+        #
+        # self.days = {}
+        # for cell in day_cells:
+        #     day = CalendarDay(cell)
+        #     self.days[day.date] = day
+        #
+        # candle_lightings, havdalahs = self.get_candle_lightings_and_havdalahs()
+        #
+        # return {
+        #     "candle_lighting": candle_lightings,
+        #     "havdalah": havdalahs,
+        #     "today": self.get_today()
+        # }
+        return {"candle_lighting": [], "havdalah": [], "today": {}}
 
     def scrape_calendar(self, delta=15):
-        """Scrape calendar events directly from the website."""
-        try:
-            today = datetime.now()
-            start_date = today - timedelta(days=delta)
-            end_date = today + timedelta(days=delta)
-
-            start_date_str = start_date.strftime("%Y-%m-%d")
-            end_date_str = end_date.strftime("%Y-%m-%d")
-            url = (
-                f"{self.base_url}?advanced=Y&calendar=&"
-                f"date_start=specific+date&date_start_x=0&date_start_date={start_date_str}&"
-                f"has_second_date=Y&date_end=specific+date&date_end_x=0&date_end_date={end_date_str}&"
-                f"view=month&month_view_type="
-            )
-
-            _LOGGER.debug(f"YIWeHa: Fetching calendar from URL: {url}")
-            response = requests.get(url, headers=self.headers, timeout=10)
-
-            if response.status_code != 200:
-                _LOGGER.error("YIWeHa: Failed to fetch calendar. Status code: %d", response.status_code)
-                raise ConnectionError(f"YIWeHa: HTTP {response.status_code}: Failed to fetch calendar")
-
-            _LOGGER.debug("YIWeHa: Successfully fetched calendar page")
-            with open("response.html", "w") as f:
-                f.write(response.text)
-            return self.parse_calendar_html(response.text)
-
-        except requests.RequestException as e:
-            _LOGGER.error("YIWeHa: Network error while fetching calendar: %s", str(e))
-            raise ConnectionError(f"YIWeHa: Network error: {str(e)}")
-        except Exception as e:
-            _LOGGER.exception("YIWeHa: Unexpected error while scraping calendar")
-            raise
+        return self.parse_calendar_html("")
+        # """Scrape calendar events directly from the website."""
+        # try:
+        #     today = datetime.now()
+        #     start_date = today - timedelta(days=delta)
+        #     end_date = today + timedelta(days=delta)
+        #
+        #     start_date_str = start_date.strftime("%Y-%m-%d")
+        #     end_date_str = end_date.strftime("%Y-%m-%d")
+        #     url = (
+        #         f"{self.base_url}?advanced=Y&calendar=&"
+        #         f"date_start=specific+date&date_start_x=0&date_start_date={start_date_str}&"
+        #         f"has_second_date=Y&date_end=specific+date&date_end_x=0&date_end_date={end_date_str}&"
+        #         f"view=month&month_view_type="
+        #     )
+        #
+        #     _LOGGER.debug(f"YIWeHa: Fetching calendar from URL: {url}")
+        #     response = requests.get(url, headers=self.headers, timeout=10)
+        #
+        #     if response.status_code != 200:
+        #         _LOGGER.error("YIWeHa: Failed to fetch calendar. Status code: %d", response.status_code)
+        #         raise ConnectionError(f"YIWeHa: HTTP {response.status_code}: Failed to fetch calendar")
+        #
+        #     _LOGGER.debug("YIWeHa: Successfully fetched calendar page")
+        #     with open("response.html", "w") as f:
+        #         f.write(response.text)
+        #     return self.parse_calendar_html(response.text)
+        #
+        # except requests.RequestException as e:
+        #     _LOGGER.error("YIWeHa: Network error while fetching calendar: %s", str(e))
+        #     raise ConnectionError(f"YIWeHa: Network error: {str(e)}")
+        # except Exception as e:
+        #     _LOGGER.exception("YIWeHa: Unexpected error while scraping calendar")
+        #     raise
 
 
 class DummyScraper:

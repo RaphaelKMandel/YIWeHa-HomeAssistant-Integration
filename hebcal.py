@@ -52,4 +52,5 @@ class HebCal:
 
 
 if __name__ == "__main__":
-    print(HebCal("06117").get_zmanim())
+    for item in HebCal("06117").get_zmanim():
+        print(item)
