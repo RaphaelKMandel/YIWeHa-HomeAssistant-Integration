@@ -4,7 +4,6 @@ from __future__ import annotations
 from typing import Any
 import voluptuous as vol
 import logging
-from functools import partial
 
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
@@ -12,20 +11,20 @@ from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 
 from . import DOMAIN
-from .scraper import YIWHScraper
+from .hebcal import HebCal
 
 _LOGGER = logging.getLogger(__name__)
 
 STEP_USER_DATA_SCHEMA = vol.Schema({})
 
-def _validate_connection(scraper: YIWHScraper) -> tuple[list, list]:
+def _validate_connection(scraper: HebCal) -> tuple[list, list]:
     """Run the scraper in a separate thread."""
-    return scraper.scrape_calendar()
+    return scraper.scrape()
 
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
     _LOGGER.debug("YIWeHa: Starting validation of YIWeHa Calendar input")
-    scraper = YIWHScraper()
+    scraper = HebCal("06117")
     
     try:
         _LOGGER.debug("YIWeHa: Attempting to scrape calendar")

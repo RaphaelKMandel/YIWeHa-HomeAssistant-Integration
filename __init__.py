@@ -11,8 +11,8 @@ from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.util import dt as dt_util
 from homeassistant.const import EVENT_HOMEASSISTANT_STARTED
 
+from .hebcal import HebCal
 from .const import DOMAIN
-from .scraper import YIWHScraper, DummyScraper
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
@@ -46,8 +46,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 class MidnightCoordinator(DataUpdateCoordinator):
     def __init__(self, hass: HomeAssistant):
         super().__init__(hass, _LOGGER, name=DOMAIN)
-        self.scraper = YIWHScraper()
-        # self.scraper = DummyScraper()
+        self.scraper = HebCal("06117")
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, self._handle_startup)
 
     @callback
@@ -74,6 +73,6 @@ class MidnightCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         _LOGGER.debug("YIWeHa: Scraper is updating...")
-        data = await self.hass.async_add_executor_job(self.scraper.scrape_calendar)
+        data = await self.hass.async_add_executor_job(self.scraper.scrape)
         self.async_set_updated_data(data)
         _LOGGER.debug("YIWeHa: Updated Coordinator data")
